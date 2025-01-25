@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -28,9 +29,11 @@ public class Player : MonoBehaviour
     private Vector2 _prevMovementInput;
     private bool _isBraking;
     private PlayerInput _playerInput;
-
-    private GameObject _wingL;
-    private GameObject _wingR;
+    private bool _isBoosting;
+    private bool _isCharging;
+    private float _currBoostBubble = 1f;
+    private float _boostBubbleCharge = 0.1f;
+    
 
     [SerializeField, Range(0, 2)] private float _buoyancy = 1;
 
@@ -43,6 +46,12 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform wingR;
 
     [SerializeField] private Vector3 wingOutRotation = new(0,0, 75);
+
+    
+    [SerializeField, Range(0,1)] private float _boostBubbleBurn = 0.1f;
+    [SerializeField] private float _boostForce = 50;
+
+    [SerializeField] private GameObject _bubbleBar;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -68,6 +77,9 @@ public class Player : MonoBehaviour
             wingL.transform.localRotation = Quaternion.identity;
             wingR.transform.localRotation = Quaternion.identity;
         };
+
+        _playerInput.actions["Boost"].performed += ctx => { _isBoosting = true; };
+        _playerInput.actions["Boost"].canceled += ctx => { _isBoosting = false; };
     }
     
     // Update is called once per frame
@@ -92,9 +104,26 @@ public class Player : MonoBehaviour
             var force =_movementInput * _acceleration;
             _rigidbody.AddForce(force, _forceMode);
             _rigidbody.AddForce(Physics.gravity * -_buoyancy);
+
+            if (_isBoosting && _currBoostBubble > 0)
+            {
+                _rigidbody.AddForce(_boostForce * _movementInput, ForceMode.Impulse);
+                _currBoostBubble -= _boostBubbleBurn;
+            } else if (_boostBubbleCharge <= 0)
+            {
+                _isBoosting = false;
+            }
+
+            if (_isCharging)
+            {
+                _currBoostBubble += _boostBubbleCharge;
+            }
         }
 
-        _rigidbody.linearDamping = CalcDrag();       
+        _currBoostBubble = math.clamp(_currBoostBubble, 0, 1);
+        _rigidbody.linearDamping = CalcDrag();
+
+        _bubbleBar.transform.localScale = new Vector3(math.lerp(_bubbleBar.transform.localScale.x, _currBoostBubble, 0.5f), _bubbleBar.transform.localScale.y, _bubbleBar.transform.localScale.z);
     }
 
     float CalcDrag()
@@ -117,6 +146,15 @@ public class Player : MonoBehaviour
         {
             State = PenguinState.WATER;
             _waterDrag = water.WaterDrag;
+            return;
+        }
+
+        var charger = other.GetComponent<BubbleCharger>();
+
+        if (charger != null)
+        {
+            _isCharging = true;
+            _boostBubbleCharge = charger.ChargeRate;
         }
     }
     
@@ -128,6 +166,14 @@ public class Player : MonoBehaviour
         {
             State = PenguinState.AIR;
             _waterDrag = 0;
+        }
+        
+        var charger = other.GetComponent<BubbleCharger>();
+
+        if (charger != null)
+        {
+            _isCharging = false;
+            _boostBubbleCharge = 0;
         }
     }
     
