@@ -472,7 +472,10 @@ MonoBehaviour:
   _rigidbody: {fileID: 8371378095110845264}
   _acceleration: 26
   _brakeDrag: 5
+  _waterDrag: 2
+  _airDrag: 1
   playerInput: {fileID: 0}
+  _brakeDragLerpSpeed: 0.1
   _buoyancy: 1.1
   _rotDampening: 2
   _rotAcceleration: 0.2
@@ -482,7 +485,7 @@ MonoBehaviour:
   wingOpenTorqueAmt: 300
   wingCloseTorqueAmt: 500
   _boostBubbleBurn: 0.1
-  _boostForce: 5
+  _boostForce: 2.5
   _bubbleBar: {fileID: 4443615343374467259}
   isDebug: 0
 --- !u!54 &8371378095110845264

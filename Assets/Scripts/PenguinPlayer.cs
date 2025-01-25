@@ -23,7 +23,8 @@ public class Player : MonoBehaviour
     
     [SerializeField, Range(1, 30)] private float _acceleration = 25;
     [SerializeField] private float _brakeDrag = 20;
-    private float _waterDrag = 0;
+    [SerializeField] private float _waterDrag = 1;
+    [SerializeField] private float _airDrag = 1;
     public PlayerInput playerInput;
     
     private Vector2 _movementInput;
@@ -34,6 +35,10 @@ public class Player : MonoBehaviour
     private bool _isCharging;
     private float _currBoostBubble = 1f;
     private float _boostBubbleCharge = 0.1f;
+
+    private float _currentBrakeDrag = 0f;
+
+    [SerializeField, Range(0,1)] private float _brakeDragLerpSpeed = 0.1f;
     
 
     [SerializeField, Range(0, 2)] private float _buoyancy = 1;
@@ -126,7 +131,6 @@ public class Player : MonoBehaviour
         _rigidbody.linearDamping = CalcDrag();
 
         _bubbleBar.transform.localScale = new Vector3(math.lerp(_bubbleBar.transform.localScale.x, _currBoostBubble, 0.5f), _bubbleBar.transform.localScale.y, _bubbleBar.transform.localScale.z);
-        _rigidbody.linearDamping = CalcDrag();
         HandleWings();
     }
 
@@ -188,10 +192,13 @@ public class Player : MonoBehaviour
 
         if (State == PenguinState.WATER)
             drag += _waterDrag;
-        
-        if (_isBraking)
-            drag += _brakeDrag;
-        
+        else if (State == PenguinState.AIR)
+            drag += _airDrag;
+
+        var targetBrakeDrag = _isBraking ? _brakeDrag : 0; //* (Mathf.Abs(wingL.transform.localRotation.eulerAngles.z) + Mathf.Abs(wingR.transform.localRotation.eulerAngles.z)) / 2 / 75;
+        _currentBrakeDrag = Mathf.Lerp(_currentBrakeDrag, targetBrakeDrag, _brakeDragLerpSpeed);
+
+        drag *= 1 + _currentBrakeDrag;        
         return drag;
     }
 
@@ -201,7 +208,6 @@ public class Player : MonoBehaviour
         if (water != null)
         {
             State = PenguinState.WATER;
-            _waterDrag = water.WaterDrag;
         }
 
         var charger = other.GetComponent<BubbleCharger>();
@@ -212,14 +218,12 @@ public class Player : MonoBehaviour
         }
     }
     
-    
     private void OnTriggerExit(Collider other)
     {
         var water = other.GetComponent<Water>();
         if (water != null)
         {
             State = PenguinState.AIR;
-            _waterDrag = 0;
         }
         
         var charger = other.GetComponent<BubbleCharger>();
