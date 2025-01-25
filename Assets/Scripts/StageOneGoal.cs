@@ -13,12 +13,9 @@ public class StageOneGoal : MonoBehaviour
 
     #endregion
 
-    private BoxCollider _boxCollider;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
-        _boxCollider = GetComponent<BoxCollider>();
     }
 
     // Update is called once per frame
@@ -34,6 +31,8 @@ public class StageOneGoal : MonoBehaviour
         if (!ball) return;
 
         if (!MatchManager.Instance.GiveTeamAdvantage(goalTeam)) return;
+
+        ball.ClaimBall(goalTeam);
 
         var newVelocity = pipeExit.right * exitSpeed;
 

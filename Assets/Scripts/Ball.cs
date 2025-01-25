@@ -3,16 +3,31 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Ball : MonoBehaviour
 {
-    
-    
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Start()
+    [SerializeField] private Transform respawnPoint;
+
+    private MatchManager.Team? _owningTeam;
+
+    public void RespawnBall()
     {
+        transform.position = respawnPoint.position;
+
+        var rigidBody = GetComponent<Rigidbody>();
+        rigidBody.linearVelocity = Vector3.zero;
     }
 
-    // Update is called once per frame
-    private void Update()
+    public MatchManager.Team? GetOwningTeam()
     {
+        return _owningTeam;
+    }
+
+    public void UnclaimBall()
+    {
+        _owningTeam = null;
+    }
+
+    public void ClaimBall(MatchManager.Team team)
+    {
+        Debug.Log("Team " + team + " has claimed the ball");
+        _owningTeam = team;
     }
 }
