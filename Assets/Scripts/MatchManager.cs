@@ -187,18 +187,30 @@ public class MatchManager : MonoBehaviour
         yield return null;
 
         // Spawn Penguins
+        uint playerNum = 0;
         foreach (var player in _joinPlayers)
         {
             Debug.Log("Spawning penguin for player " + player);
 
             PlayerInput playerInput = player.GetComponent<PlayerInput>();
+            
+            // Find spawn point
+            var spawnPoint = SpawnPoint.GetSpawnPointTransformForPlayer(playerNum);
 
             var penguin =
                 Instantiate(penguinPrefab);
 
+            if (spawnPoint)
+            {
+                penguin.transform.position = spawnPoint.position;
+                penguin.transform.rotation = spawnPoint.rotation;
+            }
+
             penguin.GetComponent<Player>().ConnectPlayerInput(playerInput);
             
             playerInput.SwitchCurrentActionMap("Player");
+
+            playerNum++;
         }
     }
 
