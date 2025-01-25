@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class MatchManager : MonoBehaviour
 {
+
     public enum MatchStage
     {
         Join,
@@ -37,6 +38,8 @@ public class MatchManager : MonoBehaviour
 
     public static MatchManager Instance { get; private set; }
 
+    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
@@ -56,6 +59,10 @@ public class MatchManager : MonoBehaviour
     {
     }
 
+    public void IntializePlayer(PlayerInput plyaerInput )
+    {
+
+    }
     private void AddPointsForTeam(Team team, int numPoints)
     {
         Instance._teamPoints[team] += numPoints;
@@ -184,12 +191,14 @@ public class MatchManager : MonoBehaviour
         {
             Debug.Log("Spawning penguin for player " + player);
 
-            var playerInput = player.GetComponent<PlayerInput>();
+            PlayerInput playerInput = player.GetComponent<PlayerInput>();
 
             var penguin =
-                PlayerInput.Instantiate(penguinPrefab, playerInput.playerIndex, playerInput.currentControlScheme);
+                Instantiate(penguinPrefab);
 
-            var penguinPlayerInput = penguin.GetComponent<PlayerInput>();
+            penguin.GetComponent<Player>().ConnectPlayerInput(playerInput);
+            
+           // var penguinPlayerInput = penguin.GetComponent<PlayerInput>();
         }
     }
 

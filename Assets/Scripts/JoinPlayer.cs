@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public class JoinPlayer : MonoBehaviour
 {
     private PlayerInput _playerInput;
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -18,6 +19,8 @@ public class JoinPlayer : MonoBehaviour
         _playerInput.actions["LeaveGame"].performed += LeaveGame;
 
         if (!MatchManager.Instance.RegisterPlayer(this)) Destroy(this);
+
+
     }
 
     // Update is called once per frame
