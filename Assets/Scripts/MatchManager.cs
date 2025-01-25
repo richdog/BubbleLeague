@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class MatchManager : MonoBehaviour
 {
-
     public enum MatchStage
     {
         Join,
@@ -23,21 +22,28 @@ public class MatchManager : MonoBehaviour
     [SerializeField] private bool onlyFirstPlayerCanStart;
 
     public GameObject penguinPrefab;
+    public GameObject ballPrefab;
+
+    [SerializeField] private uint pointsNeededToWin;
 
     private readonly List<JoinPlayer> _joinPlayers = new();
-    private List<GameObject> _players = new();
 
-    private readonly Dictionary<Team, int> _teamPoints = new()
+    private readonly List<GameObject> _players = new();
+
+    private readonly Dictionary<Team, uint> _teamPoints = new()
     {
         { Team.Team1, 0 },
         { Team.Team2, 0 }
     };
 
+    private GameObject _ball;
+
+    private bool _inOvertime;
+
     private MatchStage _stage = MatchStage.Join;
 
     public static MatchManager Instance { get; private set; }
 
-    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
@@ -52,30 +58,67 @@ public class MatchManager : MonoBehaviour
             DontDestroyOnLoad(this);
         }
     }
-    private void AddPointsForTeam(Team team, int numPoints)
+
+    private void AddPointsForTeam(Team team, uint numPoints)
     {
         Instance._teamPoints[team] += numPoints;
     }
 
-    public int GetPointsForTeam(Team team)
+    public uint GetPointsForTeam(Team team)
     {
         return Instance._teamPoints[team];
     }
 
     /// <summary>
-    ///     Makes a goal for a specific team, respawning players
+    ///     Makes a goal for a specific team from a specific ball, respawning players
     /// </summary>
     /// <param name="team"></param>
+    /// <param name="ball"></param>
     /// <returns></returns>
-    public bool MakeGoal(Team team)
+    public void MakeGoal(Team team, Ball ball)
     {
+        if (_inOvertime)
+        {
+            TeamWin(team);
+            Destroy(ball.gameObject);
+            return;
+        }
+
         Debug.Log("Team " + team + " scored 1 point");
 
         AddPointsForTeam(team, 1);
-        
+        ScoreboardManager.Instance.SetScore(_teamPoints[Team.Team1], _teamPoints[Team.Team2]);
+
+        if (_teamPoints[Team.Team1] == pointsNeededToWin)
+        {
+            TeamWin(Team.Team1);
+            Destroy(ball.gameObject);
+            return;
+        }
+
+        if (_teamPoints[Team.Team2] == pointsNeededToWin)
+        {
+            TeamWin(Team.Team2);
+            Destroy(ball.gameObject);
+            return;
+        }
+
+        Destroy(ball.gameObject);
+
+        StartCoroutine(SetNewPoint());
+    }
+
+    private void TeamWin(Team team)
+    {
+        // Win logic
+    }
+
+    private IEnumerator SetNewPoint()
+    {
+        yield return new WaitForSeconds(2.0f);
+
         RespawnPlayers();
-        
-        return true;
+        SpawnNewBall();
     }
 
     private void RespawnPlayers()
@@ -85,7 +128,7 @@ public class MatchManager : MonoBehaviour
         foreach (var player in _players)
         {
             Debug.Log("Respawning " + player);
-            
+
             // Find spawn point
             var spawnPoint = SpawnPoint.GetSpawnPointTransformForPlayer(playerNum);
 
@@ -97,6 +140,15 @@ public class MatchManager : MonoBehaviour
 
             playerNum++;
         }
+    }
+
+    private void SpawnNewBall()
+    {
+        var ballSpawnPointTransform = FindFirstObjectByType<BallSpawnPoint>().transform;
+
+        var newBall = Instantiate(ballPrefab);
+        newBall.transform.position = ballSpawnPointTransform.position;
+        newBall.transform.rotation = ballSpawnPointTransform.rotation;
     }
 
     /// <summary>
@@ -170,12 +222,11 @@ public class MatchManager : MonoBehaviour
         yield return null;
 
         // Spawn Penguins
-        uint playerNum = 0;
         foreach (var player in _joinPlayers)
         {
             Debug.Log("Spawning penguin for player " + player);
 
-            PlayerInput playerInput = player.GetComponent<PlayerInput>();
+            var playerInput = player.GetComponent<PlayerInput>();
 
             var penguin =
                 Instantiate(penguinPrefab);
@@ -183,13 +234,39 @@ public class MatchManager : MonoBehaviour
             _players.Add(penguin);
 
             penguin.GetComponent<Player>().ConnectPlayerInput(playerInput);
-            
-            playerInput.SwitchCurrentActionMap("Player");
 
-            playerNum++;
+            playerInput.SwitchCurrentActionMap("Player");
         }
-        
+
         RespawnPlayers();
+        SpawnNewBall();
+
+        ScoreboardManager.Instance.StartTimer();
+    }
+
+    /// <summary>
+    ///     Tries to end the match by time expiring, returns false if going into overtime
+    /// </summary>
+    /// <returns></returns>
+    public bool TryWinByTime()
+    {
+        var team1Points = _teamPoints[Team.Team1];
+        var team2Points = _teamPoints[Team.Team2];
+
+        if (team1Points > team2Points)
+        {
+            TeamWin(Team.Team1);
+            return true;
+        }
+
+        if (team2Points > team1Points)
+        {
+            TeamWin(Team.Team2);
+            return true;
+        }
+
+        _inOvertime = true;
+        return false;
     }
 
     /// <summary>
