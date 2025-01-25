@@ -1,4 +1,3 @@
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -42,10 +41,11 @@ public class Player : MonoBehaviour
 
     [SerializeField, Range(0, 1)] private float _brakeWingPivotHeight = 0.3f;
 
-    [SerializeField] private Transform wingL;
-    [SerializeField] private Transform wingR;
+    [SerializeField] private Rigidbody wingL;
+    [SerializeField] private Rigidbody wingR;
 
-    [SerializeField] private Vector3 wingOutRotation = new(0,0, 75);
+    [SerializeField] private float wingOpenTorqueAmt = 300f;
+    [SerializeField] private float wingCloseTorqueAmt = 500f;
 
     
     [SerializeField, Range(0,1)] private float _boostBubbleBurn = 0.1f;
@@ -68,14 +68,10 @@ public class Player : MonoBehaviour
         _playerInput.actions["Brake"].performed += ctx =>
         {
             _isBraking = true;
-            wingL.transform.localRotation = Quaternion.Euler(-wingOutRotation);
-            wingR.transform.localRotation = Quaternion.Euler(wingOutRotation);
         };
         _playerInput.actions["Brake"].canceled += ctx =>
         {
             _isBraking = false;
-            wingL.transform.localRotation = Quaternion.identity;
-            wingR.transform.localRotation = Quaternion.identity;
         };
 
         _playerInput.actions["Boost"].performed += ctx => { _isBoosting = true; };
@@ -88,7 +84,6 @@ public class Player : MonoBehaviour
         
     }
     
-    
     //physics update
     void FixedUpdate()
     {
@@ -98,6 +93,9 @@ public class Player : MonoBehaviour
         _rigidbody.AddTorque(-_rigidbody.angularVelocity * dampenFactor, ForceMode.Acceleration);
         float adjustFactor = _rotAcceleration;
         _rigidbody.AddTorque(axis.normalized * angle * adjustFactor, ForceMode.Acceleration);
+
+        Debug.Log($"Axis: {axis}, Angle: {angle}");
+
 
         if (State == PenguinState.WATER)
         {
@@ -124,6 +122,16 @@ public class Player : MonoBehaviour
         _rigidbody.linearDamping = CalcDrag();
 
         _bubbleBar.transform.localScale = new Vector3(math.lerp(_bubbleBar.transform.localScale.x, _currBoostBubble, 0.5f), _bubbleBar.transform.localScale.y, _bubbleBar.transform.localScale.z);
+        _rigidbody.linearDamping = CalcDrag();
+        HandleWings();
+    }
+
+    void HandleWings()
+    {
+        var torque = _isBraking ? -wingOpenTorqueAmt : wingCloseTorqueAmt;
+
+        wingL.AddRelativeTorque(0, 0, torque, ForceMode.Acceleration);
+        wingR.AddRelativeTorque(0, 0, -torque, ForceMode.Acceleration);
     }
 
     float CalcDrag()
@@ -146,15 +154,6 @@ public class Player : MonoBehaviour
         {
             State = PenguinState.WATER;
             _waterDrag = water.WaterDrag;
-            return;
-        }
-
-        var charger = other.GetComponent<BubbleCharger>();
-
-        if (charger != null)
-        {
-            _isCharging = true;
-            _boostBubbleCharge = charger.ChargeRate;
         }
     }
     
@@ -166,14 +165,6 @@ public class Player : MonoBehaviour
         {
             State = PenguinState.AIR;
             _waterDrag = 0;
-        }
-        
-        var charger = other.GetComponent<BubbleCharger>();
-
-        if (charger != null)
-        {
-            _isCharging = false;
-            _boostBubbleCharge = 0;
         }
     }
     

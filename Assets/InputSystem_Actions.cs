@@ -73,18 +73,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""JoinGame"",
+                    ""name"": ""Taunt"",
                     ""type"": ""Button"",
-                    ""id"": ""8427b2da-b604-43ed-91d3-4b2ad78894c1"",
+                    ""id"": ""578b8a2b-24bb-48b0-b7cb-912251839b83"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Taunt"",
+                    ""name"": ""TestJoinGame"",
                     ""type"": ""Button"",
-                    ""id"": ""578b8a2b-24bb-48b0-b7cb-912251839b83"",
+                    ""id"": ""54d11e0b-f9a1-49f1-932d-de734ea5093b"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -226,6 +226,28 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""556d81d5-aa6e-477a-8a68-28f912de1f0d"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""TestJoinGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c5c88758-cdf6-4979-898b-3f9b33c4fbc9"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""TestJoinGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""f2e9ba44-c423-42a7-ad56-f20975884794"",
                     ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
@@ -347,28 +369,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b2d97d48-d05a-4931-bdbd-91808230a852"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""JoinGame"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e100d740-876f-4743-81fa-af2b686f620a"",
-                    ""path"": ""<Keyboard>/enter"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""JoinGame"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""7fbd0f10-5207-400d-90dd-01e973440d53"",
                     ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
@@ -408,7 +408,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Submit"",
                     ""type"": ""Button"",
                     ""id"": ""7607c7b6-cd76-4816-beef-bd0341cfe950"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -417,7 +417,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Cancel"",
                     ""type"": ""Button"",
                     ""id"": ""15cef263-9014-4fd5-94d9-4e4a6234a6ef"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -906,6 +906,107 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Lobby"",
+            ""id"": ""801fc5dd-beb1-4327-b1a9-0356f979563f"",
+            ""actions"": [
+                {
+                    ""name"": ""JoinGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""1993bf8b-e4e1-43fe-9c61-cb53d8a8f272"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""StartGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""dca3b39b-1cf9-41ed-9d74-7a2cf486a5e7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeaveGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""e2f39564-4826-44a1-9e96-a618ef5bcd7e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""038b4b6a-1fbc-4e25-b034-6ac53524a888"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""JoinGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""17bfd36a-3684-41e2-8b70-d2f4466c1e92"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""JoinGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""79fe5719-10be-4f93-974a-415683b6ac0b"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""StartGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""45b3546d-0454-4a57-a86a-3878ff641cea"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""StartGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6e5cefe7-ee4d-48d9-87e0-07e6ac6e3ddc"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""LeaveGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9e4a6ba5-2104-46f3-a473-3dfb05ed17b7"",
+                    ""path"": ""<Keyboard>/backspace"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""LeaveGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -978,8 +1079,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Boost = m_Player.FindAction("Boost", throwIfNotFound: true);
         m_Player_RotateL = m_Player.FindAction("RotateL", throwIfNotFound: true);
         m_Player_RotateR = m_Player.FindAction("RotateR", throwIfNotFound: true);
-        m_Player_JoinGame = m_Player.FindAction("JoinGame", throwIfNotFound: true);
         m_Player_Taunt = m_Player.FindAction("Taunt", throwIfNotFound: true);
+        m_Player_TestJoinGame = m_Player.FindAction("TestJoinGame", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -992,12 +1093,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_UI_ScrollWheel = m_UI.FindAction("ScrollWheel", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        // Lobby
+        m_Lobby = asset.FindActionMap("Lobby", throwIfNotFound: true);
+        m_Lobby_JoinGame = m_Lobby.FindAction("JoinGame", throwIfNotFound: true);
+        m_Lobby_StartGame = m_Lobby.FindAction("StartGame", throwIfNotFound: true);
+        m_Lobby_LeaveGame = m_Lobby.FindAction("LeaveGame", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
     {
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Player.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, InputSystem_Actions.UI.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Lobby.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Lobby.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -1064,8 +1171,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Boost;
     private readonly InputAction m_Player_RotateL;
     private readonly InputAction m_Player_RotateR;
-    private readonly InputAction m_Player_JoinGame;
     private readonly InputAction m_Player_Taunt;
+    private readonly InputAction m_Player_TestJoinGame;
     public struct PlayerActions
     {
         private @InputSystem_Actions m_Wrapper;
@@ -1075,8 +1182,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         public InputAction @Boost => m_Wrapper.m_Player_Boost;
         public InputAction @RotateL => m_Wrapper.m_Player_RotateL;
         public InputAction @RotateR => m_Wrapper.m_Player_RotateR;
-        public InputAction @JoinGame => m_Wrapper.m_Player_JoinGame;
         public InputAction @Taunt => m_Wrapper.m_Player_Taunt;
+        public InputAction @TestJoinGame => m_Wrapper.m_Player_TestJoinGame;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1101,12 +1208,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @RotateR.started += instance.OnRotateR;
             @RotateR.performed += instance.OnRotateR;
             @RotateR.canceled += instance.OnRotateR;
-            @JoinGame.started += instance.OnJoinGame;
-            @JoinGame.performed += instance.OnJoinGame;
-            @JoinGame.canceled += instance.OnJoinGame;
             @Taunt.started += instance.OnTaunt;
             @Taunt.performed += instance.OnTaunt;
             @Taunt.canceled += instance.OnTaunt;
+            @TestJoinGame.started += instance.OnTestJoinGame;
+            @TestJoinGame.performed += instance.OnTestJoinGame;
+            @TestJoinGame.canceled += instance.OnTestJoinGame;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1126,12 +1233,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @RotateR.started -= instance.OnRotateR;
             @RotateR.performed -= instance.OnRotateR;
             @RotateR.canceled -= instance.OnRotateR;
-            @JoinGame.started -= instance.OnJoinGame;
-            @JoinGame.performed -= instance.OnJoinGame;
-            @JoinGame.canceled -= instance.OnJoinGame;
             @Taunt.started -= instance.OnTaunt;
             @Taunt.performed -= instance.OnTaunt;
             @Taunt.canceled -= instance.OnTaunt;
+            @TestJoinGame.started -= instance.OnTestJoinGame;
+            @TestJoinGame.performed -= instance.OnTestJoinGame;
+            @TestJoinGame.canceled -= instance.OnTestJoinGame;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1267,6 +1374,68 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // Lobby
+    private readonly InputActionMap m_Lobby;
+    private List<ILobbyActions> m_LobbyActionsCallbackInterfaces = new List<ILobbyActions>();
+    private readonly InputAction m_Lobby_JoinGame;
+    private readonly InputAction m_Lobby_StartGame;
+    private readonly InputAction m_Lobby_LeaveGame;
+    public struct LobbyActions
+    {
+        private @InputSystem_Actions m_Wrapper;
+        public LobbyActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @JoinGame => m_Wrapper.m_Lobby_JoinGame;
+        public InputAction @StartGame => m_Wrapper.m_Lobby_StartGame;
+        public InputAction @LeaveGame => m_Wrapper.m_Lobby_LeaveGame;
+        public InputActionMap Get() { return m_Wrapper.m_Lobby; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(LobbyActions set) { return set.Get(); }
+        public void AddCallbacks(ILobbyActions instance)
+        {
+            if (instance == null || m_Wrapper.m_LobbyActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_LobbyActionsCallbackInterfaces.Add(instance);
+            @JoinGame.started += instance.OnJoinGame;
+            @JoinGame.performed += instance.OnJoinGame;
+            @JoinGame.canceled += instance.OnJoinGame;
+            @StartGame.started += instance.OnStartGame;
+            @StartGame.performed += instance.OnStartGame;
+            @StartGame.canceled += instance.OnStartGame;
+            @LeaveGame.started += instance.OnLeaveGame;
+            @LeaveGame.performed += instance.OnLeaveGame;
+            @LeaveGame.canceled += instance.OnLeaveGame;
+        }
+
+        private void UnregisterCallbacks(ILobbyActions instance)
+        {
+            @JoinGame.started -= instance.OnJoinGame;
+            @JoinGame.performed -= instance.OnJoinGame;
+            @JoinGame.canceled -= instance.OnJoinGame;
+            @StartGame.started -= instance.OnStartGame;
+            @StartGame.performed -= instance.OnStartGame;
+            @StartGame.canceled -= instance.OnStartGame;
+            @LeaveGame.started -= instance.OnLeaveGame;
+            @LeaveGame.performed -= instance.OnLeaveGame;
+            @LeaveGame.canceled -= instance.OnLeaveGame;
+        }
+
+        public void RemoveCallbacks(ILobbyActions instance)
+        {
+            if (m_Wrapper.m_LobbyActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ILobbyActions instance)
+        {
+            foreach (var item in m_Wrapper.m_LobbyActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_LobbyActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public LobbyActions @Lobby => new LobbyActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -1319,8 +1488,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnBoost(InputAction.CallbackContext context);
         void OnRotateL(InputAction.CallbackContext context);
         void OnRotateR(InputAction.CallbackContext context);
-        void OnJoinGame(InputAction.CallbackContext context);
         void OnTaunt(InputAction.CallbackContext context);
+        void OnTestJoinGame(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
@@ -1334,5 +1503,11 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnScrollWheel(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+    }
+    public interface ILobbyActions
+    {
+        void OnJoinGame(InputAction.CallbackContext context);
+        void OnStartGame(InputAction.CallbackContext context);
+        void OnLeaveGame(InputAction.CallbackContext context);
     }
 }

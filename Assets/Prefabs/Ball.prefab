@@ -124,7 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   respawnPoint: {fileID: 0}
   _rigidbody: {fileID: 3945036585200748033}
-  waterDragModifier: 0.25
+  waterDragModifier: 0.1
   _buoyancy: 1.1
 --- !u!54 &3945036585200748033
 Rigidbody:
@@ -151,5 +151,5 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 56
   m_CollisionDetection: 0
