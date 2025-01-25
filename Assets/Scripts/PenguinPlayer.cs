@@ -26,21 +26,22 @@ public class Player : MonoBehaviour
     private Vector2 _movementInput;
     //private Vector2 _smoothedMovementInput;
     private bool _isBraking;
-    private InputSystem_Actions _playerInputActions;
+    private PlayerInput _playerInput;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _rigidbody.useGravity = false;
-        _playerInputActions = new InputSystem_Actions();
-
-        _playerInputActions.Player.Move.performed += ctx => _movementInput = ctx.ReadValue<Vector2>();
-        _playerInputActions.Player.Move.canceled += ctx => _movementInput = Vector2.zero;
-
-        _playerInputActions.Player.Brake.performed += ctx => _isBraking = true;
-        _playerInputActions.Player.Brake.canceled += ctx => _isBraking = false;
+        _playerInput = GetComponent<PlayerInput>();
         
-        _playerInputActions.Enable();
+        
+
+        _playerInput.actions["Move"].performed += ctx => _movementInput = ctx.ReadValue<Vector2>();
+        _playerInput.actions["Move"].canceled += ctx => _movementInput = Vector2.zero;
+
+        _playerInput.actions["Brake"].performed += ctx => _isBraking = true;
+        _playerInput.actions["Brake"].canceled += ctx => _isBraking = false;
+        
         
     }
     
