@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     [SerializeField, Range(1, 30)] private float _acceleration = 25;
     [SerializeField] private float _brakeDrag = 20;
     private float _waterDrag = 0;
+    public PlayerInput playerInput;
     
     private Vector2 _movementInput;
     private Vector2 _prevMovementInput;
@@ -53,47 +54,56 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject _bubbleBar;
 
+    public bool isDebug;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    /* void Start()
-     {
-         //playerInput = GetComponent<PlayerInput>();        
+    void Start()
+    {
+        //playerInput = GetComponent<PlayerInput>();        
+        if (isDebug)
+        {
+            playerInput.actions["Move"].performed += ctx =>
+            {
+                _prevMovementInput = _movementInput;
+                _movementInput = ctx.ReadValue<Vector2>();
+            };
+            playerInput.actions["Move"].canceled += ctx => _movementInput = Vector2.zero;
 
-         playerInput.actions["Move"].performed += ctx =>
-         {
-             _prevMovementInput = _movementInput;
-             _movementInput = ctx.ReadValue<Vector2>();
-         };
-         playerInput.actions["Move"].canceled += ctx => _movementInput = Vector2.zero;
-
-         playerInput.actions["Brake"].performed += ctx =>
-         {
-             _isBraking = true;
-         };
-         playerInput.actions["Brake"].canceled += ctx =>
-         {
-             _isBraking = false;
-         };
-     }*/
+            playerInput.actions["Brake"].performed += ctx =>
+            {
+                _isBraking = true;
+            };
+            playerInput.actions["Brake"].canceled += ctx =>
+            {
+                _isBraking = false;
+            };
+        }
+       
+    }
     private void OnDisable()
     {
-        _playerInput.actions["Move"].performed -= ctx =>
+        if(playerInput != null)
         {
-            _prevMovementInput = _movementInput;
-            _movementInput = ctx.ReadValue<Vector2>();
-        };
-        _playerInput.actions["Move"].canceled -= ctx => _movementInput = Vector2.zero;
+            _playerInput.actions["Move"].performed -= ctx =>
+            {
+                _prevMovementInput = _movementInput;
+                _movementInput = ctx.ReadValue<Vector2>();
+            };
+            _playerInput.actions["Move"].canceled -= ctx => _movementInput = Vector2.zero;
 
-        _playerInput.actions["Brake"].performed -= ctx =>
-        {
-            _isBraking = true;
-        };
-        _playerInput.actions["Brake"].canceled -= ctx =>
-        {
-            _isBraking = false;
-        };
+            _playerInput.actions["Brake"].performed -= ctx =>
+            {
+                _isBraking = true;
+            };
+            _playerInput.actions["Brake"].canceled -= ctx =>
+            {
+                _isBraking = false;
+            };
 
-        _playerInput.actions["Boost"].performed += ctx => { _isBoosting = true; };
-        _playerInput.actions["Boost"].canceled += ctx => { _isBoosting = false; };
+            _playerInput.actions["Boost"].performed += ctx => { _isBoosting = true; };
+            _playerInput.actions["Boost"].canceled += ctx => { _isBoosting = false; };
+        }
+       
     }
 
     // Update is called once per frame
