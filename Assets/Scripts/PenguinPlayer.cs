@@ -20,8 +20,6 @@ public class Player : MonoBehaviour
     private Rigidbody _rigidbody;
     
     [SerializeField, Range(1, 30)] private float _acceleration = 25;
-    [SerializeField] private float _deceleration = 25;
-    [SerializeField] private float _maxSpeed;
     [SerializeField] private float _brakeDrag = 20;
     [SerializeField] private float _waterDrag = 5;
     

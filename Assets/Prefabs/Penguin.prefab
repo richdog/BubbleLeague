@@ -377,10 +377,8 @@ MonoBehaviour:
   _forceMode: 5
   _rigidbody: {fileID: 8935231973322461603}
   _acceleration: 26
-  _deceleration: 25
-  _maxSpeed: 0
-  _brakeDrag: 5
-  _waterDrag: 2
+  _brakeDrag: 20
+  _waterDrag: 3
 --- !u!114 &6015526711396815173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,6 +406,6 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: 
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
