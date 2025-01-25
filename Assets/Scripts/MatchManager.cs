@@ -25,6 +25,7 @@ public class MatchManager : MonoBehaviour
     public GameObject penguinPrefab;
 
     private readonly List<JoinPlayer> _joinPlayers = new();
+    private List<GameObject> _players = new();
 
     private readonly Dictionary<Team, int> _teamPoints = new()
     {
@@ -51,16 +52,6 @@ public class MatchManager : MonoBehaviour
             DontDestroyOnLoad(this);
         }
     }
-
-    // Update is called once per frame
-    private void Update()
-    {
-    }
-
-    public void IntializePlayer(PlayerInput plyaerInput )
-    {
-
-    }
     private void AddPointsForTeam(Team team, int numPoints)
     {
         Instance._teamPoints[team] += numPoints;
@@ -72,7 +63,7 @@ public class MatchManager : MonoBehaviour
     }
 
     /// <summary>
-    ///     Attempts to score a point for a specific team. Returns false if the team doesn't have advantage.
+    ///     Makes a goal for a specific team, respawning players
     /// </summary>
     /// <param name="team"></param>
     /// <returns></returns>
@@ -81,7 +72,31 @@ public class MatchManager : MonoBehaviour
         Debug.Log("Team " + team + " scored 1 point");
 
         AddPointsForTeam(team, 1);
+        
+        RespawnPlayers();
+        
         return true;
+    }
+
+    private void RespawnPlayers()
+    {
+        // Respawn all players
+        uint playerNum = 0;
+        foreach (var player in _players)
+        {
+            Debug.Log("Respawning " + player);
+            
+            // Find spawn point
+            var spawnPoint = SpawnPoint.GetSpawnPointTransformForPlayer(playerNum);
+
+            if (spawnPoint)
+            {
+                player.transform.position = spawnPoint.position;
+                player.transform.rotation = spawnPoint.rotation;
+            }
+
+            playerNum++;
+        }
     }
 
     /// <summary>
@@ -161,18 +176,11 @@ public class MatchManager : MonoBehaviour
             Debug.Log("Spawning penguin for player " + player);
 
             PlayerInput playerInput = player.GetComponent<PlayerInput>();
-            
-            // Find spawn point
-            var spawnPoint = SpawnPoint.GetSpawnPointTransformForPlayer(playerNum);
 
             var penguin =
                 Instantiate(penguinPrefab);
 
-            if (spawnPoint)
-            {
-                penguin.transform.position = spawnPoint.position;
-                penguin.transform.rotation = spawnPoint.rotation;
-            }
+            _players.Add(penguin);
 
             penguin.GetComponent<Player>().ConnectPlayerInput(playerInput);
             
@@ -180,6 +188,8 @@ public class MatchManager : MonoBehaviour
 
             playerNum++;
         }
+        
+        RespawnPlayers();
     }
 
     /// <summary>
