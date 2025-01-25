@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
     private GameObject _wingL;
     private GameObject _wingR;
 
+    [SerializeField, Range(0, 2)] private float _buoyancy = 1;
+
     [SerializeField, Range(0, 10)] private float _rotDampening = 2f;
     [SerializeField, Range(0, 10)] private float _rotAcceleration = 0.2f;
 
@@ -45,7 +47,6 @@ public class Player : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _rigidbody.useGravity = false;
         _playerInput = GetComponent<PlayerInput>();        
 
         _playerInput.actions["Move"].performed += ctx =>
@@ -88,14 +89,9 @@ public class Player : MonoBehaviour
 
         if (State == PenguinState.WATER)
         {
-            _rigidbody.useGravity = false;
-
             var force =_movementInput * _acceleration;
             _rigidbody.AddForce(force, _forceMode);
-        }
-        else if (State == PenguinState.AIR)
-        {
-            _rigidbody.useGravity = true;
+            _rigidbody.AddForce(Physics.gravity * -_buoyancy);
         }
 
         _rigidbody.linearDamping = CalcDrag();       
