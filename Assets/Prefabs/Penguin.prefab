@@ -1,5 +1,37 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1631381349555131953
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6942051428883972823}
+  m_Layer: 0
+  m_Name: WingL Root
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6942051428883972823
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631381349555131953}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.297, y: 0.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2248751891400183188}
+  m_Father: {fileID: 5981293512475836056}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1945178663005338979
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,7 +155,7 @@ GameObject:
   - component: {fileID: 285668453444981238}
   - component: {fileID: 6964923777062144616}
   m_Layer: 0
-  m_Name: Wing L
+  m_Name: Wing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -137,12 +169,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2358092608772696662}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.3, y: -0.04, z: 0.0000000051909406}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.003000021, y: -0.44, z: 0}
   m_LocalScale: {x: 0.25, y: 0.8, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5981293512475836056}
+  m_Father: {fileID: 6942051428883972823}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2825023651893138145
 MeshFilter:
@@ -253,8 +285,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3037837944819545088}
-  - {fileID: 2248751891400183188}
-  - {fileID: 6927873850222806419}
+  - {fileID: 6942051428883972823}
+  - {fileID: 2747651324703376405}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &8935231973322461603
@@ -300,6 +332,12 @@ MonoBehaviour:
   _rigidbody: {fileID: 8935231973322461603}
   _acceleration: 26
   _brakeDrag: 20
+  _rotDampening: 2
+  _rotAcceleration: 0.2
+  _brakeWingPivotHeight: 0.3
+  wingL: {fileID: 6942051428883972823}
+  wingR: {fileID: 2747651324703376405}
+  wingOutRotation: {x: 0, y: 0, z: 75}
 --- !u!114 &6015526711396815173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,7 +368,7 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!1 &6548656700831805571
+--- !u!1 &7772628603595557014
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -338,47 +376,79 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6927873850222806419}
-  - component: {fileID: 7281307357248965116}
-  - component: {fileID: 7432564341619677065}
-  - component: {fileID: 3332711166831467451}
+  - component: {fileID: 2747651324703376405}
   m_Layer: 0
-  m_Name: Wing R
+  m_Name: WingR Root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6927873850222806419
+--- !u!4 &2747651324703376405
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6548656700831805571}
+  m_GameObject: {fileID: 7772628603595557014}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.3, y: -0.04, z: 0.0000000051909406}
+  m_LocalPosition: {x: 0.297, y: 0.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2717196413152653362}
+  m_Father: {fileID: 5981293512475836056}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8299746823414527752
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2717196413152653362}
+  - component: {fileID: 5276739557812118643}
+  - component: {fileID: 3297438917398090451}
+  - component: {fileID: 1215103418731676491}
+  m_Layer: 0
+  m_Name: Wing
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2717196413152653362
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8299746823414527752}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.003000021, y: -0.44, z: 0}
   m_LocalScale: {x: 0.25, y: 0.8, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5981293512475836056}
+  m_Father: {fileID: 2747651324703376405}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7281307357248965116
+--- !u!33 &5276739557812118643
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6548656700831805571}
+  m_GameObject: {fileID: 8299746823414527752}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &7432564341619677065
+--- !u!23 &3297438917398090451
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6548656700831805571}
+  m_GameObject: {fileID: 8299746823414527752}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -417,13 +487,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &3332711166831467451
+--- !u!136 &1215103418731676491
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6548656700831805571}
+  m_GameObject: {fileID: 8299746823414527752}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

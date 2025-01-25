@@ -31,17 +31,22 @@ public class Player : MonoBehaviour
 
     private GameObject _wingL;
     private GameObject _wingR;
-    
+
+    [SerializeField, Range(0, 10)] private float _rotDampening = 2f;
+    [SerializeField, Range(0, 10)] private float _rotAcceleration = 0.2f;
+
+    [SerializeField, Range(0, 1)] private float _brakeWingPivotHeight = 0.3f;
+
+    [SerializeField] private Transform wingL;
+    [SerializeField] private Transform wingR;
+
+    [SerializeField] private Vector3 wingOutRotation = new(0,0, 75);
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _rigidbody.useGravity = false;
-        _playerInput = GetComponent<PlayerInput>();
-        
-        _wingL = GameObject.Find("Wing L");
-        _wingR = GameObject.Find("Wing R");
-        
-        
+        _playerInput = GetComponent<PlayerInput>();        
 
         _playerInput.actions["Move"].performed += ctx =>
         {
@@ -53,17 +58,15 @@ public class Player : MonoBehaviour
         _playerInput.actions["Brake"].performed += ctx =>
         {
             _isBraking = true;
-            _wingL.transform.RotateAround((_wingL.transform.position + 0.3f*_wingL.transform.up), Vector3.forward, -75);
-            _wingR.transform.RotateAround((_wingR.transform.position + 0.3f*_wingR.transform.up), Vector3.forward, 75);
+            wingL.transform.localRotation = Quaternion.Euler(-wingOutRotation);
+            wingR.transform.localRotation = Quaternion.Euler(wingOutRotation);
         };
         _playerInput.actions["Brake"].canceled += ctx =>
         {
             _isBraking = false;
-            _wingL.transform.RotateAround((_wingL.transform.position + 0.3f*_wingL.transform.up), Vector3.forward, 75);
-            _wingR.transform.RotateAround((_wingR.transform.position + 0.3f*_wingR.transform.up), Vector3.forward, -75);
+            wingL.transform.localRotation = Quaternion.identity;
+            wingR.transform.localRotation = Quaternion.identity;
         };
-        
-        
     }
     
     // Update is called once per frame
@@ -76,26 +79,26 @@ public class Player : MonoBehaviour
     //physics update
     void FixedUpdate()
     {
-        
+        Quaternion lookDir = Quaternion.FromToRotation(_rigidbody.transform.up, _movementInput);
+        lookDir.ToAngleAxis(out float angle, out Vector3 axis);
+        float dampenFactor = _rotDampening;
+        _rigidbody.AddTorque(-_rigidbody.angularVelocity * dampenFactor, ForceMode.Acceleration);
+        float adjustFactor = _rotAcceleration;
+        _rigidbody.AddTorque(axis.normalized * angle * adjustFactor, ForceMode.Acceleration);
+
         if (State == PenguinState.WATER)
         {
             _rigidbody.useGravity = false;
-            var force = _movementInput * _acceleration;
+
+            var force =_movementInput * _acceleration;
             _rigidbody.AddForce(force, _forceMode);
-        } else if (State == PenguinState.AIR)
+        }
+        else if (State == PenguinState.AIR)
         {
             _rigidbody.useGravity = true;
         }
-        _rigidbody.linearDamping = CalcDrag();
 
-        float lerpAmt = 0.8f;
-        if (Vector2.Angle(_movementInput, _prevMovementInput) < 90 &&
-            Vector2.Angle(_rigidbody.linearVelocity, _rigidbody.transform.up) > 90)
-        {
-            lerpAmt = 0.3f;
-        }
-        Quaternion lookDir = Quaternion.LookRotation(Vector3.forward, Vector2.Lerp(_movementInput.normalized, _rigidbody.linearVelocity.normalized, lerpAmt));
-        _rigidbody.MoveRotation(lookDir);
+        _rigidbody.linearDamping = CalcDrag();       
     }
 
     float CalcDrag()
