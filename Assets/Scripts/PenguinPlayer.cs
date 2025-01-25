@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     private float _waterDrag = 0;
     
     private Vector2 _movementInput;
-    //private Vector2 _smoothedMovementInput;
+    private Vector2 _prevMovementInput;
     private bool _isBraking;
     private PlayerInput _playerInput;
     
@@ -36,7 +36,11 @@ public class Player : MonoBehaviour
         
         
 
-        _playerInput.actions["Move"].performed += ctx => _movementInput = ctx.ReadValue<Vector2>();
+        _playerInput.actions["Move"].performed += ctx =>
+        {
+            _prevMovementInput = _movementInput;
+            _movementInput = ctx.ReadValue<Vector2>();
+        };
         _playerInput.actions["Move"].canceled += ctx => _movementInput = Vector2.zero;
 
         _playerInput.actions["Brake"].performed += ctx => _isBraking = true;
@@ -66,8 +70,15 @@ public class Player : MonoBehaviour
             _rigidbody.useGravity = true;
         }
         _rigidbody.linearDamping = CalcDrag();
-        
-        _rigidbody.MoveRotation(Quaternion.LookRotation(Vector3.forward, _rigidbody.linearVelocity.normalized));
+
+        float lerpAmt = 0.8f;
+        if (Vector2.Angle(_movementInput, _prevMovementInput) < 90 &&
+            Vector2.Angle(_rigidbody.linearVelocity, _rigidbody.transform.up) > 90)
+        {
+            lerpAmt = 0.3f;
+        }
+        Quaternion lookDir = Quaternion.LookRotation(Vector3.forward, Vector2.Lerp(_movementInput.normalized, _rigidbody.linearVelocity.normalized, lerpAmt));
+        _rigidbody.MoveRotation(lookDir);
     }
 
     float CalcDrag()
