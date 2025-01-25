@@ -24,8 +24,6 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         _target = camera.transform.position;
-        _shakeTime = 5;
-        _shakeAmount = 1;
     }
 
     private void Update()
