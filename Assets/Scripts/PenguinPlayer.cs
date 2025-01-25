@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Mathematics;
+using UnityEngine.Windows;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
@@ -84,26 +85,15 @@ public class Player : MonoBehaviour
     {
         if(playerInput != null)
         {
-            _playerInput.actions["Move"].performed -= ctx =>
-            {
-                _prevMovementInput = _movementInput;
-                _movementInput = ctx.ReadValue<Vector2>();
-            };
-            _playerInput.actions["Move"].canceled -= ctx => _movementInput = Vector2.zero;
+            _playerInput.actions["Move"].performed -= Move;
+            _playerInput.actions["Move"].canceled -= CancelMove;
 
-            _playerInput.actions["Brake"].performed -= ctx =>
-            {
-                _isBraking = true;
-            };
-            _playerInput.actions["Brake"].canceled -= ctx =>
-            {
-                _isBraking = false;
-            };
+            _playerInput.actions["Brake"].performed -= Brake;
+            _playerInput.actions["Brake"].canceled -= CancelBrake;
 
-            _playerInput.actions["Boost"].performed += ctx => { _isBoosting = true; };
-            _playerInput.actions["Boost"].canceled += ctx => { _isBoosting = false; };
+            _playerInput.actions["Boost"].performed -= Boost;
+            _playerInput.actions["Boost"].canceled -= CancelBoost;
         }
-       
     }
 
     // Update is called once per frame
@@ -157,21 +147,45 @@ public class Player : MonoBehaviour
     public void ConnectPlayerInput(PlayerInput input)
     {
         _playerInput = input;
-        _playerInput.actions["Move"].performed += ctx =>
-        {
-            _prevMovementInput = _movementInput;
-            _movementInput = ctx.ReadValue<Vector2>();
-        };
-        _playerInput.actions["Move"].canceled += ctx => _movementInput = Vector2.zero;
+        _playerInput.actions["Move"].performed += Move;
+        _playerInput.actions["Move"].canceled += CancelMove;
 
-        _playerInput.actions["Brake"].performed += ctx =>
-        {
-            _isBraking = true;
-        };
-        _playerInput.actions["Brake"].canceled += ctx =>
-        {
-            _isBraking = false;
-        };
+        _playerInput.actions["Brake"].performed += Brake;
+        _playerInput.actions["Brake"].canceled += CancelBrake;
+
+        _playerInput.actions["Boost"].performed += Boost;
+        _playerInput.actions["Boost"].canceled += CancelBoost;
+    }
+
+    private void Move(InputAction.CallbackContext ctx)
+    {
+        _prevMovementInput = _movementInput;
+        _movementInput = ctx.ReadValue<Vector2>();
+    }
+
+    private void CancelMove(InputAction.CallbackContext ctx)
+    {
+        _movementInput = Vector2.zero;
+    }
+
+    private void Brake(InputAction.CallbackContext ctx)
+    {
+        _isBraking = true;
+    }
+
+    private void CancelBrake(InputAction.CallbackContext ctx)
+    {
+        _isBraking = false;
+    }
+
+    private void Boost(InputAction.CallbackContext ctx)
+    {
+        _isBoosting = true;
+    }
+
+    private void CancelBoost(InputAction.CallbackContext ctx)
+    {
+        _isBoosting = false;
     }
 
     void HandleWings()
