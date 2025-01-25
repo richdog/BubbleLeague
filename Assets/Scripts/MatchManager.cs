@@ -198,7 +198,7 @@ public class MatchManager : MonoBehaviour
 
             penguin.GetComponent<Player>().ConnectPlayerInput(playerInput);
             
-           // var penguinPlayerInput = penguin.GetComponent<PlayerInput>();
+            playerInput.SwitchCurrentActionMap("Player");
         }
     }
 
