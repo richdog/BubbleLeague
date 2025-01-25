@@ -382,7 +382,7 @@ MonoBehaviour:
   wingR: {fileID: 2807917983913294627}
   wingOpenTorqueAmt: 300
   wingCloseTorqueAmt: 500
-  _boostBubbleBurn: 0.194
+  _boostBubbleBurn: 0.1
   _boostForce: 5
   _bubbleBar: {fileID: 4443615343374467259}
 --- !u!114 &6015526711396815173

@@ -155,6 +155,13 @@ public class Player : MonoBehaviour
             State = PenguinState.WATER;
             _waterDrag = water.WaterDrag;
         }
+
+        var charger = other.GetComponent<BubbleCharger>();
+        if (charger != null)
+        {
+            _isCharging = true;
+            _boostBubbleCharge = charger.ChargeRate;
+        }
     }
     
     
@@ -165,6 +172,13 @@ public class Player : MonoBehaviour
         {
             State = PenguinState.AIR;
             _waterDrag = 0;
+        }
+        
+        var charger = other.GetComponent<BubbleCharger>();
+        if (charger != null)
+        {
+            _isCharging = false;
+            _boostBubbleCharge = 0;
         }
     }
     
