@@ -40,21 +40,30 @@ public class CameraController : MonoBehaviour
             camera.transform.position = Vector3.SmoothDamp(camera.transform.position, _target, ref _currentVelocity, 0.05f);
             _shakeTime -= Time.deltaTime;
             _needsNewTarget += Time.deltaTime;
+            if (_shakeTime <= 0)
+            {
+                _shakeAmount = 0;
+            }
         }
     }
 
+    //Forces camera return to its home
+    //not currently used
     void ReturnToZero()
     {
         camera.transform.position = new Vector3(0, 0, 0);
     }
 
     //starts shaking the camera. Intensity of 1 is probably the highest you should go.
-    //If called again before the previous shake is completed it will discard the old shake values.
+    //If called again before the previous shake is completed it will add time and use the higher intensity.
     //This behavior can be improved if we have time.
     public void ShakeCamera(float intensity, float howLong)
     {
-        _shakeTime = intensity;
-        _shakeTime = howLong;
+        if (_shakeTime <= intensity)
+        {
+            _shakeAmount = intensity;    
+        }
+        _shakeTime += howLong;
     }
     
 }

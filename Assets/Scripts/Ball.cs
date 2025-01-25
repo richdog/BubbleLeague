@@ -5,20 +5,12 @@ using static Player;
 public class Ball : MonoBehaviour
 {
     [SerializeField] private Transform respawnPoint;
-    [SerializeField]
-    private Rigidbody _rigidbody;
-
-    [SerializeField, Range(0, 2)]
-    private float waterDragModifier = 0.5f;
-
+    [SerializeField] private Rigidbody _rigidbody;
     private bool _isUnderwater = false;
-
-    [SerializeField, Range(0, 2)] private float _buoyancy = 1;
 
     public void RespawnBall()
     {
         transform.position = respawnPoint.position;
-
         var rigidBody = GetComponent<Rigidbody>();
         rigidBody.linearVelocity = Vector3.zero;
     }
@@ -27,8 +19,8 @@ public class Ball : MonoBehaviour
     {
         if (_rigidbody != null)
         {
-            if(_isUnderwater)
-                _rigidbody.AddForce(Physics.gravity * -_buoyancy);
+            if (_isUnderwater)
+                _rigidbody.AddForce(Physics.gravity * -GameVars.Ball.buoyancy);
         }
     }
 
@@ -38,7 +30,7 @@ public class Ball : MonoBehaviour
         if (water != null)
         {
             _isUnderwater = true;
-            _rigidbody.linearDamping = water.WaterDrag * waterDragModifier;
+            _rigidbody.linearDamping = water.WaterDrag * GameVars.Ball.waterDragModifier;
         }
     }
 
