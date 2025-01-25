@@ -1,0 +1,60 @@
+using System;
+using UnityEditor.UI;
+using UnityEngine;
+using Random = UnityEngine.Random;
+
+public class CameraController : MonoBehaviour
+{
+    [SerializeField]
+    private new Camera camera;
+
+    private Vector3 _currentVelocity;
+    private Vector3 _target;
+    private float _needsNewTarget;
+    private float _shakeTime;
+    private float _shakeAmount;
+
+    public static CameraController Instance { get; private set;}
+    
+    void Awake()
+    {
+        Instance = this;
+    }
+    
+    void Start()
+    {
+        _target = camera.transform.position;
+    }
+
+    private void Update()
+    {
+        //shake behavior here. gets started by calling shakeCamera and stops itself after the specified time.
+        if (_shakeTime > 0)
+        {
+            if (_needsNewTarget >= 0.04f)
+            {
+                _target = new Vector3(Random.Range(-_shakeAmount, _shakeAmount), Random.Range(-_shakeAmount, _shakeAmount),
+                    camera.transform.position.z);
+                _needsNewTarget -= 0.04f;
+            }
+            camera.transform.position = Vector3.SmoothDamp(camera.transform.position, _target, ref _currentVelocity, 0.05f);
+            _shakeTime -= Time.deltaTime;
+            _needsNewTarget += Time.deltaTime;
+        }
+    }
+
+    void ReturnToZero()
+    {
+        camera.transform.position = new Vector3(0, 0, 0);
+    }
+
+    //starts shaking the camera. Intensity of 1 is probably the highest you should go.
+    //If called again before the previous shake is completed it will discard the old shake values.
+    //This behavior can be improved if we have time.
+    public void ShakeCamera(float intensity, float howLong)
+    {
+        _shakeTime = intensity;
+        _shakeTime = howLong;
+    }
+    
+}
