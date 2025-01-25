@@ -71,6 +71,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""JoinGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""8427b2da-b604-43ed-91d3-4b2ad78894c1"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -291,6 +300,28 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""RotateR"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b2d97d48-d05a-4931-bdbd-91808230a852"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""JoinGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e100d740-876f-4743-81fa-af2b686f620a"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""JoinGame"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -883,6 +914,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_RotateL = m_Player.FindAction("RotateL", throwIfNotFound: true);
         m_Player_RotateR = m_Player.FindAction("RotateR", throwIfNotFound: true);
+        m_Player_JoinGame = m_Player.FindAction("JoinGame", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -967,6 +999,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_RotateL;
     private readonly InputAction m_Player_RotateR;
+    private readonly InputAction m_Player_JoinGame;
     public struct PlayerActions
     {
         private @InputSystem_Actions m_Wrapper;
@@ -976,6 +1009,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @RotateL => m_Wrapper.m_Player_RotateL;
         public InputAction @RotateR => m_Wrapper.m_Player_RotateR;
+        public InputAction @JoinGame => m_Wrapper.m_Player_JoinGame;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1000,6 +1034,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @RotateR.started += instance.OnRotateR;
             @RotateR.performed += instance.OnRotateR;
             @RotateR.canceled += instance.OnRotateR;
+            @JoinGame.started += instance.OnJoinGame;
+            @JoinGame.performed += instance.OnJoinGame;
+            @JoinGame.canceled += instance.OnJoinGame;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1019,6 +1056,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @RotateR.started -= instance.OnRotateR;
             @RotateR.performed -= instance.OnRotateR;
             @RotateR.canceled -= instance.OnRotateR;
+            @JoinGame.started -= instance.OnJoinGame;
+            @JoinGame.performed -= instance.OnJoinGame;
+            @JoinGame.canceled -= instance.OnJoinGame;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1206,6 +1246,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnRotateL(InputAction.CallbackContext context);
         void OnRotateR(InputAction.CallbackContext context);
+        void OnJoinGame(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
