@@ -33,7 +33,7 @@ public class MatchManager : MonoBehaviour
     {
     }
 
-    public void AddPointsForTeam(Team team, int numPoints)
+    private void AddPointsForTeam(Team team, int numPoints)
     {
         Instance._teamPoints[team] += numPoints;
     }
@@ -68,6 +68,21 @@ public class MatchManager : MonoBehaviour
 
         Debug.Log("Gave advantage to " + _advantageTeam);
 
+        return true;
+    }
+
+    /// <summary>
+    ///     Attempts to score a point for a specific team. Returns false if the team doesn't have advantage.
+    /// </summary>
+    /// <param name="team"></param>
+    /// <returns></returns>
+    public bool MakeFinalGoal(Team team)
+    {
+        if (_advantageTeam != team) return false;
+
+        Debug.Log("Team " + team + " scored 1 point");
+
+        AddPointsForTeam(team, 1);
         return true;
     }
 }
