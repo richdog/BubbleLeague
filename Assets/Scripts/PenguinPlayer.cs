@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
 
-[RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
 {
     
@@ -39,10 +37,11 @@ public class Player : MonoBehaviour
 
     [SerializeField, Range(0, 1)] private float _brakeWingPivotHeight = 0.3f;
 
-    [SerializeField] private Transform wingL;
-    [SerializeField] private Transform wingR;
+    [SerializeField] private Rigidbody wingL;
+    [SerializeField] private Rigidbody wingR;
 
-    [SerializeField] private Vector3 wingOutRotation = new(0,0, 75);
+    [SerializeField] private float wingOpenTorqueAmt = 300f;
+    [SerializeField] private float wingCloseTorqueAmt = 500f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -59,14 +58,10 @@ public class Player : MonoBehaviour
         _playerInput.actions["Brake"].performed += ctx =>
         {
             _isBraking = true;
-            wingL.transform.localRotation = Quaternion.Euler(-wingOutRotation);
-            wingR.transform.localRotation = Quaternion.Euler(wingOutRotation);
         };
         _playerInput.actions["Brake"].canceled += ctx =>
         {
             _isBraking = false;
-            wingL.transform.localRotation = Quaternion.identity;
-            wingR.transform.localRotation = Quaternion.identity;
         };
     }
     
@@ -75,7 +70,6 @@ public class Player : MonoBehaviour
     {
         
     }
-    
     
     //physics update
     void FixedUpdate()
@@ -87,6 +81,9 @@ public class Player : MonoBehaviour
         float adjustFactor = _rotAcceleration;
         _rigidbody.AddTorque(axis.normalized * angle * adjustFactor, ForceMode.Acceleration);
 
+        Debug.Log($"Axis: {axis}, Angle: {angle}");
+
+
         if (State == PenguinState.WATER)
         {
             var force =_movementInput * _acceleration;
@@ -94,7 +91,16 @@ public class Player : MonoBehaviour
             _rigidbody.AddForce(Physics.gravity * -_buoyancy);
         }
 
-        _rigidbody.linearDamping = CalcDrag();       
+        _rigidbody.linearDamping = CalcDrag();
+        HandleWings();
+    }
+
+    void HandleWings()
+    {
+        var torque = _isBraking ? -wingOpenTorqueAmt : wingCloseTorqueAmt;
+
+        wingL.AddRelativeTorque(0, 0, torque, ForceMode.Acceleration);
+        wingR.AddRelativeTorque(0, 0, -torque, ForceMode.Acceleration);
     }
 
     float CalcDrag()
