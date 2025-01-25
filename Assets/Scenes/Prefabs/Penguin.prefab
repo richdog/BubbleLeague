@@ -372,6 +372,7 @@ MonoBehaviour:
   _rigidbody: {fileID: 8371378095110845264}
   _acceleration: 26
   _brakeDrag: 5
+  playerInput: {fileID: 0}
   _buoyancy: 1.1
   _rotDampening: 2
   _rotAcceleration: 0.2
