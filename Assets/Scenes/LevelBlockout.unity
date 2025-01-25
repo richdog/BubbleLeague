@@ -425,26 +425,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4893226008261829108, guid: 973f0759028a7234ea3ddec4e52ea33b, type: 3}
-      propertyPath: m_JoinBehavior
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4893226008261829108, guid: 973f0759028a7234ea3ddec4e52ea33b, type: 3}
-      propertyPath: m_PlayerPrefab
-      value: 
-      objectReference: {fileID: 3644997945759854418, guid: 28faf5a21c145bf49bac6005178a74c1, type: 3}
-    - target: {fileID: 4893226008261829108, guid: 973f0759028a7234ea3ddec4e52ea33b, type: 3}
-      propertyPath: m_JoinAction.m_Reference
-      value: 
-      objectReference: {fileID: 4774270774188542623, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-    - target: {fileID: 4893226008261829108, guid: 973f0759028a7234ea3ddec4e52ea33b, type: 3}
-      propertyPath: m_JoinAction.m_UseReference
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4893226008261829108, guid: 973f0759028a7234ea3ddec4e52ea33b, type: 3}
-      propertyPath: m_JoinAction.m_Action.m_Name
-      value: Join
-      objectReference: {fileID: 0}
     - target: {fileID: 8272430734935021129, guid: 973f0759028a7234ea3ddec4e52ea33b, type: 3}
       propertyPath: m_Name
       value: GameManager
