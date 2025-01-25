@@ -76,18 +76,18 @@ public class Player : MonoBehaviour
      }*/
     private void OnDisable()
     {
-        playerInput.actions["Move"].performed -= ctx =>
+        _playerInput.actions["Move"].performed -= ctx =>
         {
             _prevMovementInput = _movementInput;
             _movementInput = ctx.ReadValue<Vector2>();
         };
-        playerInput.actions["Move"].canceled -= ctx => _movementInput = Vector2.zero;
+        _playerInput.actions["Move"].canceled -= ctx => _movementInput = Vector2.zero;
 
-        playerInput.actions["Brake"].performed -= ctx =>
+        _playerInput.actions["Brake"].performed -= ctx =>
         {
             _isBraking = true;
         };
-        playerInput.actions["Brake"].canceled -= ctx =>
+        _playerInput.actions["Brake"].canceled -= ctx =>
         {
             _isBraking = false;
         };
@@ -146,19 +146,19 @@ public class Player : MonoBehaviour
 
     public void ConnectPlayerInput(PlayerInput input)
     {
-        playerInput = input;
-        playerInput.actions["Move"].performed += ctx =>
+        _playerInput = input;
+        _playerInput.actions["Move"].performed += ctx =>
         {
             _prevMovementInput = _movementInput;
             _movementInput = ctx.ReadValue<Vector2>();
         };
-        playerInput.actions["Move"].canceled += ctx => _movementInput = Vector2.zero;
+        _playerInput.actions["Move"].canceled += ctx => _movementInput = Vector2.zero;
 
-        playerInput.actions["Brake"].performed += ctx =>
+        _playerInput.actions["Brake"].performed += ctx =>
         {
             _isBraking = true;
         };
-        playerInput.actions["Brake"].canceled += ctx =>
+        _playerInput.actions["Brake"].canceled += ctx =>
         {
             _isBraking = false;
         };
