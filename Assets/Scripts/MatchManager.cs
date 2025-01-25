@@ -66,6 +66,8 @@ public class MatchManager : MonoBehaviour
 
         _advantageTeam = team;
 
+        Debug.Log("Gave advantage to " + _advantageTeam);
+
         return true;
     }
 }
