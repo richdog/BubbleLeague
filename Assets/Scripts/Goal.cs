@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
-public class StageTwoGoal : MonoBehaviour
+public class Goal : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
