@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
+using Unity.Mathematics;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
