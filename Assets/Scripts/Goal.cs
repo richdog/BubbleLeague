@@ -3,15 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class Goal : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Start()
-    {
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-    }
+    [SerializeField] public MatchManager.Team team;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -19,13 +11,8 @@ public class Goal : MonoBehaviour
 
         if (!ball) return;
 
-        var ballOwningTeam = ball.GetOwningTeam();
+        if (!MatchManager.Instance.MakeGoal(team)) return;
 
-        if (!ballOwningTeam.HasValue) return;
-
-        if (!MatchManager.Instance.MakeFinalGoal(ballOwningTeam.Value)) return;
-
-        ball.UnclaimBall();
         ball.RespawnBall();
     }
 }

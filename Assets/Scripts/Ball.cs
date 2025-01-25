@@ -8,8 +8,6 @@ public class Ball : MonoBehaviour
     [SerializeField]
     private Rigidbody _rigidbody;
 
-    private MatchManager.Team? _owningTeam;
-
     [SerializeField, Range(0, 2)]
     private float waterDragModifier = 0.5f;
 
@@ -23,22 +21,6 @@ public class Ball : MonoBehaviour
 
         var rigidBody = GetComponent<Rigidbody>();
         rigidBody.linearVelocity = Vector3.zero;
-    }
-
-    public MatchManager.Team? GetOwningTeam()
-    {
-        return _owningTeam;
-    }
-
-    public void UnclaimBall()
-    {
-        _owningTeam = null;
-    }
-
-    public void ClaimBall(MatchManager.Team team)
-    {
-        Debug.Log("Team " + team + " has claimed the ball");
-        _owningTeam = team;
     }
 
     public void FixedUpdate()

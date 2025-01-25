@@ -32,8 +32,6 @@ public class MatchManager : MonoBehaviour
         { Team.Team2, 0 }
     };
 
-    private Team? _advantageTeam;
-
     private MatchStage _stage = MatchStage.Join;
 
     public static MatchManager Instance { get; private set; }
@@ -73,43 +71,13 @@ public class MatchManager : MonoBehaviour
         return Instance._teamPoints[team];
     }
 
-    public bool AnyTeamHasAdvantage()
-    {
-        return _advantageTeam.HasValue;
-    }
-
-    public bool TeamHasAdvantage(Team team)
-    {
-        return _advantageTeam == team;
-    }
-
-
-    /// <summary>
-    ///     Attempts to give a specific team advantage (IE: Move the point from Stage 1 -> Stage 2). Returns false if the game
-    ///     is already in stage 2
-    /// </summary>
-    /// <param name="team"></param>
-    /// <returns></returns>
-    public bool GiveTeamAdvantage(Team team)
-    {
-        if (_advantageTeam.HasValue) return false;
-
-        _advantageTeam = team;
-
-        Debug.Log("Gave advantage to " + _advantageTeam);
-
-        return true;
-    }
-
     /// <summary>
     ///     Attempts to score a point for a specific team. Returns false if the team doesn't have advantage.
     /// </summary>
     /// <param name="team"></param>
     /// <returns></returns>
-    public bool MakeFinalGoal(Team team)
+    public bool MakeGoal(Team team)
     {
-        if (_advantageTeam != team) return false;
-
         Debug.Log("Team " + team + " scored 1 point");
 
         AddPointsForTeam(team, 1);
