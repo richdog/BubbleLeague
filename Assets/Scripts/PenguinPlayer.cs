@@ -63,21 +63,7 @@ public class Player : MonoBehaviour
         //playerInput = GetComponent<PlayerInput>();        
         if (isDebug)
         {
-            playerInput.actions["Move"].performed += ctx =>
-            {
-                _prevMovementInput = _movementInput;
-                _movementInput = ctx.ReadValue<Vector2>();
-            };
-            playerInput.actions["Move"].canceled += ctx => _movementInput = Vector2.zero;
-
-            playerInput.actions["Brake"].performed += ctx =>
-            {
-                _isBraking = true;
-            };
-            playerInput.actions["Brake"].canceled += ctx =>
-            {
-                _isBraking = false;
-            };
+            ConnectPlayerInput(playerInput);
         }
        
     }
