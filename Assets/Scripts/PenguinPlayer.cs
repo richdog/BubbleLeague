@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
     private Vector2 _movementInput;
     private Vector2 _prevMovementInput;
     private bool _isBraking;
-    private PlayerInput _playerInput;
+    public PlayerInput playerInput;
 
     private GameObject _wingL;
     private GameObject _wingR;
@@ -44,27 +44,45 @@ public class Player : MonoBehaviour
     [SerializeField] private float wingCloseTorqueAmt = 500f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        _playerInput = GetComponent<PlayerInput>();        
+    /* void Start()
+     {
+         //playerInput = GetComponent<PlayerInput>();        
 
-        _playerInput.actions["Move"].performed += ctx =>
+         playerInput.actions["Move"].performed += ctx =>
+         {
+             _prevMovementInput = _movementInput;
+             _movementInput = ctx.ReadValue<Vector2>();
+         };
+         playerInput.actions["Move"].canceled += ctx => _movementInput = Vector2.zero;
+
+         playerInput.actions["Brake"].performed += ctx =>
+         {
+             _isBraking = true;
+         };
+         playerInput.actions["Brake"].canceled += ctx =>
+         {
+             _isBraking = false;
+         };
+     }*/
+    private void OnDisable()
+    {
+        playerInput.actions["Move"].performed -= ctx =>
         {
             _prevMovementInput = _movementInput;
             _movementInput = ctx.ReadValue<Vector2>();
         };
-        _playerInput.actions["Move"].canceled += ctx => _movementInput = Vector2.zero;
+        playerInput.actions["Move"].canceled -= ctx => _movementInput = Vector2.zero;
 
-        _playerInput.actions["Brake"].performed += ctx =>
+        playerInput.actions["Brake"].performed -= ctx =>
         {
             _isBraking = true;
         };
-        _playerInput.actions["Brake"].canceled += ctx =>
+        playerInput.actions["Brake"].canceled -= ctx =>
         {
             _isBraking = false;
         };
     }
-    
+
     // Update is called once per frame
     void Update()
     {
@@ -93,6 +111,26 @@ public class Player : MonoBehaviour
 
         _rigidbody.linearDamping = CalcDrag();
         HandleWings();
+    }
+
+    public void ConnectPlayerInput(PlayerInput input)
+    {
+        playerInput = input;
+        playerInput.actions["Move"].performed += ctx =>
+        {
+            _prevMovementInput = _movementInput;
+            _movementInput = ctx.ReadValue<Vector2>();
+        };
+        playerInput.actions["Move"].canceled += ctx => _movementInput = Vector2.zero;
+
+        playerInput.actions["Brake"].performed += ctx =>
+        {
+            _isBraking = true;
+        };
+        playerInput.actions["Brake"].canceled += ctx =>
+        {
+            _isBraking = false;
+        };
     }
 
     void HandleWings()
