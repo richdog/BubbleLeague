@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     
     [SerializeField, Range(1, 30)] private float _acceleration = 25;
     [SerializeField] private float _brakeDrag = 20;
-    [SerializeField] private float _waterDrag = 5;
+    private float _waterDrag = 0;
     
     private Vector2 _movementInput;
     //private Vector2 _smoothedMovementInput;
@@ -54,9 +54,16 @@ public class Player : MonoBehaviour
     //physics update
     void FixedUpdate()
     {
-        var force = _movementInput * _acceleration;
         
-        _rigidbody.AddForce(force, _forceMode);
+        if (State == PenguinState.WATER)
+        {
+            _rigidbody.useGravity = false;
+            var force = _movementInput * _acceleration;
+            _rigidbody.AddForce(force, _forceMode);
+        } else if (State == PenguinState.AIR)
+        {
+            _rigidbody.useGravity = true;
+        }
         _rigidbody.linearDamping = CalcDrag();
         
         _rigidbody.MoveRotation(Quaternion.LookRotation(Vector3.forward, _rigidbody.linearVelocity.normalized));
@@ -73,6 +80,27 @@ public class Player : MonoBehaviour
             drag += _brakeDrag;
         
         return drag;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        var water = other.GetComponent<Water>();
+        if (water != null)
+        {
+            State = PenguinState.WATER;
+            _waterDrag = water.WaterDrag;
+        }
+    }
+    
+    
+    private void OnTriggerExit(Collider other)
+    {
+        var water = other.GetComponent<Water>();
+        if (water != null)
+        {
+            State = PenguinState.AIR;
+            _waterDrag = 0;
+        }
     }
     
 }
