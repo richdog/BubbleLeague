@@ -80,6 +80,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TestJoinGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""54d11e0b-f9a1-49f1-932d-de734ea5093b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -212,6 +221,28 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Joystick"",
                     ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""556d81d5-aa6e-477a-8a68-28f912de1f0d"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""TestJoinGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c5c88758-cdf6-4979-898b-3f9b33c4fbc9"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""TestJoinGame"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1049,6 +1080,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_RotateL = m_Player.FindAction("RotateL", throwIfNotFound: true);
         m_Player_RotateR = m_Player.FindAction("RotateR", throwIfNotFound: true);
         m_Player_Taunt = m_Player.FindAction("Taunt", throwIfNotFound: true);
+        m_Player_TestJoinGame = m_Player.FindAction("TestJoinGame", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1140,6 +1172,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_RotateL;
     private readonly InputAction m_Player_RotateR;
     private readonly InputAction m_Player_Taunt;
+    private readonly InputAction m_Player_TestJoinGame;
     public struct PlayerActions
     {
         private @InputSystem_Actions m_Wrapper;
@@ -1150,6 +1183,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         public InputAction @RotateL => m_Wrapper.m_Player_RotateL;
         public InputAction @RotateR => m_Wrapper.m_Player_RotateR;
         public InputAction @Taunt => m_Wrapper.m_Player_Taunt;
+        public InputAction @TestJoinGame => m_Wrapper.m_Player_TestJoinGame;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1177,6 +1211,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Taunt.started += instance.OnTaunt;
             @Taunt.performed += instance.OnTaunt;
             @Taunt.canceled += instance.OnTaunt;
+            @TestJoinGame.started += instance.OnTestJoinGame;
+            @TestJoinGame.performed += instance.OnTestJoinGame;
+            @TestJoinGame.canceled += instance.OnTestJoinGame;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1199,6 +1236,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Taunt.started -= instance.OnTaunt;
             @Taunt.performed -= instance.OnTaunt;
             @Taunt.canceled -= instance.OnTaunt;
+            @TestJoinGame.started -= instance.OnTestJoinGame;
+            @TestJoinGame.performed -= instance.OnTestJoinGame;
+            @TestJoinGame.canceled -= instance.OnTestJoinGame;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1449,6 +1489,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnRotateL(InputAction.CallbackContext context);
         void OnRotateR(InputAction.CallbackContext context);
         void OnTaunt(InputAction.CallbackContext context);
+        void OnTestJoinGame(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
