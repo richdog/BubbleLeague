@@ -6,27 +6,22 @@ using UnityEngine.Windows;
 [RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
 {
-    
     public enum PenguinState
     {
         WATER,
         AIR
     }
-    
+
     public PenguinState State { get; set; } = PenguinState.WATER;
-    
+
     [SerializeField]
     private ForceMode _forceMode = ForceMode.Impulse;
-    
+
     [SerializeField]
     private Rigidbody _rigidbody;
-    
-    [SerializeField, Range(1, 30)] private float _acceleration = 25;
-    [SerializeField] private float _brakeDrag = 20;
-    [SerializeField] private float _waterDrag = 1;
-    [SerializeField] private float _airDrag = 1;
+
     public PlayerInput playerInput;
-    
+
     private Vector2 _movementInput;
     private Vector2 _prevMovementInput;
     private bool _isBraking;
@@ -38,43 +33,24 @@ public class Player : MonoBehaviour
 
     private float _currentBrakeDrag = 0f;
 
-    [SerializeField, Range(0,1)] private float _brakeDragLerpSpeed = 0.1f;
-    
-
-    [SerializeField, Range(0, 2)] private float _buoyancy = 1;
-
-    [SerializeField, Range(0, 10)] private float _rotDampening = 2f;
-    [SerializeField, Range(0, 10)] private float _rotAcceleration = 0.2f;
-
-    [SerializeField, Range(0, 1)] private float _brakeWingPivotHeight = 0.3f;
-
     [SerializeField] private Rigidbody wingL;
     [SerializeField] private Rigidbody wingR;
-
-    [SerializeField] private float wingOpenTorqueAmt = 300f;
-    [SerializeField] private float wingCloseTorqueAmt = 500f;
-
-    
-    [SerializeField, Range(0,1)] private float _boostBubbleBurn = 0.1f;
-    [SerializeField] private float _boostForce = 50;
 
     [SerializeField] private GameObject _bubbleBar;
 
     public bool isDebug;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //playerInput = GetComponent<PlayerInput>();        
         if (isDebug)
         {
             ConnectPlayerInput(playerInput);
         }
-       
     }
+
     private void OnDisable()
     {
-        if(playerInput != null)
+        if (playerInput != null)
         {
             _playerInput.actions["Move"].performed -= Move;
             _playerInput.actions["Move"].canceled -= CancelMove;
@@ -87,36 +63,34 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
-    
-    //physics update
+
     void FixedUpdate()
     {
         Quaternion lookDir = Quaternion.FromToRotation(_rigidbody.transform.up, _movementInput);
         lookDir.ToAngleAxis(out float angle, out Vector3 axis);
-        float dampenFactor = _rotDampening;
+        float dampenFactor = GameVars.Player.rotDampening;
         _rigidbody.AddTorque(-_rigidbody.angularVelocity * dampenFactor, ForceMode.Acceleration);
-        float adjustFactor = _rotAcceleration;
+        float adjustFactor = GameVars.Player.rotAcceleration;
         _rigidbody.AddTorque(axis.normalized * angle * adjustFactor, ForceMode.Acceleration);
 
         Debug.Log($"Axis: {axis}, Angle: {angle}");
 
-
         if (State == PenguinState.WATER)
         {
-            var force =_movementInput * _acceleration;
+            var force = _movementInput * GameVars.Player.acceleration;
             _rigidbody.AddForce(force, _forceMode);
-            _rigidbody.AddForce(Physics.gravity * -_buoyancy);
+            _rigidbody.AddForce(Physics.gravity * -GameVars.Player.penguinBuoyancy);
 
             if (_isBoosting && _currBoostBubble > 0)
             {
-                _rigidbody.AddForce(_boostForce * _movementInput, ForceMode.Impulse);
-                _currBoostBubble -= _boostBubbleBurn;
-            } else if (_boostBubbleCharge <= 0)
+                _rigidbody.AddForce(GameVars.Player.boostForce * _movementInput, ForceMode.Impulse);
+                _currBoostBubble -= GameVars.Player.boostBubbleBurn;
+            }
+            else if (_boostBubbleCharge <= 0)
             {
                 _isBoosting = false;
             }
@@ -180,7 +154,7 @@ public class Player : MonoBehaviour
 
     void HandleWings()
     {
-        var torque = _isBraking ? -wingOpenTorqueAmt : wingCloseTorqueAmt;
+        var torque = _isBraking ? -GameVars.Player.wingOpenTorqueAmt : GameVars.Player.wingCloseTorqueAmt;
 
         wingL.AddRelativeTorque(0, 0, torque, ForceMode.Acceleration);
         wingR.AddRelativeTorque(0, 0, -torque, ForceMode.Acceleration);
@@ -191,14 +165,14 @@ public class Player : MonoBehaviour
         float drag = 0;
 
         if (State == PenguinState.WATER)
-            drag += _waterDrag;
+            drag += GameVars.Player.waterDrag;
         else if (State == PenguinState.AIR)
-            drag += _airDrag;
+            drag += GameVars.Player.airDrag;
 
-        var targetBrakeDrag = _isBraking ? _brakeDrag : 0; //* (Mathf.Abs(wingL.transform.localRotation.eulerAngles.z) + Mathf.Abs(wingR.transform.localRotation.eulerAngles.z)) / 2 / 75;
-        _currentBrakeDrag = Mathf.Lerp(_currentBrakeDrag, targetBrakeDrag, _brakeDragLerpSpeed);
+        var targetBrakeDrag = _isBraking ? GameVars.Player.brakeDrag : 0;
+        _currentBrakeDrag = Mathf.Lerp(_currentBrakeDrag, targetBrakeDrag, GameVars.Player.brakeDragLerpSpeed);
 
-        drag *= 1 + _currentBrakeDrag;        
+        drag *= 1 + _currentBrakeDrag;
         return drag;
     }
 
@@ -217,7 +191,7 @@ public class Player : MonoBehaviour
             _boostBubbleCharge = charger.ChargeRate;
         }
     }
-    
+
     private void OnTriggerExit(Collider other)
     {
         var water = other.GetComponent<Water>();
@@ -225,7 +199,7 @@ public class Player : MonoBehaviour
         {
             State = PenguinState.AIR;
         }
-        
+
         var charger = other.GetComponent<BubbleCharger>();
         if (charger != null)
         {
@@ -233,5 +207,4 @@ public class Player : MonoBehaviour
             _boostBubbleCharge = 0;
         }
     }
-    
 }
