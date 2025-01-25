@@ -137,13 +137,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2358092608772696662}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.10557734, y: -0.30967736, z: -0.6079162, w: 0.7234579}
-  m_LocalPosition: {x: -0.8, y: 0.3, z: 0.0000000051909406}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.3, y: -0.04, z: 0.0000000051909406}
   m_LocalScale: {x: 0.25, y: 0.8, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5981293512475836056}
-  m_LocalEulerAnglesHint: {x: -31.957, y: -22.137, z: -73.668}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2825023651893138145
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -300,7 +300,6 @@ MonoBehaviour:
   _rigidbody: {fileID: 8935231973322461603}
   _acceleration: 26
   _brakeDrag: 20
-  _waterDrag: 3
 --- !u!114 &6015526711396815173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,7 +343,7 @@ GameObject:
   - component: {fileID: 7432564341619677065}
   - component: {fileID: 3332711166831467451}
   m_Layer: 0
-  m_Name: Wing L (1)
+  m_Name: Wing R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -358,13 +357,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6548656700831805571}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.10557976, y: 0.3096797, z: 0.6079147, w: 0.7234578}
-  m_LocalPosition: {x: 0.815, y: 0.3, z: 0.0000000051909406}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.3, y: -0.04, z: 0.0000000051909406}
   m_LocalScale: {x: 0.25, y: 0.8, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5981293512475836056}
-  m_LocalEulerAnglesHint: {x: -31.957, y: 22.137, z: 73.668}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7281307357248965116
 MeshFilter:
   m_ObjectHideFlags: 0

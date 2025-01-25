@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
@@ -27,12 +28,18 @@ public class Player : MonoBehaviour
     private Vector2 _prevMovementInput;
     private bool _isBraking;
     private PlayerInput _playerInput;
+
+    private GameObject _wingL;
+    private GameObject _wingR;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _rigidbody.useGravity = false;
         _playerInput = GetComponent<PlayerInput>();
+        
+        _wingL = GameObject.Find("Wing L");
+        _wingR = GameObject.Find("Wing R");
         
         
 
@@ -43,8 +50,18 @@ public class Player : MonoBehaviour
         };
         _playerInput.actions["Move"].canceled += ctx => _movementInput = Vector2.zero;
 
-        _playerInput.actions["Brake"].performed += ctx => _isBraking = true;
-        _playerInput.actions["Brake"].canceled += ctx => _isBraking = false;
+        _playerInput.actions["Brake"].performed += ctx =>
+        {
+            _isBraking = true;
+            _wingL.transform.RotateAround((_wingL.transform.position + 0.3f*_wingL.transform.up), Vector3.forward, -75);
+            _wingR.transform.RotateAround((_wingR.transform.position + 0.3f*_wingR.transform.up), Vector3.forward, 75);
+        };
+        _playerInput.actions["Brake"].canceled += ctx =>
+        {
+            _isBraking = false;
+            _wingL.transform.RotateAround((_wingL.transform.position + 0.3f*_wingL.transform.up), Vector3.forward, 75);
+            _wingR.transform.RotateAround((_wingR.transform.position + 0.3f*_wingR.transform.up), Vector3.forward, -75);
+        };
         
         
     }
