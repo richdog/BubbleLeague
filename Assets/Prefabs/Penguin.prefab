@@ -331,7 +331,8 @@ MonoBehaviour:
   _forceMode: 5
   _rigidbody: {fileID: 8935231973322461603}
   _acceleration: 26
-  _brakeDrag: 20
+  _brakeDrag: 5
+  _buoyancy: 1.1
   _rotDampening: 2
   _rotAcceleration: 0.2
   _brakeWingPivotHeight: 0.3
