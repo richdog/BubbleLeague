@@ -1,15 +1,29 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class MatchManager : MonoBehaviour
 {
+    public enum MatchStage
+    {
+        Join,
+        Play,
+        Victory
+    }
+
     public enum Team
     {
         Team1,
         Team2
     }
 
-    public static MatchManager Instance;
+    [SerializeField] private bool onlyFirstPlayerCanStart;
+
+    public GameObject penguinPrefab;
+
+    private readonly List<JoinPlayer> _joinPlayers = new();
 
     private readonly Dictionary<Team, int> _teamPoints = new()
     {
@@ -19,13 +33,22 @@ public class MatchManager : MonoBehaviour
 
     private Team? _advantageTeam;
 
+    private MatchStage _stage = MatchStage.Join;
+
+    public static MatchManager Instance { get; private set; }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Start()
+    private void Awake()
     {
         if (Instance)
+        {
             Destroy(this);
+        }
         else
+        {
             Instance = this;
+            DontDestroyOnLoad(this);
+        }
     }
 
     // Update is called once per frame
@@ -84,5 +107,102 @@ public class MatchManager : MonoBehaviour
 
         AddPointsForTeam(team, 1);
         return true;
+    }
+
+    /// <summary>
+    ///     Attempts to register a menu player into the match
+    /// </summary>
+    /// <param name="joinPlayer"></param>
+    /// <returns>False if the match is full, True if the player is registered</returns>
+    public bool RegisterPlayer(JoinPlayer joinPlayer)
+    {
+        if (_stage != MatchStage.Join)
+        {
+            Debug.LogWarning("Failed to register player, stage is not \"Join\"");
+            return false;
+        }
+
+        if (_joinPlayers.Count >= 4) return false;
+
+        if (_joinPlayers.Contains(joinPlayer))
+        {
+            Debug.LogWarning("Player " + joinPlayer + " already registered!");
+            return true;
+        }
+
+        _joinPlayers.Add(joinPlayer);
+        Debug.Log("Registered player " + joinPlayer + " for match");
+        return true;
+    }
+
+    public void UnregisterPlayer(JoinPlayer joinPlayer)
+    {
+        if (_stage != MatchStage.Join)
+        {
+            Debug.LogWarning("Failed to unregister player, stage is not \"Join\"");
+            return;
+        }
+
+        _joinPlayers.Remove(joinPlayer);
+    }
+
+    private IEnumerator StartGameCoroutine(JoinPlayer joinPlayer)
+    {
+        if (_stage != MatchStage.Join)
+        {
+            Debug.Log("Failed to start game, MatchStage != Join");
+            yield break;
+        }
+
+        if (!_joinPlayers.Contains(joinPlayer))
+        {
+            Debug.Log("Failed to start game, requested from player not joined");
+            yield break;
+        }
+
+        if (onlyFirstPlayerCanStart && _joinPlayers[0] != joinPlayer)
+        {
+            Debug.Log("Failed to start game, requester not player one");
+            yield break;
+        }
+
+        if (_joinPlayers.Count < 2)
+        {
+            Debug.Log("Failed to start game, too few players");
+            yield break;
+        }
+
+        // TODO: Start game
+        Debug.Log("Starting game...");
+        _stage = MatchStage.Play;
+        SceneManager.LoadScene("Scenes/Game/Game");
+
+        yield return null;
+
+        // Spawn Penguins
+        foreach (var player in _joinPlayers)
+        {
+            Debug.Log("Spawning penguin for player " + player);
+
+            var playerInput = player.GetComponent<PlayerInput>();
+
+            var penguin =
+                PlayerInput.Instantiate(penguinPrefab, playerInput.playerIndex, playerInput.currentControlScheme);
+
+            var penguinPlayerInput = penguin.GetComponent<PlayerInput>();
+        }
+    }
+
+    /// <summary>
+    ///     Attempts to start the game with the given player.
+    ///     Fails if:
+    ///     - That player isn't in the game
+    ///     - onlyFirstPlayerCanStart is true and the player requesting isn't player one
+    ///     - The stage isn't "Join"
+    /// </summary>
+    /// <param name="joinPlayer"></param>
+    public void TryStartGame(JoinPlayer joinPlayer)
+    {
+        StartCoroutine(StartGameCoroutine(joinPlayer));
     }
 }
