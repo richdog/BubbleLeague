@@ -3,6 +3,12 @@ using UnityEngine;
 public class GameVars : MonoBehaviour
 {
     [System.Serializable]
+    public struct GeneralVars
+    {
+        public int pointsNeededToWin;
+    }
+
+    [System.Serializable]
     public struct PlayerVars
     {
         [Range(1, 30)] public float acceleration;
@@ -25,6 +31,10 @@ public class GameVars : MonoBehaviour
         public float spinContinuedForce;
         public float spinDuration;
         public float stunDuration;
+        [Range(0, 1)] public float airBubbleGainSpeed;
+        [Range(0, 1)] public float waterBubbleGainSpeed;
+        [Range(0.5f, 2)] public float spinMassMultiplier;
+        [Range(0.5f, 2)] public float brakeMassMultiplier;
     }
 
     [System.Serializable]
@@ -35,6 +45,12 @@ public class GameVars : MonoBehaviour
         public float ballMass;
         public float ballSize;
     }
+
+    [SerializeField]
+    private GeneralVars _general = new GeneralVars()
+    {
+        pointsNeededToWin = 3
+    };
 
     [SerializeField]
     private PlayerVars _player = new PlayerVars
@@ -58,7 +74,11 @@ public class GameVars : MonoBehaviour
         spinInitialForce = 5f,
         spinContinuedForce = 5f,
         spinDuration = 1f,
-        stunDuration = 2f
+        stunDuration = 2f,
+        spinMassMultiplier = 1.5f,
+        brakeMassMultiplier = 1.5f,
+        airBubbleGainSpeed = 0.1f,
+        waterBubbleGainSpeed = 0.05f,
     };
 
     [SerializeField]
@@ -71,6 +91,7 @@ public class GameVars : MonoBehaviour
     };
 
     private static GameVars _instance;
+    public static GeneralVars General => _instance._general;
     public static PlayerVars Player => _instance._player;
     public static BallVars Ball => _instance._ball;
 

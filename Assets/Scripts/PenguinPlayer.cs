@@ -91,18 +91,10 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-
-        bool shouldIncreaseMass = isSpinning || _isBraking;
-        _rigidbody.mass = GameVars.Player.playerBodyMass;
-        wingLRB.mass = GameVars.Player.playerWingMass;
-        wingRRB.mass = GameVars.Player.playerWingMass;
-
-        if(shouldIncreaseMass )
-        {
-            _rigidbody.mass *= 1.5f;
-            wingLRB.mass *= 1.5f;
-            wingRRB.mass *= 1.5f;
-        }
+        float massMultiplier = isSpinning ? GameVars.Player.spinMassMultiplier : _isBraking ? GameVars.Player.brakeMassMultiplier : 1;
+        _rigidbody.mass = GameVars.Player.playerBodyMass * massMultiplier;
+        wingLRB.mass = GameVars.Player.playerWingMass * massMultiplier;
+        wingRRB.mass = GameVars.Player.playerWingMass * massMultiplier;
 
         var totalMass = _rigidbody.mass + wingLRB.mass + wingRRB.mass;
 
@@ -176,6 +168,8 @@ public class Player : MonoBehaviour
                 _rigidbody.AddForce(Vector3.up * _bubbleChargerForce);
             }
         }
+
+        _currBoostBubble += Time.fixedDeltaTime * (State == PenguinState.WATER ? GameVars.Player.waterBubbleGainSpeed : State == PenguinState.AIR ? GameVars.Player.airBubbleGainSpeed : 0);
 
         _currBoostBubble = math.clamp(_currBoostBubble, 0, 1);
         var drag = CalcDrag();

@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca57fbf982d72742a1523a7b1314c01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _general:
+    pointsNeededToWin: 10
   _player:
     acceleration: 20
     brakeDrag: 3
@@ -65,6 +67,10 @@ MonoBehaviour:
     spinContinuedForce: 50
     spinDuration: 0.5
     stunDuration: 1
+    airBubbleGainSpeed: 0.1
+    waterBubbleGainSpeed: 0.05
+    spinMassMultiplier: 1.5
+    brakeMassMultiplier: 1.5
   _ball:
     waterDragModifier: 0.2
     buoyancy: 0.9

@@ -25,8 +25,6 @@ public class MatchManager : MonoBehaviour
     public GameObject penguinPrefab;
     public GameObject ballPrefab;
 
-    [SerializeField] private uint pointsNeededToWin;
-
     private readonly List<JoinPlayer> _joinPlayers = new();
 
     private readonly List<GameObject> _players = new();
@@ -108,14 +106,14 @@ public class MatchManager : MonoBehaviour
         AddPointsForTeam(team, 1);
         ScoreboardManager.Instance.SetScore(_teamPoints[Team.Team1], _teamPoints[Team.Team2]);
 
-        if (_teamPoints[Team.Team1] == pointsNeededToWin)
+        if (_teamPoints[Team.Team1] >= GameVars.General.pointsNeededToWin)
         {
             TeamWin(Team.Team1);
             Destroy(ball.gameObject);
             return;
         }
 
-        if (_teamPoints[Team.Team2] == pointsNeededToWin)
+        if (_teamPoints[Team.Team2] >= GameVars.General.pointsNeededToWin)
         {
             TeamWin(Team.Team2);
             Destroy(ball.gameObject);

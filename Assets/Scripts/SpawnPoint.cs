@@ -12,7 +12,6 @@ public class SpawnPoint : MonoBehaviour
     /// </summary>
     public uint playerNum = 0;
     
-    
     public static Transform GetSpawnPointTransformForPlayer(uint player)
     {
         var spawnPoints = GameObject.FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None);
