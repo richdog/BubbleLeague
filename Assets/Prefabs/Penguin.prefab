@@ -1149,7 +1149,10 @@ VisualEffect:
     m_NamedObject:
       m_Array: []
     m_Bool:
-      m_Array: []
+      m_Array:
+      - m_Value: 0
+        m_Name: DestroyAtTop
+        m_Overridden: 1
 --- !u!73398921 &5353712352059631232
 VFXRenderer:
   serializedVersion: 1
