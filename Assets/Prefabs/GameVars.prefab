@@ -56,7 +56,7 @@ MonoBehaviour:
     wingOpenTorqueAmt: 300
     wingCloseTorqueAmt: 500
     boostBubbleBurn: 0.01
-    spinBubbleBurn: 0.2
+    spinBubbleBurn: 0
     boostForce: 20
     playerHitForce: 1
     playerBodyMass: 1
@@ -64,7 +64,7 @@ MonoBehaviour:
     spinInitialForce: 500
     spinContinuedForce: 50
     spinDuration: 0.5
-    stunDuration: 2
+    stunDuration: 1
   _ball:
     waterDragModifier: 0.2
     buoyancy: 0.9

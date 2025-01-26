@@ -48,6 +48,7 @@ public class Player : MonoBehaviour
     private float spinStartTime;
 
     private float stunDuration = 0;
+    private bool isStunned => stunDuration > 0;
 
     public bool isDebug;
     public int playerId;
@@ -90,10 +91,19 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+
+        bool shouldIncreaseMass = isSpinning || _isBraking;
         _rigidbody.mass = GameVars.Player.playerBodyMass;
         wingLRB.mass = GameVars.Player.playerWingMass;
         wingRRB.mass = GameVars.Player.playerWingMass;
-        
+
+        if(shouldIncreaseMass )
+        {
+            _rigidbody.mass *= 1.5f;
+            wingLRB.mass *= 1.5f;
+            wingRRB.mass *= 1.5f;
+        }
+
         var totalMass = _rigidbody.mass + wingLRB.mass + wingRRB.mass;
 
         if (spinDir != 0)
@@ -127,14 +137,14 @@ public class Player : MonoBehaviour
             }
         }
 
-        if(stunDuration > 0)
+        if(isStunned)
         {
-            stunDuration -= Time.deltaTime;
+            stunDuration -= Time.fixedDeltaTime;
             if(stunDuration < 0)
                 stunDuration = 0;
         }
 
-        if (!isSpinning)
+        if (!isSpinning && stunDuration <= 0)
         {
             Quaternion lookDir = Quaternion.FromToRotation(_rigidbody.transform.up, _movementInput);
             lookDir.ToAngleAxis(out float angle, out Vector3 axis);
@@ -152,7 +162,7 @@ public class Player : MonoBehaviour
 
             if (_isBoosting && _currBoostBubble > 0)
             {
-                _rigidbody.AddForce(GameVars.Player.boostForce * _movementInput * totalMass, ForceMode.Force);
+                _rigidbody.AddForce(GameVars.Player.boostForce * _rigidbody.transform.up * totalMass, ForceMode.Force);
                 _currBoostBubble -= GameVars.Player.boostBubbleBurn;
             }
             else if (_boostBubbleCharge <= 0)
@@ -196,8 +206,11 @@ public class Player : MonoBehaviour
 
     private void Move(InputAction.CallbackContext ctx)
     {
-        if (stunDuration > 0)
+        if (isStunned)
+        {
             _movementInput = Vector3.zero;
+            return;
+        }
 
         if(!isSpinning)
             _movementInput = ctx.ReadValue<Vector2>();
@@ -210,7 +223,8 @@ public class Player : MonoBehaviour
 
     private void Brake(InputAction.CallbackContext ctx)
     {
-        _isBraking = true;
+        if(!isStunned)
+            _isBraking = true;
     }
 
     private void CancelBrake(InputAction.CallbackContext ctx)
@@ -220,8 +234,12 @@ public class Player : MonoBehaviour
 
     private void Boost(InputAction.CallbackContext ctx)
     {
-        _isBoosting = true;
-        boostParticles.Play();
+        if(!isStunned)
+        {
+            _isBoosting = true;
+
+            boostParticles.Play();
+        }
     }
     
 
@@ -234,13 +252,15 @@ public class Player : MonoBehaviour
     private float spinDir;
     private void SpinLeft(InputAction.CallbackContext ctx)
     {
-        spinDir = 1;
+        if(!isStunned)
+            spinDir = 1;
 
     }
 
     private void SpinRight(InputAction.CallbackContext ctx)
     {
-        spinDir = -1;
+        if(!isStunned)
+            spinDir = -1;
     }
 
 
@@ -306,8 +326,9 @@ public class Player : MonoBehaviour
         {
             var hitForce = collision.impulse.normalized * _rigidbody.angularVelocity.magnitude * GameVars.Player.playerHitForce;
 
-            if (!_isBraking)
-                _rigidbody.AddForceAtPosition(hitForce / 2, collision.GetContact(0).point, ForceMode.Impulse);
+            //apply some backwards force to self
+            //if (!_isBraking)
+            //    _rigidbody.AddForceAtPosition(hitForce / 2, collision.GetContact(0).point, ForceMode.Impulse);
 
             var otherRigidbody = collision.gameObject.GetComponentInParent<Rigidbody>();
             if (otherRigidbody != null)
@@ -316,12 +337,15 @@ public class Player : MonoBehaviour
                 Debug.Log("Impact! " + hitForce);
                 if (otherPlayer == null || !otherPlayer._isBraking)
                 {
-                    otherRigidbody.AddForceAtPosition(-hitForce, collision.GetContact(0).point, ForceMode.Impulse);
-                    otherPlayer.Stun(GameVars.Player.stunDuration);
+                    //either it's a player (that isn't braking) or another rigidbody, apply force
+                    otherRigidbody.AddForceAtPosition(hitForce, collision.GetContact(0).point, ForceMode.Impulse);
+                    //if it's actually a player, stun them for a short duration
+                    if(otherPlayer != null)
+                        otherPlayer.Stun(GameVars.Player.stunDuration);
                 }
                 if(otherPlayer != null && otherPlayer._isBraking)
                 {
-                    isSpinning = false;
+                    //if the other player is braking, stun self, acts as a counter
                     Stun(GameVars.Player.stunDuration);
                 }
             }
@@ -330,6 +354,11 @@ public class Player : MonoBehaviour
 
     public void Stun(float duration)
     {
-        stunDuration += duration;
+        Debug.Log($"Stunned {name} for {duration} seconds!");
+        stunDuration = Mathf.Max(duration, stunDuration);
+
+        _isBraking = false;
+        _isBoosting = false;
+        isSpinning = false;
     }
 }
