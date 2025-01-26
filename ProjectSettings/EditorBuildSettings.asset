@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game/VictoryMenu.unity
     guid: b09627f7b512f4642a90c01405acea9c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Testing/FMOD Testing/Test FMOD.unity
     guid: 7d3b390a7f38fa741a3cece0448d00d8
   m_configObjects:

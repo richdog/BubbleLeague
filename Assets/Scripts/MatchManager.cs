@@ -179,10 +179,13 @@ public class MatchManager : MonoBehaviour
 
     private IEnumerator OnTeamWin()
     {
-        SoundManager.Instance.SwitchMusic("event:/main_theme_end");
         SoundManager.Instance.StopAllAmbiences();
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(0.5f);
+
+        SoundManager.Instance.SwitchMusic("event:/main_theme_end");
+
+        yield return new WaitForSeconds(11.0f);
 
         //SceneManager.LoadScene("Scenes/Game/VictoryMenu");
 
