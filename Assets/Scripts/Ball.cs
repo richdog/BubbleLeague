@@ -17,6 +17,9 @@ public class Ball : MonoBehaviour
 
     public void FixedUpdate()
     {
+        transform.localScale = GameVars.Ball.ballSize * Vector3.one;
+        _rigidbody.mass = GameVars.Ball.ballMass;
+        
         if (_rigidbody != null)
         {
             if (_isUnderwater)
