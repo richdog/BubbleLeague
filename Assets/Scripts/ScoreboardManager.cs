@@ -58,6 +58,11 @@ public class ScoreboardManager : MonoBehaviour
         _timeTicking = true;
     }
 
+    public void StopTimer()
+    {
+        _timeTicking = true;
+    }
+
     public void SetScore(uint team1Score, uint team2Score)
     {
         team1PointsText.SetText(team1Score.ToString());

@@ -108,9 +108,21 @@ public class MatchManager : MonoBehaviour
         StartCoroutine(SetNewPoint());
     }
 
+    private IEnumerator OnTeamWin()
+    {
+        yield return new WaitForSeconds(2.0f);
+
+        SceneManager.LoadScene("Scenes/Game/VictoryMenu");
+
+        yield return null;
+    }
+
     private void TeamWin(Team team)
     {
-        // Win logic
+        // TODO: Win logic
+        ScoreboardManager.Instance.StopTimer();
+
+        StartCoroutine(OnTeamWin());
     }
 
     private IEnumerator SetNewPoint()
@@ -214,7 +226,6 @@ public class MatchManager : MonoBehaviour
             yield break;
         }
 
-        // TODO: Start game
         Debug.Log("Starting game...");
         _stage = MatchStage.Play;
         SceneManager.LoadScene("Scenes/Game/Game");
