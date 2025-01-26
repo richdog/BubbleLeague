@@ -53,11 +53,11 @@ MonoBehaviour:
     penguinBuoyancy: 1
     rotDampening: 2
     rotAcceleration: 0.2
-    brakeWingPivotHeight: 0.3
     wingOpenTorqueAmt: 300
     wingCloseTorqueAmt: 500
     boostBubbleBurn: 0.1
     boostForce: 2.5
+    playerHitForce: 5
   _ball:
     waterDragModifier: 0.25
     buoyancy: 1.1

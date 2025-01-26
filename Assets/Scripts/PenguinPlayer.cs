@@ -73,11 +73,11 @@ public class Player : MonoBehaviour
         Quaternion lookDir = Quaternion.FromToRotation(_rigidbody.transform.up, _movementInput);
         lookDir.ToAngleAxis(out float angle, out Vector3 axis);
         float dampenFactor = GameVars.Player.rotDampening;
-        _rigidbody.AddTorque(-_rigidbody.angularVelocity * dampenFactor, ForceMode.Acceleration);
+        _rigidbody.AddTorque(-_rigidbody.angularVelocity * dampenFactor, ForceMode.Force);
         float adjustFactor = GameVars.Player.rotAcceleration;
-        _rigidbody.AddTorque(axis.normalized * angle * adjustFactor, ForceMode.Acceleration);
+        _rigidbody.AddTorque(axis.normalized * angle * adjustFactor, ForceMode.Force);
 
-        Debug.Log($"Axis: {axis}, Angle: {angle}");
+        //Debug.Log($"Axis: {axis}, Angle: {angle}");
 
         if (State == PenguinState.WATER)
         {
@@ -205,6 +205,29 @@ public class Player : MonoBehaviour
         {
             _isCharging = false;
             _boostBubbleCharge = 0;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        var otherPlayer = collision.gameObject.GetComponentInParent<Player>();
+        if (otherPlayer != null)
+        {
+            var magnitudeDifference = _rigidbody.linearVelocity.magnitude - otherPlayer._rigidbody.linearVelocity.magnitude;
+
+            if (magnitudeDifference > 0)
+            {
+                var hitForce = collision.impulse.normalized * Mathf.Sqrt(magnitudeDifference) * GameVars.Player.playerHitForce;
+
+                Debug.Log("Impact! " + hitForce);
+                if(!otherPlayer._isBraking)
+                {
+                    otherPlayer._rigidbody.AddForce(-hitForce/*, collision.GetContact(0).point*/, ForceMode.Impulse);
+                }
+                
+                if(!_isBraking)
+                    _rigidbody.AddForce(hitForce/*, collision.GetContact(0).point*/, ForceMode.Impulse);
+            }
         }
     }
 }

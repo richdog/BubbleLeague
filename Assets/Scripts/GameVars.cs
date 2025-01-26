@@ -13,11 +13,11 @@ public class GameVars : MonoBehaviour
         [Range(0, 2)] public float penguinBuoyancy;
         [Range(0, 10)] public float rotDampening;
         [Range(0, 10)] public float rotAcceleration;
-        [Range(0, 1)] public float brakeWingPivotHeight;
         public float wingOpenTorqueAmt;
         public float wingCloseTorqueAmt;
         [Range(0, 1)] public float boostBubbleBurn;
         public float boostForce;
+        public float playerHitForce;
     }
 
     [System.Serializable]
@@ -38,11 +38,11 @@ public class GameVars : MonoBehaviour
         penguinBuoyancy = 1f,
         rotDampening = 2f,
         rotAcceleration = 0.2f,
-        brakeWingPivotHeight = 0.3f,
         wingOpenTorqueAmt = 300f,
         wingCloseTorqueAmt = 500f,
         boostBubbleBurn = 0.1f,
-        boostForce = 50f
+        boostForce = 50f,
+        playerHitForce = 2f
     };
 
     [SerializeField]
@@ -60,5 +60,7 @@ public class GameVars : MonoBehaviour
     {
         if (_instance == null)
             _instance = this;
+        else
+            Destroy(this.gameObject);
     }
 }

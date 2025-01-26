@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6335053530414553081}
   m_Layer: 0
   m_Name: WingL Root
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42,7 +42,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1631381349555131953}
   serializedVersion: 4
-  m_Mass: 0.1
+  m_Mass: 0.5
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -297,7 +297,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.4
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -432,7 +432,7 @@ GameObject:
   - component: {fileID: 8371378095110845264}
   m_Layer: 0
   m_Name: Penguin
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -470,22 +470,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _forceMode: 5
   _rigidbody: {fileID: 8371378095110845264}
-  _acceleration: 26
-  _brakeDrag: 5
-  _waterDrag: 2
-  _airDrag: 1
   playerInput: {fileID: 0}
-  _brakeDragLerpSpeed: 0.1
-  _buoyancy: 1.1
-  _rotDampening: 2
-  _rotAcceleration: 0.2
-  _brakeWingPivotHeight: 0.3
   wingL: {fileID: 2932568194520481741}
   wingR: {fileID: 2807917983913294627}
-  wingOpenTorqueAmt: 300
-  wingCloseTorqueAmt: 500
-  _boostBubbleBurn: 0.1
-  _boostForce: 2.5
   _bubbleBar: {fileID: 4443615343374467259}
   isDebug: 0
 --- !u!54 &8371378095110845264
@@ -705,7 +692,7 @@ GameObject:
   - component: {fileID: 972993110203366399}
   m_Layer: 0
   m_Name: WingR Root
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -734,7 +721,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7772628603595557014}
   serializedVersion: 4
-  m_Mass: 0.1
+  m_Mass: 0.5
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -932,7 +919,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.4
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
