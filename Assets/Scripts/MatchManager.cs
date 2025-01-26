@@ -42,6 +42,7 @@ public class MatchManager : MonoBehaviour
     private bool _inOvertime;
 
     private MatchStage _stage = MatchStage.Join;
+    public Action OnGoalScored;
 
     public Action OnPlayerJoinChange;
 
@@ -123,9 +124,18 @@ public class MatchManager : MonoBehaviour
         }
 
         Destroy(ball.gameObject);
-        RuntimeManager.PlayOneShot("event:/foghorn");
+
 
         StartCoroutine(SetNewPoint());
+    }
+
+    private IEnumerator GoalFX()
+    {
+        RuntimeManager.PlayOneShot("event:/make_goal");
+
+        OnGoalScored?.Invoke();
+
+        yield return null;
     }
 
     private IEnumerator OnTeamWin()
@@ -281,7 +291,7 @@ public class MatchManager : MonoBehaviour
         RespawnPlayers();
         SpawnNewBall();
 
-        SoundManager.Instance.SwitchMusic("event:/main_theme");
+        SoundManager.Instance.SwitchMusic("event:/main_theme_start");
         SoundManager.Instance.AddAmbience("event:/wah_ambience");
 
         ScoreboardManager.Instance.StartTimer();
