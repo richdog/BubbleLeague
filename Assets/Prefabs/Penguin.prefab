@@ -489,10 +489,10 @@ MonoBehaviour:
   rightWindRender: {fileID: 1045260250367077472}
   p1Body: {fileID: 21300000, guid: dbbc275c8f3b8e74b9a9b1328603cf61, type: 3}
   p1Wing: {fileID: 21300000, guid: 147297b031ee65843a94dbd9c2854fbd, type: 3}
-  p2Body: {fileID: 21300000, guid: 3b0c494d875972b498e6b81dadf05822, type: 3}
-  p2Wing: {fileID: 21300000, guid: 567df41873baa144d9de39cfcf97752f, type: 3}
-  p3Body: {fileID: 21300000, guid: 00c82f1937051094c80d45eb7c230143, type: 3}
-  p3Wing: {fileID: 21300000, guid: f332ba784207bab4095d6a9759b464b0, type: 3}
+  p2Body: {fileID: 21300000, guid: 00c82f1937051094c80d45eb7c230143, type: 3}
+  p2Wing: {fileID: 21300000, guid: f332ba784207bab4095d6a9759b464b0, type: 3}
+  p3Body: {fileID: 21300000, guid: 3b0c494d875972b498e6b81dadf05822, type: 3}
+  p3Wing: {fileID: 21300000, guid: 567df41873baa144d9de39cfcf97752f, type: 3}
   p4Body: {fileID: 21300000, guid: d1459124d61540245a3e968597fb2e7c, type: 3}
   p4Wing: {fileID: 21300000, guid: d91b12a0ea79b1449ace419ca4239115, type: 3}
 --- !u!1 &4443615343374467259
