@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
+using Sound;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -121,12 +123,16 @@ public class MatchManager : MonoBehaviour
         }
 
         Destroy(ball.gameObject);
+        RuntimeManager.PlayOneShot("event:/foghorn");
 
         StartCoroutine(SetNewPoint());
     }
 
     private IEnumerator OnTeamWin()
     {
+        SoundManager.Instance.SwitchMusic("event:/main_theme_end");
+        SoundManager.Instance.StopAllAmbiences();
+
         yield return new WaitForSeconds(2.0f);
 
         SceneManager.LoadScene("Scenes/Game/VictoryMenu");
@@ -136,7 +142,6 @@ public class MatchManager : MonoBehaviour
 
     private void TeamWin(Team team)
     {
-        // TODO: Win logic
         ScoreboardManager.Instance.StopTimer();
 
         StartCoroutine(OnTeamWin());
@@ -275,6 +280,9 @@ public class MatchManager : MonoBehaviour
 
         RespawnPlayers();
         SpawnNewBall();
+
+        SoundManager.Instance.SwitchMusic("event:/main_theme");
+        SoundManager.Instance.AddAmbience("event:/wah_ambience");
 
         ScoreboardManager.Instance.StartTimer();
     }
