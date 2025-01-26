@@ -11,9 +11,11 @@ public class SkinInit : MonoBehaviour
         public Sprite bodyHardTurn;
         public Sprite wing;
         public Color bubbleColor;
+        public Sprite token;
     }
 
     public Player player;
+    public PlayerCanvas canvas;
     public SpriteRenderer bodyRender;
     public SpriteRenderer leftWindRender;
     public SpriteRenderer rightWindRender;
@@ -32,24 +34,24 @@ public class SkinInit : MonoBehaviour
         if (id >= 0 && id < skins.Length)
         {
             PlayerSkin skin = skins[id];
+
             activeSkin = skin;
             bodyRender.sprite = skin.body;
             leftWindRender.sprite = skin.wing;
             rightWindRender.sprite = skin.wing;
+            canvas.Token.sprite = skin.token;
             bubbleEffect.SetVector4("BubbleColor", skin.bubbleColor);
         }
     }
 
     public void SetBodySprite(float value)
     {
-        Debug.Log(value);
-
         bodyRender.sprite = value switch
         {
-            < -0.6f => activeSkin.bodyHardTurn,
-            < -0.2f => activeSkin.bodyTurn,
-            < 0.2f => activeSkin.body,
-            < 0.6f => activeSkin.bodyTurn,
+            < -0.9f => activeSkin.bodyHardTurn,
+            < -0.15f => activeSkin.bodyTurn,
+            < 0.15f => activeSkin.body,
+            < 0.9f => activeSkin.bodyTurn,
             _ => activeSkin.bodyHardTurn
         };
         bodyRender.flipX = value < 0;
