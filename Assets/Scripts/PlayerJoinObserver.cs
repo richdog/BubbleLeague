@@ -21,10 +21,16 @@ public class PlayerJoinObserver: MonoBehaviour
 
     public void PlayerJoined(int id)
     {
-        if(id == slotId)
+        PlayerInput[] playerInputs = FindObjectsByType<PlayerInput>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        foreach (PlayerInput playerInput in playerInputs)
         {
-            joinedImage.SetActive(true);
+            if (playerInput.playerIndex == slotId)
+            {
+                joinedImage.SetActive(true);
+            }
         }
+       
     }
 
     public void PlayerLeft(int id)
@@ -33,5 +39,15 @@ public class PlayerJoinObserver: MonoBehaviour
         {
             joinedImage.SetActive(false);
         }
+        PlayerInput[] playerInputs = FindObjectsByType<PlayerInput>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        foreach (PlayerInput playerInput in playerInputs)
+        {
+            if (playerInput.playerIndex == slotId && id != slotId)
+            {
+                joinedImage.SetActive(true);
+            }
+        }
+
     }
 }

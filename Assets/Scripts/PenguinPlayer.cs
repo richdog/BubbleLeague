@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _bubbleBar;
 
     public bool isDebug;
+    public int playerId;
 
     void Start()
     {
@@ -110,6 +111,7 @@ public class Player : MonoBehaviour
 
     public void ConnectPlayerInput(PlayerInput input)
     {
+        playerId = input.playerIndex +1;
         _playerInput = input;
         _playerInput.actions["Move"].performed += Move;
         _playerInput.actions["Move"].canceled += CancelMove;
