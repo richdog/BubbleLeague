@@ -228,7 +228,6 @@ public class Player : MonoBehaviour
 
     public void ConnectPlayerInput(PlayerInput input)
     {
-        playerId = input.playerIndex +1;
         _playerInput = input;
         _playerInput.actions["Move"].performed += Move;
         _playerInput.actions["Move"].canceled += CancelMove;

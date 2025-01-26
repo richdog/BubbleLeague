@@ -307,9 +307,9 @@ public class MatchManager : MonoBehaviour
     {
         if (joinPlayer == joinSpot1Team1) return 0;
 
-        if (joinPlayer == joinSpot1Team2) return 1;
+        if (joinPlayer == joinSpot1Team2) return 2;
 
-        if (joinPlayer == joinSpot2Team1) return 2;
+        if (joinPlayer == joinSpot2Team1) return 1;
 
         if (joinPlayer == joinSpot2Team2) return 3;
 
