@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Mathematics;
 using UnityEngine.Windows;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
@@ -38,6 +39,9 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject _bubbleBar;
 
+    private bool isSpinning;
+    private float spinStartTime;
+
     public bool isDebug;
     public int playerId;
 
@@ -61,6 +65,9 @@ public class Player : MonoBehaviour
 
             _playerInput.actions["Boost"].performed -= Boost;
             _playerInput.actions["Boost"].canceled -= CancelBoost;
+
+            _playerInput.actions["RotateL"].performed -= SpinLeft;
+            _playerInput.actions["RotateR"].performed -= SpinRight;
         }
     }
 
@@ -76,15 +83,38 @@ public class Player : MonoBehaviour
         wingR.mass = GameVars.Player.playerWingMass;
         
         var totalMass = _rigidbody.mass + wingL.mass + wingR.mass;
-        
-        Quaternion lookDir = Quaternion.FromToRotation(_rigidbody.transform.up, _movementInput);
-        lookDir.ToAngleAxis(out float angle, out Vector3 axis);
-        float dampenFactor = GameVars.Player.rotDampening * totalMass;
-        _rigidbody.AddTorque(-_rigidbody.angularVelocity * dampenFactor, ForceMode.Force);
-        float adjustFactor = GameVars.Player.rotAcceleration;
-        _rigidbody.AddTorque(axis.normalized * angle * adjustFactor * totalMass, ForceMode.Force);
 
-        //Debug.Log($"Axis: {axis}, Angle: {angle}");
+        if (spinDir != 0)
+        {
+            if(!isSpinning)
+            {
+                isSpinning = true;
+                spinStartTime = Time.time;
+                Debug.Log("Spin!");
+                _rigidbody.AddTorque(Vector3.forward * spinDir * GameVars.Player.spinInitialForce * totalMass, ForceMode.Force);
+            }
+
+            if (isSpinning)
+            {
+                _rigidbody.AddTorque(Vector3.forward * spinDir * GameVars.Player.spinContinuedForce * totalMass, ForceMode.Force);
+
+                if (spinStartTime + GameVars.Player.spinDuration < Time.time)
+                {
+                    spinDir = 0;
+                    isSpinning = false;
+                }
+            }
+        }
+
+        if (!isSpinning)
+        {
+            Quaternion lookDir = Quaternion.FromToRotation(_rigidbody.transform.up, _movementInput);
+            lookDir.ToAngleAxis(out float angle, out Vector3 axis);
+            float dampenFactor = GameVars.Player.rotDampening * totalMass;
+            _rigidbody.AddTorque(-_rigidbody.angularVelocity * dampenFactor, ForceMode.Force);
+            float adjustFactor = GameVars.Player.rotAcceleration;
+            _rigidbody.AddTorque(axis.normalized * angle * adjustFactor * totalMass, ForceMode.Force);
+        }        
 
         if (State == PenguinState.WATER)
         {
@@ -130,6 +160,9 @@ public class Player : MonoBehaviour
 
         _playerInput.actions["Boost"].performed += Boost;
         _playerInput.actions["Boost"].canceled += CancelBoost;
+
+        _playerInput.actions["RotateL"].performed += SpinLeft;
+        _playerInput.actions["RotateR"].performed += SpinRight;
     }
 
     private void Move(InputAction.CallbackContext ctx)
@@ -158,6 +191,18 @@ public class Player : MonoBehaviour
         _isBoosting = true;
     }
 
+    private void SpinLeft(InputAction.CallbackContext ctx)
+    {
+        spinDir = 1;
+    }
+
+    private void SpinRight(InputAction.CallbackContext ctx)
+    {
+        spinDir = -1;
+    }
+
+    private float spinDir;
+
     private void CancelBoost(InputAction.CallbackContext ctx)
     {
         _isBoosting = false;
@@ -165,7 +210,7 @@ public class Player : MonoBehaviour
 
     void HandleWings()
     {
-        var torque = _isBraking ? -GameVars.Player.wingOpenTorqueAmt : GameVars.Player.wingCloseTorqueAmt;
+        var torque = _isBraking || isSpinning ? -GameVars.Player.wingOpenTorqueAmt : GameVars.Player.wingCloseTorqueAmt;
 
         wingL.AddRelativeTorque(0, 0, torque, ForceMode.Acceleration);
         wingR.AddRelativeTorque(0, 0, -torque, ForceMode.Acceleration);

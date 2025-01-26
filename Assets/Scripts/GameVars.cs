@@ -20,6 +20,9 @@ public class GameVars : MonoBehaviour
         public float playerHitForce;
         public float playerBodyMass;
         public float playerWingMass;
+        public float spinInitialForce;
+        public float spinContinuedForce;
+        public float spinDuration;
     }
 
     [System.Serializable]
@@ -48,7 +51,10 @@ public class GameVars : MonoBehaviour
         boostForce = 50f,
         playerHitForce = 2f,
         playerBodyMass = 1f,
-        playerWingMass = 0.5f
+        playerWingMass = 0.5f,
+        spinInitialForce = 5f,
+        spinContinuedForce = 5f,
+        spinDuration = 1f
     };
 
     [SerializeField]

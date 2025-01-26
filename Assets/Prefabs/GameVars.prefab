@@ -48,18 +48,21 @@ MonoBehaviour:
     acceleration: 20
     brakeDrag: 3
     waterDrag: 1
-    airDrag: 0.2
+    airDrag: 0.5
     brakeDragLerpSpeed: 0.1
     penguinBuoyancy: 1
     rotDampening: 2
     rotAcceleration: 0.2
     wingOpenTorqueAmt: 300
     wingCloseTorqueAmt: 500
-    boostBubbleBurn: 0.015
+    boostBubbleBurn: 0.02
     boostForce: 40
     playerHitForce: 5
     playerBodyMass: 1
     playerWingMass: 0.5
+    spinInitialForce: 500
+    spinContinuedForce: 50
+    spinDuration: 0.5
   _ball:
     waterDragModifier: 0.2
     buoyancy: 0.9
