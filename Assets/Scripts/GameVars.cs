@@ -16,6 +16,7 @@ public class GameVars : MonoBehaviour
         public float wingOpenTorqueAmt;
         public float wingCloseTorqueAmt;
         [Range(0, 1)] public float boostBubbleBurn;
+        [Range(0, 1)] public float spinBubbleBurn;
         public float boostForce;
         public float playerHitForce;
         public float playerBodyMass;
@@ -23,6 +24,7 @@ public class GameVars : MonoBehaviour
         public float spinInitialForce;
         public float spinContinuedForce;
         public float spinDuration;
+        public float stunDuration;
     }
 
     [System.Serializable]
@@ -48,13 +50,15 @@ public class GameVars : MonoBehaviour
         wingOpenTorqueAmt = 300f,
         wingCloseTorqueAmt = 500f,
         boostBubbleBurn = 0.1f,
+        spinBubbleBurn = 0.2f,
         boostForce = 50f,
         playerHitForce = 2f,
         playerBodyMass = 1f,
         playerWingMass = 0.5f,
         spinInitialForce = 5f,
         spinContinuedForce = 5f,
-        spinDuration = 1f
+        spinDuration = 1f,
+        stunDuration = 2f
     };
 
     [SerializeField]

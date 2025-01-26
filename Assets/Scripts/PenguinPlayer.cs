@@ -23,30 +23,42 @@ public class Player : MonoBehaviour
 
     public PlayerInput playerInput;
 
+    [SerializeField]
+    private ParticleSystem boostParticles;
+
     private Vector2 _movementInput;
-    private Vector2 _prevMovementInput;
     private bool _isBraking;
     private PlayerInput _playerInput;
     private bool _isBoosting;
     private bool _isCharging;
     private float _currBoostBubble = 1f;
     private float _boostBubbleCharge = 0.1f;
+    private float _bubbleChargerForce = 5f;
 
     private float _currentBrakeDrag = 0f;
 
-    [SerializeField] private Rigidbody wingL;
-    [SerializeField] private Rigidbody wingR;
+    [SerializeField] private Rigidbody wingLRB;
+    [SerializeField] private PlayerWing wingL;
+    [SerializeField] private Rigidbody wingRRB;
+    [SerializeField] private PlayerWing wingR;
 
     [SerializeField] private GameObject _bubbleBar;
 
     private bool isSpinning;
     private float spinStartTime;
 
+    private float stunDuration = 0;
+
     public bool isDebug;
     public int playerId;
 
     void Start()
     {
+        wingL.CollisionEnter += OnCollisionEnter;
+        wingR.CollisionEnter += OnCollisionEnter;
+
+        boostParticles.Stop();
+
         if (isDebug)
         {
             ConnectPlayerInput(playerInput);
@@ -79,19 +91,28 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         _rigidbody.mass = GameVars.Player.playerBodyMass;
-        wingL.mass = GameVars.Player.playerWingMass;
-        wingR.mass = GameVars.Player.playerWingMass;
+        wingLRB.mass = GameVars.Player.playerWingMass;
+        wingRRB.mass = GameVars.Player.playerWingMass;
         
-        var totalMass = _rigidbody.mass + wingL.mass + wingR.mass;
+        var totalMass = _rigidbody.mass + wingLRB.mass + wingRRB.mass;
 
         if (spinDir != 0)
         {
             if(!isSpinning)
             {
-                isSpinning = true;
-                spinStartTime = Time.time;
-                Debug.Log("Spin!");
-                _rigidbody.AddTorque(Vector3.forward * spinDir * GameVars.Player.spinInitialForce * totalMass, ForceMode.Force);
+                if (_currBoostBubble > GameVars.Player.spinBubbleBurn)
+                {
+                    _currBoostBubble -= GameVars.Player.spinBubbleBurn;
+
+                    isSpinning = true;
+                    spinStartTime = Time.time;
+                    Debug.Log("Spin!");
+                    _rigidbody.AddTorque(Vector3.forward * spinDir * GameVars.Player.spinInitialForce * totalMass, ForceMode.Force);
+                }
+                else
+                {
+                    spinDir = 0;
+                }
             }
 
             if (isSpinning)
@@ -104,6 +125,13 @@ public class Player : MonoBehaviour
                     isSpinning = false;
                 }
             }
+        }
+
+        if(stunDuration > 0)
+        {
+            stunDuration -= Time.deltaTime;
+            if(stunDuration < 0)
+                stunDuration = 0;
         }
 
         if (!isSpinning)
@@ -135,14 +163,15 @@ public class Player : MonoBehaviour
             if (_isCharging)
             {
                 _currBoostBubble += _boostBubbleCharge;
+                _rigidbody.AddForce(Vector3.up * _bubbleChargerForce);
             }
         }
 
         _currBoostBubble = math.clamp(_currBoostBubble, 0, 1);
         var drag = CalcDrag();
         _rigidbody.linearDamping = drag;
-        wingL.linearDamping = drag;
-        wingR.linearDamping = drag;
+        wingLRB.linearDamping = drag;
+        wingRRB.linearDamping = drag;
 
         _bubbleBar.transform.localScale = new Vector3(math.lerp(_bubbleBar.transform.localScale.x, _currBoostBubble, 0.5f), _bubbleBar.transform.localScale.y, _bubbleBar.transform.localScale.z);
         HandleWings();
@@ -167,8 +196,11 @@ public class Player : MonoBehaviour
 
     private void Move(InputAction.CallbackContext ctx)
     {
-        _prevMovementInput = _movementInput;
-        _movementInput = ctx.ReadValue<Vector2>();
+        if (stunDuration > 0)
+            _movementInput = Vector3.zero;
+
+        if(!isSpinning)
+            _movementInput = ctx.ReadValue<Vector2>();
     }
 
     private void CancelMove(InputAction.CallbackContext ctx)
@@ -189,11 +221,21 @@ public class Player : MonoBehaviour
     private void Boost(InputAction.CallbackContext ctx)
     {
         _isBoosting = true;
+        boostParticles.Play();
+    }
+    
+
+    private void CancelBoost(InputAction.CallbackContext ctx)
+    {
+        _isBoosting = false;
+        boostParticles.Stop();
     }
 
+    private float spinDir;
     private void SpinLeft(InputAction.CallbackContext ctx)
     {
         spinDir = 1;
+
     }
 
     private void SpinRight(InputAction.CallbackContext ctx)
@@ -201,19 +243,13 @@ public class Player : MonoBehaviour
         spinDir = -1;
     }
 
-    private float spinDir;
-
-    private void CancelBoost(InputAction.CallbackContext ctx)
-    {
-        _isBoosting = false;
-    }
 
     void HandleWings()
     {
         var torque = _isBraking || isSpinning ? -GameVars.Player.wingOpenTorqueAmt : GameVars.Player.wingCloseTorqueAmt;
 
-        wingL.AddRelativeTorque(0, 0, torque, ForceMode.Acceleration);
-        wingR.AddRelativeTorque(0, 0, -torque, ForceMode.Acceleration);
+        wingLRB.AddRelativeTorque(0, 0, torque, ForceMode.Acceleration);
+        wingRRB.AddRelativeTorque(0, 0, -torque, ForceMode.Acceleration);
     }
 
     float CalcDrag()
@@ -234,17 +270,17 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        var water = other.GetComponent<Water>();
-        if (water != null)
+        if (other.TryGetComponent(out Water water))
         {
             State = PenguinState.WATER;
         }
 
-        var charger = other.GetComponent<BubbleCharger>();
-        if (charger != null)
+        if (other.TryGetComponent(out BubbleCharger charger))
         {
             _isCharging = true;
             _boostBubbleCharge = charger.ChargeRate;
+            
+            
         }
     }
 
@@ -266,24 +302,34 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        var otherPlayer = collision.gameObject.GetComponentInParent<Player>();
-        if (otherPlayer != null)
+        if (isSpinning)
         {
-            var magnitudeDifference = _rigidbody.linearVelocity.magnitude - otherPlayer._rigidbody.linearVelocity.magnitude;
+            var hitForce = collision.impulse.normalized * _rigidbody.angularVelocity.magnitude * GameVars.Player.playerHitForce;
 
-            if (magnitudeDifference > 0)
+            if (!_isBraking)
+                _rigidbody.AddForceAtPosition(hitForce / 2, collision.GetContact(0).point, ForceMode.Impulse);
+
+            var otherRigidbody = collision.gameObject.GetComponentInParent<Rigidbody>();
+            if (otherRigidbody != null)
             {
-                var hitForce = collision.impulse.normalized * Mathf.Sqrt(magnitudeDifference) * GameVars.Player.playerHitForce;
-
+                var otherPlayer = collision.gameObject.GetComponentInParent<Player>();
                 Debug.Log("Impact! " + hitForce);
-                if(!otherPlayer._isBraking)
+                if (otherPlayer == null || !otherPlayer._isBraking)
                 {
-                    otherPlayer._rigidbody.AddForce(-hitForce/*, collision.GetContact(0).point*/, ForceMode.Impulse);
+                    otherRigidbody.AddForceAtPosition(-hitForce, collision.GetContact(0).point, ForceMode.Impulse);
+                    otherPlayer.Stun(GameVars.Player.stunDuration);
                 }
-                
-                if(!_isBraking)
-                    _rigidbody.AddForce(hitForce/*, collision.GetContact(0).point*/, ForceMode.Impulse);
+                if(otherPlayer != null && otherPlayer._isBraking)
+                {
+                    isSpinning = false;
+                    Stun(GameVars.Player.stunDuration);
+                }
             }
         }
+    }
+
+    public void Stun(float duration)
+    {
+        stunDuration += duration;
     }
 }
