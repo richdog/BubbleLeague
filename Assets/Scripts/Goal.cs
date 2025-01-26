@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider))]
 public class Goal : MonoBehaviour
 {
     [SerializeField] public MatchManager.Team team;
