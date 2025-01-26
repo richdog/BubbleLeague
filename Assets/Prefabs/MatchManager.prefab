@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6168117936960453552}
   - component: {fileID: 6242375684236111531}
+  - component: {fileID: 7810698402218686156}
   m_Layer: 0
   m_Name: MatchManager
   m_TagString: Untagged
@@ -47,4 +48,15 @@ MonoBehaviour:
   onlyFirstPlayerCanStart: 0
   penguinPrefab: {fileID: 3644997945759854418, guid: 28faf5a21c145bf49bac6005178a74c1, type: 3}
   ballPrefab: {fileID: 710587791253560039, guid: 38f36b83d5019c840aca2507a07ad93e, type: 3}
-  pointsNeededToWin: 3
+--- !u!114 &7810698402218686156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6451890459257106640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2cbd97038921894d9b0fec81147be6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

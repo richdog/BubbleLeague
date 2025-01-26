@@ -184,7 +184,10 @@ public class MatchManager : MonoBehaviour
 
         yield return new WaitForSeconds(2.0f);
 
-        SceneManager.LoadScene("Scenes/Game/VictoryMenu");
+        //SceneManager.LoadScene("Scenes/Game/VictoryMenu");
+
+        SceneManager.LoadScene("Scenes/Game/MainMenu");
+        DestroyOnRestart.DestroyAll();
 
         yield return null;
     }

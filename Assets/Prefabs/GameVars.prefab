@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1292345952299823728}
   - component: {fileID: 3221336446757920050}
+  - component: {fileID: 4775213468674953854}
   m_Layer: 0
   m_Name: GameVars
   m_TagString: Untagged
@@ -76,3 +77,15 @@ MonoBehaviour:
     buoyancy: 0.9
     ballMass: 1
     ballSize: 2
+--- !u!114 &4775213468674953854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4561814062257991971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2cbd97038921894d9b0fec81147be6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

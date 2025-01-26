@@ -90,6 +90,24 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        if (playerInput != null)
+        {
+            _playerInput.actions["Move"].performed -= Move;
+            _playerInput.actions["Move"].canceled -= CancelMove;
+
+            _playerInput.actions["Brake"].performed -= Brake;
+            _playerInput.actions["Brake"].canceled -= CancelBrake;
+
+            _playerInput.actions["Boost"].performed -= Boost;
+            _playerInput.actions["Boost"].canceled -= CancelBoost;
+
+            _playerInput.actions["RotateL"].performed -= SpinLeft;
+            _playerInput.actions["RotateR"].performed -= SpinRight;
+        }
+    }
+
     void Update()
     {
 
