@@ -55,8 +55,9 @@ MonoBehaviour:
     rotAcceleration: 0.2
     wingOpenTorqueAmt: 300
     wingCloseTorqueAmt: 500
-    boostBubbleBurn: 0.02
-    boostForce: 40
+    boostBubbleBurn: 0.01
+    spinBubbleBurn: 0.2
+    boostForce: 20
     playerHitForce: 5
     playerBodyMass: 1
     playerWingMass: 0.5
