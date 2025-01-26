@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,8 +43,9 @@ public class MatchManager : MonoBehaviour
 
     private MatchStage _stage = MatchStage.Join;
 
-    public static MatchManager Instance { get; private set; }
+    public Action OnPlayerJoinChange;
 
+    public static MatchManager Instance { get; private set; }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
@@ -57,6 +59,23 @@ public class MatchManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(this);
         }
+    }
+
+
+    public bool PlayerExists(int playerIndex)
+    {
+        if (playerIndex < _joinPlayers.Count) return true;
+
+        return false;
+    }
+
+    public int GetPlayerInputJoinIndex(PlayerInput playerInput)
+    {
+        for (var i = 0; i < _joinPlayers.Count; i++)
+            if (_joinPlayers[i].GetComponent<PlayerInput>() == playerInput)
+                return i;
+
+        return -1;
     }
 
     private void AddPointsForTeam(Team team, uint numPoints)
@@ -185,6 +204,9 @@ public class MatchManager : MonoBehaviour
         }
 
         _joinPlayers.Add(joinPlayer);
+
+        OnPlayerJoinChange();
+
         Debug.Log("Registered player " + joinPlayer + " for match");
         return true;
     }
@@ -198,6 +220,8 @@ public class MatchManager : MonoBehaviour
         }
 
         _joinPlayers.Remove(joinPlayer);
+
+        OnPlayerJoinChange?.Invoke();
     }
 
     private IEnumerator StartGameCoroutine(JoinPlayer joinPlayer)
@@ -233,18 +257,20 @@ public class MatchManager : MonoBehaviour
         yield return null;
 
         // Spawn Penguins
-        foreach (var player in _joinPlayers)
+        for (var i = 0; i < _joinPlayers.Count; i++)
         {
-            Debug.Log("Spawning penguin for player " + player);
+            Debug.Log("Spawning penguin for player " + _joinPlayers[i]);
 
-            var playerInput = player.GetComponent<PlayerInput>();
+            var playerInput = _joinPlayers[i].GetComponent<PlayerInput>();
 
-            var penguin =
+            var penguinGameObject =
                 Instantiate(penguinPrefab);
 
-            _players.Add(penguin);
+            _players.Add(penguinGameObject);
 
-            penguin.GetComponent<Player>().ConnectPlayerInput(playerInput);
+            var penguinPlayer = penguinGameObject.GetComponent<Player>();
+            penguinPlayer.playerId = i;
+            penguinPlayer.ConnectPlayerInput(playerInput);
 
             playerInput.SwitchCurrentActionMap("Player");
         }
