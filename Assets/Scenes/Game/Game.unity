@@ -141,7 +141,7 @@ PrefabInstance:
       objectReference: {fileID: 970636549}
     - target: {fileID: 981296415345362836, guid: 8a7c1ce403132b141af023390fc77c9c, type: 3}
       propertyPath: totalMatchTimeSeconds
-      value: 1e+24
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 4114863038108469331, guid: 8a7c1ce403132b141af023390fc77c9c, type: 3}
       propertyPath: m_Name
