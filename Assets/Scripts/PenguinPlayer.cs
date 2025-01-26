@@ -71,24 +71,30 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+        _rigidbody.mass = GameVars.Player.playerBodyMass;
+        wingL.mass = GameVars.Player.playerWingMass;
+        wingR.mass = GameVars.Player.playerWingMass;
+        
+        var totalMass = _rigidbody.mass + wingL.mass + wingR.mass;
+        
         Quaternion lookDir = Quaternion.FromToRotation(_rigidbody.transform.up, _movementInput);
         lookDir.ToAngleAxis(out float angle, out Vector3 axis);
-        float dampenFactor = GameVars.Player.rotDampening;
+        float dampenFactor = GameVars.Player.rotDampening * totalMass;
         _rigidbody.AddTorque(-_rigidbody.angularVelocity * dampenFactor, ForceMode.Force);
         float adjustFactor = GameVars.Player.rotAcceleration;
-        _rigidbody.AddTorque(axis.normalized * angle * adjustFactor, ForceMode.Force);
+        _rigidbody.AddTorque(axis.normalized * angle * adjustFactor * totalMass, ForceMode.Force);
 
         //Debug.Log($"Axis: {axis}, Angle: {angle}");
 
         if (State == PenguinState.WATER)
         {
-            var force = _movementInput * GameVars.Player.acceleration;
-            _rigidbody.AddForce(force, _forceMode);
-            _rigidbody.AddForce(Physics.gravity * -GameVars.Player.penguinBuoyancy);
+            var force =  _movementInput * GameVars.Player.acceleration * totalMass;
+            _rigidbody.AddForce(force, ForceMode.Force);
+            _rigidbody.AddForce(Physics.gravity * -GameVars.Player.penguinBuoyancy * totalMass, ForceMode.Force);
 
             if (_isBoosting && _currBoostBubble > 0)
             {
-                _rigidbody.AddForce(GameVars.Player.boostForce * _movementInput, ForceMode.Impulse);
+                _rigidbody.AddForce(GameVars.Player.boostForce * _movementInput * totalMass, ForceMode.Force);
                 _currBoostBubble -= GameVars.Player.boostBubbleBurn;
             }
             else if (_boostBubbleCharge <= 0)
@@ -103,7 +109,10 @@ public class Player : MonoBehaviour
         }
 
         _currBoostBubble = math.clamp(_currBoostBubble, 0, 1);
-        _rigidbody.linearDamping = CalcDrag();
+        var drag = CalcDrag();
+        _rigidbody.linearDamping = drag;
+        wingL.linearDamping = drag;
+        wingR.linearDamping = drag;
 
         _bubbleBar.transform.localScale = new Vector3(math.lerp(_bubbleBar.transform.localScale.x, _currBoostBubble, 0.5f), _bubbleBar.transform.localScale.y, _bubbleBar.transform.localScale.z);
         HandleWings();

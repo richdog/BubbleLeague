@@ -18,6 +18,8 @@ public class GameVars : MonoBehaviour
         [Range(0, 1)] public float boostBubbleBurn;
         public float boostForce;
         public float playerHitForce;
+        public float playerBodyMass;
+        public float playerWingMass;
     }
 
     [System.Serializable]
@@ -25,6 +27,8 @@ public class GameVars : MonoBehaviour
     {
         [Range(0, 2)] public float waterDragModifier;
         [Range(0, 2)] public float buoyancy;
+        public float ballMass;
+        public float ballSize;
     }
 
     [SerializeField]
@@ -42,14 +46,18 @@ public class GameVars : MonoBehaviour
         wingCloseTorqueAmt = 500f,
         boostBubbleBurn = 0.1f,
         boostForce = 50f,
-        playerHitForce = 2f
+        playerHitForce = 2f,
+        playerBodyMass = 1f,
+        playerWingMass = 0.5f
     };
 
     [SerializeField]
     private BallVars _ball = new BallVars
     {
         waterDragModifier = 0.5f,
-        buoyancy = 1f
+        buoyancy = 1f,
+        ballMass = 1f,
+        ballSize = 1f
     };
 
     private static GameVars _instance;
@@ -59,7 +67,10 @@ public class GameVars : MonoBehaviour
     void Awake()
     {
         if (_instance == null)
+        {
             _instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
         else
             Destroy(this.gameObject);
     }

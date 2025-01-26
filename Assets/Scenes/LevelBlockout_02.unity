@@ -1818,6 +1818,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3221336446757920050, guid: 57ae1b21111100d41acc6d1afee4f54d, type: 3}
+      propertyPath: _player.airDrag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3221336446757920050, guid: 57ae1b21111100d41acc6d1afee4f54d, type: 3}
+      propertyPath: _player.waterDrag
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3221336446757920050, guid: 57ae1b21111100d41acc6d1afee4f54d, type: 3}
+      propertyPath: _player.boostBubbleBurn
+      value: 0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 4561814062257991971, guid: 57ae1b21111100d41acc6d1afee4f54d, type: 3}
       propertyPath: m_Name
       value: GameVars

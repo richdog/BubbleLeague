@@ -45,19 +45,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player:
-    acceleration: 26
-    brakeDrag: 5
-    waterDrag: 2
-    airDrag: 1
+    acceleration: 20
+    brakeDrag: 3
+    waterDrag: 1
+    airDrag: 0.2
     brakeDragLerpSpeed: 0.1
     penguinBuoyancy: 1
     rotDampening: 2
     rotAcceleration: 0.2
     wingOpenTorqueAmt: 300
     wingCloseTorqueAmt: 500
-    boostBubbleBurn: 0.1
-    boostForce: 2.5
+    boostBubbleBurn: 0.015
+    boostForce: 40
     playerHitForce: 5
+    playerBodyMass: 1
+    playerWingMass: 0.5
   _ball:
-    waterDragModifier: 0.25
-    buoyancy: 1.1
+    waterDragModifier: 0.2
+    buoyancy: 0.9
+    ballMass: 1
+    ballSize: 2.5
