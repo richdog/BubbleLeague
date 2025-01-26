@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _general:
-    pointsNeededToWin: 10
+    pointsNeededToWin: 5
   _player:
     acceleration: 20
     brakeDrag: 3
@@ -67,7 +67,7 @@ MonoBehaviour:
     spinInitialForce: 500
     spinContinuedForce: 50
     spinDuration: 0.5
-    stunDuration: 1
+    stunDuration: 0
     airBubbleGainSpeed: 0.1
     waterBubbleGainSpeed: 0.05
     spinMassMultiplier: 1.5
