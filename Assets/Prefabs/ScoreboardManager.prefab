@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4561814062257991971
+--- !u!1 &4114863038108469331
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,56 +8,43 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1292345952299823728}
-  - component: {fileID: 3221336446757920050}
+  - component: {fileID: 8154883784162656848}
+  - component: {fileID: 981296415345362836}
   m_Layer: 0
-  m_Name: GameVars
+  m_Name: ScoreboardManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1292345952299823728
+--- !u!4 &8154883784162656848
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4561814062257991971}
+  m_GameObject: {fileID: 4114863038108469331}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.869623, y: 1.3688616, z: -10.216458}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3221336446757920050
+--- !u!114 &981296415345362836
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4561814062257991971}
+  m_GameObject: {fileID: 4114863038108469331}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ca57fbf982d72742a1523a7b1314c01, type: 3}
+  m_Script: {fileID: 11500000, guid: deafad303ab4c714990b5ce6baa42648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player:
-    acceleration: 26
-    brakeDrag: 5
-    waterDrag: 2
-    airDrag: 1
-    brakeDragLerpSpeed: 0.1
-    penguinBuoyancy: 1
-    rotDampening: 2
-    rotAcceleration: 0.2
-    wingOpenTorqueAmt: 300
-    wingCloseTorqueAmt: 500
-    boostBubbleBurn: 0.1
-    boostForce: 2.5
-    playerHitForce: 5
-  _ball:
-    waterDragModifier: 0.25
-    buoyancy: 1.1
+  team1PointsText: {fileID: 0}
+  team2PointsText: {fileID: 0}
+  timeText: {fileID: 0}
+  totalMatchTimeSeconds: 300

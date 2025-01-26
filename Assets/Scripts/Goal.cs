@@ -11,8 +11,6 @@ public class Goal : MonoBehaviour
 
         if (!ball) return;
 
-        if (!MatchManager.Instance.MakeGoal(team)) return;
-
-        ball.RespawnBall();
+        MatchManager.Instance.MakeGoal(team, ball);
     }
 }

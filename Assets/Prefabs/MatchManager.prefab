@@ -44,3 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2113076deedca884090c6a8b55cea245, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onlyFirstPlayerCanStart: 0
+  penguinPrefab: {fileID: 3644997945759854418, guid: 28faf5a21c145bf49bac6005178a74c1, type: 3}
+  ballPrefab: {fileID: 710587791253560039, guid: 38f36b83d5019c840aca2507a07ad93e, type: 3}
+  pointsNeededToWin: 3
