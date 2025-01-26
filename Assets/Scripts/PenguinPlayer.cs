@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using Unity.Mathematics;
 using UnityEngine.Windows;
 using System.Collections;
+using UnityEngine.VFX;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
@@ -24,7 +25,7 @@ public class Player : MonoBehaviour
     public PlayerInput playerInput;
 
     [SerializeField]
-    private ParticleSystem boostParticles;
+    private VisualEffect boostParticles;
 
     private Vector2 _movementInput;
     private bool _isBraking;
@@ -154,11 +155,14 @@ public class Player : MonoBehaviour
 
             if (_isBoosting && _currBoostBubble > 0)
             {
+                boostParticles.SetFloat("BubbleAmount", 64);
+
                 _rigidbody.AddForce(GameVars.Player.boostForce * _rigidbody.transform.up * totalMass, ForceMode.Force);
                 _currBoostBubble -= GameVars.Player.boostBubbleBurn;
             }
             else if (_boostBubbleCharge <= 0)
             {
+                boostParticles.SetFloat("BubbleAmount", 0);
                 _isBoosting = false;
             }
 

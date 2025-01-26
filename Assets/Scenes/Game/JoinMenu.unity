@@ -1565,7 +1565,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotId: 1
-  InputManager: {fileID: 1832175664}
   joinedImage: {fileID: 865956945}
 --- !u!1 &1204434210
 GameObject:
@@ -1657,7 +1656,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotId: 0
-  InputManager: {fileID: 1832175664}
   joinedImage: {fileID: 1229646538}
 --- !u!1 &1229646538
 GameObject:
@@ -1919,7 +1917,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotId: 2
-  InputManager: {fileID: 1832175664}
   joinedImage: {fileID: 261893821}
 --- !u!1001 &1410921717
 PrefabInstance:
@@ -2647,19 +2644,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotId: 3
-  InputManager: {fileID: 1832175664}
   joinedImage: {fileID: 752444096}
---- !u!114 &1832175664 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4893226008261829108, guid: 973f0759028a7234ea3ddec4e52ea33b, type: 3}
-  m_PrefabInstance: {fileID: 518271967}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1933691932
 GameObject:
   m_ObjectHideFlags: 0
