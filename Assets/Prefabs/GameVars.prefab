@@ -75,4 +75,4 @@ MonoBehaviour:
     waterDragModifier: 0.2
     buoyancy: 0.9
     ballMass: 1
-    ballSize: 2.5
+    ballSize: 2
