@@ -1,27 +1,24 @@
-using System;
-using UnityEditor.UI;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField]
-    private new Camera camera;
+    [SerializeField] private new Camera camera;
 
     private Vector3 _currentVelocity;
-    private Vector3 _target;
     private float _needsNewTarget;
-    private float _shakeTime;
     private float _shakeAmount;
+    private float _shakeTime;
+    private Vector3 _target;
 
-    public static CameraController Instance { get; private set;}
-    
-    void Awake()
+    public static CameraController Instance { get; private set; }
+
+    private void Awake()
     {
         Instance = this;
     }
-    
-    void Start()
+
+    private void Start()
     {
         _target = camera.transform.position;
     }
@@ -33,23 +30,23 @@ public class CameraController : MonoBehaviour
         {
             if (_needsNewTarget >= 0.04f)
             {
-                _target = new Vector3(Random.Range(-_shakeAmount, _shakeAmount), Random.Range(-_shakeAmount, _shakeAmount),
+                _target = new Vector3(Random.Range(-_shakeAmount, _shakeAmount),
+                    Random.Range(-_shakeAmount, _shakeAmount),
                     camera.transform.position.z);
                 _needsNewTarget -= 0.04f;
             }
-            camera.transform.position = Vector3.SmoothDamp(camera.transform.position, _target, ref _currentVelocity, 0.05f);
+
+            camera.transform.position =
+                Vector3.SmoothDamp(camera.transform.position, _target, ref _currentVelocity, 0.05f);
             _shakeTime -= Time.deltaTime;
             _needsNewTarget += Time.deltaTime;
-            if (_shakeTime <= 0)
-            {
-                _shakeAmount = 0;
-            }
+            if (_shakeTime <= 0) _shakeAmount = 0;
         }
     }
 
     //Forces camera return to its home
     //not currently used
-    void ReturnToZero()
+    private void ReturnToZero()
     {
         camera.transform.position = new Vector3(0, 0, 0);
     }
@@ -59,11 +56,7 @@ public class CameraController : MonoBehaviour
     //This behavior can be improved if we have time.
     public void ShakeCamera(float intensity, float howLong)
     {
-        if (_shakeTime <= intensity)
-        {
-            _shakeAmount = intensity;    
-        }
+        if (_shakeTime <= intensity) _shakeAmount = intensity;
         _shakeTime += howLong;
     }
-    
 }
