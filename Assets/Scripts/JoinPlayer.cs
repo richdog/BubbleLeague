@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,7 +6,7 @@ using UnityEngine.InputSystem;
 public class JoinPlayer : MonoBehaviour
 {
     private PlayerInput _playerInput;
-    
+    public static Action<int> onJoinSuccess;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -20,7 +21,7 @@ public class JoinPlayer : MonoBehaviour
 
         if (!MatchManager.Instance.RegisterPlayer(this)) Destroy(this);
 
-
+        onJoinSuccess?.Invoke(_playerInput.playerIndex);
     }
 
     // Update is called once per frame
