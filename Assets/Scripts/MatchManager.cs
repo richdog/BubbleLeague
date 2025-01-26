@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
+using Sound;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -40,6 +42,7 @@ public class MatchManager : MonoBehaviour
     private bool _inOvertime;
 
     private MatchStage _stage = MatchStage.Join;
+    public Action OnGoalScored;
 
     public Action OnPlayerJoinChange;
 
@@ -97,6 +100,7 @@ public class MatchManager : MonoBehaviour
         if (_inOvertime)
         {
             TeamWin(team);
+            StartCoroutine(GoalFX());
             Destroy(ball.gameObject);
             return;
         }
@@ -109,6 +113,7 @@ public class MatchManager : MonoBehaviour
         if (_teamPoints[Team.Team1] >= GameVars.General.pointsNeededToWin)
         {
             TeamWin(Team.Team1);
+            StartCoroutine(GoalFX());
             Destroy(ball.gameObject);
             return;
         }
@@ -116,17 +121,32 @@ public class MatchManager : MonoBehaviour
         if (_teamPoints[Team.Team2] >= GameVars.General.pointsNeededToWin)
         {
             TeamWin(Team.Team2);
+            StartCoroutine(GoalFX());
             Destroy(ball.gameObject);
             return;
         }
 
+        StartCoroutine(GoalFX());
         Destroy(ball.gameObject);
+
 
         StartCoroutine(SetNewPoint());
     }
 
+    private IEnumerator GoalFX()
+    {
+        RuntimeManager.PlayOneShot("event:/make_goal");
+
+        OnGoalScored?.Invoke();
+
+        yield return null;
+    }
+
     private IEnumerator OnTeamWin()
     {
+        SoundManager.Instance.SwitchMusic("event:/main_theme_end");
+        SoundManager.Instance.StopAllAmbiences();
+
         yield return new WaitForSeconds(2.0f);
 
         SceneManager.LoadScene("Scenes/Game/VictoryMenu");
@@ -136,7 +156,6 @@ public class MatchManager : MonoBehaviour
 
     private void TeamWin(Team team)
     {
-        // TODO: Win logic
         ScoreboardManager.Instance.StopTimer();
 
         StartCoroutine(OnTeamWin());
@@ -275,6 +294,9 @@ public class MatchManager : MonoBehaviour
 
         RespawnPlayers();
         SpawnNewBall();
+
+        SoundManager.Instance.SwitchMusic("event:/main_theme_start");
+        SoundManager.Instance.AddAmbience("event:/wah_ambience");
 
         ScoreboardManager.Instance.StartTimer();
     }
