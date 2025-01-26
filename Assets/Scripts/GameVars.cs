@@ -24,6 +24,7 @@ public class GameVars : MonoBehaviour
         public float spinInitialForce;
         public float spinContinuedForce;
         public float spinDuration;
+        public float stunDuration;
     }
 
     [System.Serializable]
@@ -57,6 +58,7 @@ public class GameVars : MonoBehaviour
         spinInitialForce = 5f,
         spinContinuedForce = 5f,
         spinDuration = 1f,
+        stunDuration = 2f
     };
 
     [SerializeField]
