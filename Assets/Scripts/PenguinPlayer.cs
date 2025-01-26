@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     private bool _isCharging;
     private float _currBoostBubble = 1f;
     private float _boostBubbleCharge = 0.1f;
+    private float _bubbleChargerForce = 5f;
 
     private float _currentBrakeDrag = 0f;
 
@@ -144,6 +145,7 @@ public class Player : MonoBehaviour
             if (_isCharging)
             {
                 _currBoostBubble += _boostBubbleCharge;
+                _rigidbody.AddForce(Vector3.up * _bubbleChargerForce);
             }
         }
 
@@ -243,17 +245,17 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        var water = other.GetComponent<Water>();
-        if (water != null)
+        if (other.TryGetComponent(out Water water))
         {
             State = PenguinState.WATER;
         }
 
-        var charger = other.GetComponent<BubbleCharger>();
-        if (charger != null)
+        if (other.TryGetComponent(out BubbleCharger charger))
         {
             _isCharging = true;
             _boostBubbleCharge = charger.ChargeRate;
+            
+            
         }
     }
 

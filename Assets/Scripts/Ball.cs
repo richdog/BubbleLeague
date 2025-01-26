@@ -7,6 +7,8 @@ public class Ball : MonoBehaviour
     [SerializeField] private Transform respawnPoint;
     [SerializeField] private Rigidbody _rigidbody;
     private bool _isUnderwater = false;
+    private bool _inCharger = false;
+    private float _bubbleChargerForce = 10f;
 
     public void RespawnBall()
     {
@@ -25,6 +27,11 @@ public class Ball : MonoBehaviour
             if (_isUnderwater)
                 _rigidbody.AddForce(Physics.gravity * -GameVars.Ball.buoyancy);
         }
+
+        if (_inCharger)
+        {
+            _rigidbody.AddForce(Vector3.up * _bubbleChargerForce);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -35,6 +42,11 @@ public class Ball : MonoBehaviour
             _isUnderwater = true;
             _rigidbody.linearDamping = water.WaterDrag * GameVars.Ball.waterDragModifier;
         }
+        
+        if (other.TryGetComponent(out BubbleCharger charger))
+        {
+            _inCharger = true;
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -44,6 +56,11 @@ public class Ball : MonoBehaviour
         {
             _isUnderwater = false;
             _rigidbody.linearDamping = 0;
+        }
+        
+        if (other.TryGetComponent(out BubbleCharger charger))
+        {
+            _inCharger = false;
         }
     }
 }
