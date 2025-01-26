@@ -4,6 +4,7 @@ using Unity.Mathematics;
 using UnityEngine.Windows;
 using System.Collections;
 using UnityEngine.VFX;
+using static SkinInit;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
@@ -25,8 +26,12 @@ public class Player : MonoBehaviour
     public PlayerInput playerInput;
 
     [SerializeField]
+    public SkinInit skin;
+
+    [SerializeField]
     private VisualEffect boostParticles;
 
+    private Vector2 _prevMovementInput;
     private Vector2 _movementInput;
     private bool _isBraking;
     private PlayerInput _playerInput;
@@ -90,6 +95,9 @@ public class Player : MonoBehaviour
 
     }
 
+    float accumulatedAngle = 0;
+    float maxAccumulatedAngle = 45;
+
     void FixedUpdate()
     {
         float massMultiplier = isSpinning ? GameVars.Player.spinMassMultiplier : _isBraking ? GameVars.Player.brakeMassMultiplier : 1;
@@ -139,13 +147,27 @@ public class Player : MonoBehaviour
 
         if (!isSpinning && stunDuration <= 0)
         {
-            Quaternion lookDir = Quaternion.FromToRotation(_rigidbody.transform.up, _movementInput);
-            lookDir.ToAngleAxis(out float angle, out Vector3 axis);
+            float signedAngle = Vector3.SignedAngle(_rigidbody.transform.up, _movementInput, Vector3.forward);
+            float sign = Mathf.Sign(signedAngle);
+            //accumulatedAngle += signedAngle;
+
+            //accumulatedAngle *= _movementInput.sqrMagnitude;
+
+            //accumulatedAngle = Mathf.Clamp(accumulatedAngle, -maxAccumulatedAngle, maxAccumulatedAngle);
+
             float dampenFactor = GameVars.Player.rotDampening * totalMass;
-            _rigidbody.AddTorque(-_rigidbody.angularVelocity * dampenFactor, ForceMode.Force);
             float adjustFactor = GameVars.Player.rotAcceleration;
-            _rigidbody.AddTorque(axis.normalized * angle * adjustFactor * totalMass, ForceMode.Force);
-        }        
+
+            _rigidbody.AddTorque(-_rigidbody.angularVelocity * dampenFactor, ForceMode.Force);
+            _rigidbody.AddTorque(Vector3.forward * signedAngle * adjustFactor * totalMass, ForceMode.Force);
+
+            skin.SetBodySprite(signedAngle / maxAccumulatedAngle);
+        }
+        else
+        {
+            accumulatedAngle = 0;
+            skin.SetBodySprite(_rigidbody.angularVelocity.z / 180f);
+        }
 
         if (State == PenguinState.WATER)
         {
@@ -183,6 +205,8 @@ public class Player : MonoBehaviour
 
         _bubbleBar.transform.localScale = new Vector3(math.lerp(_bubbleBar.transform.localScale.x, _currBoostBubble, 0.5f), _bubbleBar.transform.localScale.y, _bubbleBar.transform.localScale.z);
         HandleWings();
+
+        _prevMovementInput = _movementInput;
     }
 
     public void ConnectPlayerInput(PlayerInput input)
@@ -206,6 +230,7 @@ public class Player : MonoBehaviour
     {
         if (isStunned)
         {
+            _prevMovementInput = Vector3.zero;
             _movementInput = Vector3.zero;
             return;
         }
@@ -216,6 +241,7 @@ public class Player : MonoBehaviour
 
     private void CancelMove(InputAction.CallbackContext ctx)
     {
+        _prevMovementInput = Vector3.zero;
         _movementInput = Vector2.zero;
     }
 

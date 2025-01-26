@@ -3,27 +3,24 @@ using UnityEngine.VFX;
 
 public class SkinInit : MonoBehaviour
 {
+    [System.Serializable]
+    public struct PlayerSkin
+    {
+        public Sprite body;
+        public Sprite bodyTurn;
+        public Sprite bodyHardTurn;
+        public Sprite wing;
+        public Color bubbleColor;
+    }
+
     public Player player;
     public SpriteRenderer bodyRender;
     public SpriteRenderer leftWindRender;
     public SpriteRenderer rightWindRender;
     public VisualEffect bubbleEffect;
+    public PlayerSkin[] skins;
 
-    public Sprite p1Body;
-    public Sprite p1Wing;
-    public Color p1BubbleColor;
-
-    public Sprite p2Body;
-    public Sprite p2Wing;
-    public Color p2BubbleColor;
-
-    public Sprite p3Body;
-    public Sprite p3Wing;
-    public Color p3BubbleColor;
-
-    public Sprite p4Body;
-    public Sprite p4Wing;
-    public Color p4BubbleColor;
+    public PlayerSkin activeSkin;
 
     public void Start()
     {
@@ -32,35 +29,29 @@ public class SkinInit : MonoBehaviour
 
     public void SetPlayerSkin(int id)
     {
-        switch (id)
+        if (id >= 0 && id < skins.Length)
         {
-            case 0:
-                bodyRender.sprite = p1Body;
-                leftWindRender.sprite = p1Wing;
-                rightWindRender.sprite = p1Wing;
-                bubbleEffect.SetVector4("BubbleColor", p1BubbleColor);
-                break;
-
-            case 1:
-                bodyRender.sprite = p2Body;
-                leftWindRender.sprite = p2Wing;
-                rightWindRender.sprite = p2Wing;
-                bubbleEffect.SetVector4("BubbleColor", p2BubbleColor);
-                break;
-
-            case 2:
-                bodyRender.sprite = p3Body;
-                leftWindRender.sprite = p3Wing;
-                rightWindRender.sprite = p3Wing;
-                bubbleEffect.SetVector4("BubbleColor", p3BubbleColor);
-                break;
-
-            case 3:
-                bodyRender.sprite = p4Body;
-                leftWindRender.sprite = p4Wing;
-                rightWindRender.sprite = p4Wing;
-                bubbleEffect.SetVector4("BubbleColor", p4BubbleColor);
-                break;
+            PlayerSkin skin = skins[id];
+            activeSkin = skin;
+            bodyRender.sprite = skin.body;
+            leftWindRender.sprite = skin.wing;
+            rightWindRender.sprite = skin.wing;
+            bubbleEffect.SetVector4("BubbleColor", skin.bubbleColor);
         }
+    }
+
+    public void SetBodySprite(float value)
+    {
+        Debug.Log(value);
+
+        bodyRender.sprite = value switch
+        {
+            < -0.6f => activeSkin.bodyHardTurn,
+            < -0.2f => activeSkin.bodyTurn,
+            < 0.2f => activeSkin.body,
+            < 0.6f => activeSkin.bodyTurn,
+            _ => activeSkin.bodyHardTurn
+        };
+        bodyRender.flipX = value < 0;
     }
 }

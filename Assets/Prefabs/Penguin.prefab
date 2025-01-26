@@ -453,6 +453,7 @@ MonoBehaviour:
   _forceMode: 5
   _rigidbody: {fileID: 8371378095110845264}
   playerInput: {fileID: 0}
+  skin: {fileID: 3147965206140759824}
   boostParticles: {fileID: 1722221465354220495}
   wingLRB: {fileID: 2932568194520481741}
   wingL: {fileID: 4483853471823344898}
@@ -505,18 +506,33 @@ MonoBehaviour:
   leftWindRender: {fileID: 4699959668306990928}
   rightWindRender: {fileID: 1045260250367077472}
   bubbleEffect: {fileID: 1722221465354220495}
-  p1Body: {fileID: 21300000, guid: dbbc275c8f3b8e74b9a9b1328603cf61, type: 3}
-  p1Wing: {fileID: 21300000, guid: 147297b031ee65843a94dbd9c2854fbd, type: 3}
-  p1BubbleColor: {r: 0.497, g: 0.28991663, b: 0.11389582, a: 1}
-  p2Body: {fileID: 21300000, guid: 3b0c494d875972b498e6b81dadf05822, type: 3}
-  p2Wing: {fileID: 21300000, guid: 567df41873baa144d9de39cfcf97752f, type: 3}
-  p2BubbleColor: {r: 0.909804, g: 0.8745099, b: 0.3529412, a: 1}
-  p3Body: {fileID: 21300000, guid: 00c82f1937051094c80d45eb7c230143, type: 3}
-  p3Wing: {fileID: 21300000, guid: f332ba784207bab4095d6a9759b464b0, type: 3}
-  p3BubbleColor: {r: 0.3647059, g: 0.121568635, b: 0.57254905, a: 1}
-  p4Body: {fileID: 21300000, guid: d1459124d61540245a3e968597fb2e7c, type: 3}
-  p4Wing: {fileID: 21300000, guid: d91b12a0ea79b1449ace419ca4239115, type: 3}
-  p4BubbleColor: {r: 0.90196085, g: 0.52156866, b: 0.65882355, a: 1}
+  skins:
+  - body: {fileID: 21300000, guid: dbbc275c8f3b8e74b9a9b1328603cf61, type: 3}
+    bodyTurn: {fileID: 21300000, guid: 34065f9d61b79ab4987238b65e0e18f2, type: 3}
+    bodyHardTurn: {fileID: 21300000, guid: 935e5d98a12a0b040b3ef98fddc3b650, type: 3}
+    wing: {fileID: 21300000, guid: 147297b031ee65843a94dbd9c2854fbd, type: 3}
+    bubbleColor: {r: 0.8980393, g: 0.33333334, b: 0.15294118, a: 0}
+  - body: {fileID: 21300000, guid: 3b0c494d875972b498e6b81dadf05822, type: 3}
+    bodyTurn: {fileID: 21300000, guid: 4d9a139fb0dab1647a36593158ce8e9f, type: 3}
+    bodyHardTurn: {fileID: 21300000, guid: e2959575cf21f71498fcefa5efeef61c, type: 3}
+    wing: {fileID: 21300000, guid: 567df41873baa144d9de39cfcf97752f, type: 3}
+    bubbleColor: {r: 0.8980393, g: 0.33333334, b: 0.15294118, a: 0}
+  - body: {fileID: 21300000, guid: 00c82f1937051094c80d45eb7c230143, type: 3}
+    bodyTurn: {fileID: 21300000, guid: e9ca5d2411005cd46b587dbee274ef00, type: 3}
+    bodyHardTurn: {fileID: 21300000, guid: 5e531ac038c0aef4381d741dd8064521, type: 3}
+    wing: {fileID: 21300000, guid: f332ba784207bab4095d6a9759b464b0, type: 3}
+    bubbleColor: {r: 0.22352943, g: 0.20784315, b: 0.87843144, a: 0}
+  - body: {fileID: 21300000, guid: d1459124d61540245a3e968597fb2e7c, type: 3}
+    bodyTurn: {fileID: 21300000, guid: 16b24a03bed7a8141b0534c3101c5338, type: 3}
+    bodyHardTurn: {fileID: 21300000, guid: d3cf0cd5b6b0efe4ba9de6dea1e185bc, type: 3}
+    wing: {fileID: 21300000, guid: d91b12a0ea79b1449ace419ca4239115, type: 3}
+    bubbleColor: {r: 0.22352943, g: 0.20784315, b: 0.87843144, a: 0}
+  activeSkin:
+    body: {fileID: 0}
+    bodyTurn: {fileID: 0}
+    bodyHardTurn: {fileID: 0}
+    wing: {fileID: 0}
+    bubbleColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &4443615343374467259
 GameObject:
   m_ObjectHideFlags: 0
