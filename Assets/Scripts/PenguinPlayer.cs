@@ -1,12 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Mathematics;
-using UnityEngine.Windows;
-using System.Collections;
 using UnityEngine.VFX;
-using static SkinInit;
 
-[RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
 {
     public enum PenguinState
@@ -41,14 +37,15 @@ public class Player : MonoBehaviour
     private float _boostBubbleCharge = 0.1f;
     private float _bubbleChargerForce = 5f;
 
+    public float CurrBoostBubble => _currBoostBubble;
+
     private float _currentBrakeDrag = 0f;
 
     [SerializeField] private Rigidbody wingLRB;
-    [SerializeField] private PlayerWing wingL;
+    [SerializeField] private PlayerRigidbody wingL;
     [SerializeField] private Rigidbody wingRRB;
-    [SerializeField] private PlayerWing wingR;
-
-    [SerializeField] private GameObject _bubbleBar;
+    [SerializeField] private PlayerRigidbody wingR;
+    [SerializeField] private PlayerRigidbody bodyRigidbody;
 
     private bool isSpinning;
     private float spinStartTime;
@@ -63,6 +60,9 @@ public class Player : MonoBehaviour
     {
         wingL.CollisionEnter += OnCollisionEnter;
         wingR.CollisionEnter += OnCollisionEnter;
+        bodyRigidbody.CollisionEnter += OnCollisionEnter;
+        bodyRigidbody.TriggerEnter += OnTriggerEnter;
+        bodyRigidbody.TriggerExit += OnTriggerExit;
 
         boostParticles.Stop();
 
@@ -203,7 +203,6 @@ public class Player : MonoBehaviour
         wingLRB.linearDamping = drag;
         wingRRB.linearDamping = drag;
 
-        _bubbleBar.transform.localScale = new Vector3(math.lerp(_bubbleBar.transform.localScale.x, _currBoostBubble, 0.5f), _bubbleBar.transform.localScale.y, _bubbleBar.transform.localScale.z);
         HandleWings();
 
         _prevMovementInput = _movementInput;
