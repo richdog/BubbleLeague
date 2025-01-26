@@ -88,10 +88,19 @@ public class Player : MonoBehaviour
         {
             if(!isSpinning)
             {
-                isSpinning = true;
-                spinStartTime = Time.time;
-                Debug.Log("Spin!");
-                _rigidbody.AddTorque(Vector3.forward * spinDir * GameVars.Player.spinInitialForce * totalMass, ForceMode.Force);
+                if (_currBoostBubble > GameVars.Player.spinBubbleBurn)
+                {
+                    _currBoostBubble -= GameVars.Player.spinBubbleBurn;
+
+                    isSpinning = true;
+                    spinStartTime = Time.time;
+                    Debug.Log("Spin!");
+                    _rigidbody.AddTorque(Vector3.forward * spinDir * GameVars.Player.spinInitialForce * totalMass, ForceMode.Force);
+                }
+                else
+                {
+                    spinDir = 0;
+                }
             }
 
             if (isSpinning)
