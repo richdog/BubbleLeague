@@ -1,12 +1,13 @@
+using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerJoinObserver : MonoBehaviour
 {
-    public int slotId;
-    public GameObject joinedImage;
+    public TMP_Text Text;
 
-    private void OnEnable()
+    public int slotId;
+
+    private void Start()
     {
         MatchManager.Instance.OnPlayerJoinChange += PlayerChange;
     }
@@ -18,11 +19,10 @@ public class PlayerJoinObserver : MonoBehaviour
 
     public void PlayerChange()
     {
-        var playerInputs = FindObjectsByType<PlayerInput>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        //var playerInputs = FindObjectsByType<PlayerInput>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
-        if (MatchManager.Instance.PlayerExists(slotId))
-            joinedImage.SetActive(true);
-        else
-            joinedImage.SetActive(false);
+        var description = MatchManager.Instance.GetDescriptionForPlayer(slotId);
+
+        Text.SetText(description);
     }
 }

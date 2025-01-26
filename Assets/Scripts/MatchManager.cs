@@ -29,6 +29,7 @@ public class MatchManager : MonoBehaviour
 
     private readonly List<JoinPlayer> _joinPlayers = new();
 
+
     private readonly List<GameObject> _players = new();
 
     private readonly Dictionary<Team, uint> _teamPoints = new()
@@ -42,6 +43,11 @@ public class MatchManager : MonoBehaviour
     private bool _inOvertime;
 
     private MatchStage _stage = MatchStage.Join;
+
+    private JoinPlayer joinSpot1Team1;
+    private JoinPlayer joinSpot1Team2;
+    private JoinPlayer joinSpot2Team1;
+    private JoinPlayer joinSpot2Team2;
     public Action OnGoalScored;
 
     public Action OnPlayerJoinChange;
@@ -63,11 +69,40 @@ public class MatchManager : MonoBehaviour
     }
 
 
-    public bool PlayerExists(int playerIndex)
+    public string GetDescriptionForPlayer(int playerMenuIndex)
     {
-        if (playerIndex < _joinPlayers.Count) return true;
+        switch (playerMenuIndex)
+        {
+            case 0:
+                if (joinSpot1Team1) return "Player " + (joinSpot1Team1.joinOrder + 1);
 
-        return false;
+                return "Empty";
+
+                break;
+
+            case 1:
+                if (joinSpot1Team2) return "Player " + (joinSpot1Team2.joinOrder + 1);
+
+                return "Empty";
+
+                break;
+
+            case 2:
+                if (joinSpot2Team1) return "Player " + (joinSpot2Team1.joinOrder + 1);
+
+                return "Empty";
+
+                break;
+
+            case 3:
+                if (joinSpot2Team2) return "Player " + (joinSpot2Team2.joinOrder + 1);
+
+                return "Empty";
+
+                break;
+        }
+
+        return "ERROR";
     }
 
     public int GetPlayerInputJoinIndex(PlayerInput playerInput)
@@ -220,12 +255,84 @@ public class MatchManager : MonoBehaviour
             return true;
         }
 
+        assignJoinOrder(joinPlayer);
+
+        assignTeamPlace(joinPlayer);
+
         _joinPlayers.Add(joinPlayer);
 
-        OnPlayerJoinChange();
+        OnPlayerJoinChange?.Invoke();
 
         Debug.Log("Registered player " + joinPlayer + " for match");
         return true;
+    }
+
+    private void assignTeamPlace(JoinPlayer joinPlayer)
+    {
+        if (!joinSpot1Team1)
+        {
+            joinSpot1Team1 = joinPlayer;
+            Debug.Log("joinSpot1Team1 went to " + joinPlayer + "with order " + joinPlayer.joinOrder);
+            return;
+        }
+
+        if (!joinSpot1Team2)
+        {
+            joinSpot1Team2 = joinPlayer;
+            Debug.Log("joinSpot1Team2 went to " + joinPlayer + "with order " + joinPlayer.joinOrder);
+            return;
+        }
+
+        if (!joinSpot2Team1)
+        {
+            joinSpot2Team1 = joinPlayer;
+            Debug.Log("joinSpot2Team1 went to " + joinPlayer + "with order " + joinPlayer.joinOrder);
+            return;
+        }
+
+        if (!joinSpot2Team2)
+        {
+            joinSpot2Team2 = joinPlayer;
+            Debug.Log("joinSpot2Team2 went to " + joinPlayer + "with order " + joinPlayer.joinOrder);
+            return;
+        }
+
+        throw new Exception("All join spots taken");
+    }
+
+    private int getPlayerTeamPlaceID(JoinPlayer joinPlayer)
+    {
+        if (joinPlayer == joinSpot1Team1) return 0;
+
+        if (joinPlayer == joinSpot1Team2) return 1;
+
+        if (joinPlayer == joinSpot2Team1) return 2;
+
+        if (joinPlayer == joinSpot2Team2) return 3;
+
+        throw new Exception("JoinPlayer not apart of a team");
+    }
+
+    private void assignJoinOrder(JoinPlayer joinPlayer)
+    {
+        for (uint i = 0; i < 4; i++)
+            if (!joinOrderTaken(i))
+            {
+                joinPlayer.joinOrder = i;
+                return;
+            }
+
+
+        throw new Exception("Failed to assign join order");
+    }
+
+    private bool joinOrderTaken(uint order)
+    {
+        foreach (var player in _joinPlayers)
+            if (player.joinOrder == order)
+                return true;
+
+        return false;
     }
 
     public void UnregisterPlayer(JoinPlayer joinPlayer)
@@ -236,9 +343,41 @@ public class MatchManager : MonoBehaviour
             return;
         }
 
+        unassignTeamPlace(joinPlayer);
+
         _joinPlayers.Remove(joinPlayer);
 
         OnPlayerJoinChange?.Invoke();
+    }
+
+    private void unassignTeamPlace(JoinPlayer joinPlayer)
+    {
+        if (joinSpot1Team1 == joinPlayer)
+        {
+            joinSpot1Team1 = null;
+            Debug.Log("joinSpot1Team1 was freed");
+            return;
+        }
+
+        if (joinSpot1Team2 == joinPlayer)
+        {
+            joinSpot1Team2 = null;
+            Debug.Log("joinSpot1Team2 was freed");
+            return;
+        }
+
+        if (joinSpot2Team1 == joinPlayer)
+        {
+            joinSpot2Team1 = null;
+            Debug.Log("joinSpot2Team1 was freed");
+            return;
+        }
+
+        if (joinSpot2Team2 == joinPlayer)
+        {
+            joinSpot2Team2 = null;
+            Debug.Log("joinSpot2Team2 was freed");
+        }
     }
 
     private IEnumerator StartGameCoroutine(JoinPlayer joinPlayer)
@@ -267,6 +406,16 @@ public class MatchManager : MonoBehaviour
             yield break;
         }
 
+        // Make sure one per team
+        uint team1NumPlayers = 0;
+        uint team2NumPlayers = 0;
+        if (joinSpot1Team1) team1NumPlayers++;
+        if (joinSpot2Team1) team1NumPlayers++;
+        if (joinSpot1Team2) team2NumPlayers++;
+        if (joinSpot2Team2) team2NumPlayers++;
+
+        if (team1NumPlayers < 1 || team2NumPlayers < 1) yield break;
+
         Debug.Log("Starting game...");
         _stage = MatchStage.Play;
         SceneManager.LoadScene("Scenes/Game/Game");
@@ -286,7 +435,7 @@ public class MatchManager : MonoBehaviour
             _players.Add(penguinGameObject);
 
             var penguinPlayer = penguinGameObject.GetComponent<Player>();
-            penguinPlayer.playerId = i;
+            penguinPlayer.playerId = getPlayerTeamPlaceID(_joinPlayers[i]);
             penguinPlayer.ConnectPlayerInput(playerInput);
 
             playerInput.SwitchCurrentActionMap("Player");

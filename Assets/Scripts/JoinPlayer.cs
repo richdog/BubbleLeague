@@ -5,9 +5,13 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerInput))]
 public class JoinPlayer : MonoBehaviour
 {
-    private PlayerInput _playerInput;
     public static Action<int> onJoinSuccess;
     public static Action<int> onJoinAborted;
+
+
+    public uint joinOrder;
+    private PlayerInput _playerInput;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
