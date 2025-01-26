@@ -11,19 +11,27 @@ public class PlayerJoinObserver: MonoBehaviour
     private void OnEnable()
     {
         JoinPlayer.onJoinSuccess += PlayerJoined;
-
+        JoinPlayer.onJoinAborted += PlayerLeft;
     }
     private void OnDisable()
     {
         JoinPlayer.onJoinSuccess -= PlayerJoined;
+        JoinPlayer.onJoinAborted -= PlayerLeft;
     }
 
     public void PlayerJoined(int id)
     {
-        Debug.LogError(id);
         if(id == slotId)
         {
             joinedImage.SetActive(true);
+        }
+    }
+
+    public void PlayerLeft(int id)
+    {
+        if (id == slotId)
+        {
+            joinedImage.SetActive(false);
         }
     }
 }

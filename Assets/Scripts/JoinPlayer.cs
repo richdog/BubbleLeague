@@ -7,7 +7,7 @@ public class JoinPlayer : MonoBehaviour
 {
     private PlayerInput _playerInput;
     public static Action<int> onJoinSuccess;
-
+    public static Action<int> onJoinAborted;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -45,6 +45,7 @@ public class JoinPlayer : MonoBehaviour
     private void LeaveGame(InputAction.CallbackContext ctx)
     {
         Debug.Log("Player opted to leave the game: " + this);
+        onJoinAborted?.Invoke(_playerInput.playerIndex);
         Destroy(gameObject);
     }
 }

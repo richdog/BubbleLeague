@@ -1075,7 +1075,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee77012b22b9d684594cb8a19e520b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotId: 2
+  slotId: 1
   InputManager: {fileID: 1832175664}
   joinedImage: {fileID: 1321632014}
 --- !u!1 &1204434210
@@ -1334,7 +1334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee77012b22b9d684594cb8a19e520b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotId: 1
+  slotId: 2
   InputManager: {fileID: 1832175664}
   joinedImage: {fileID: 659100963}
 --- !u!1001 &1410921717
