@@ -100,6 +100,7 @@ public class MatchManager : MonoBehaviour
         if (_inOvertime)
         {
             TeamWin(team);
+            StartCoroutine(GoalFX());
             Destroy(ball.gameObject);
             return;
         }
@@ -112,6 +113,7 @@ public class MatchManager : MonoBehaviour
         if (_teamPoints[Team.Team1] >= GameVars.General.pointsNeededToWin)
         {
             TeamWin(Team.Team1);
+            StartCoroutine(GoalFX());
             Destroy(ball.gameObject);
             return;
         }
@@ -119,10 +121,12 @@ public class MatchManager : MonoBehaviour
         if (_teamPoints[Team.Team2] >= GameVars.General.pointsNeededToWin)
         {
             TeamWin(Team.Team2);
+            StartCoroutine(GoalFX());
             Destroy(ball.gameObject);
             return;
         }
 
+        StartCoroutine(GoalFX());
         Destroy(ball.gameObject);
 
 
