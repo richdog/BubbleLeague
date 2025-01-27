@@ -47,13 +47,13 @@ public class GameVars : MonoBehaviour
     }
 
     [SerializeField]
-    private GeneralVars _general = new GeneralVars()
+    private GeneralVars _general = new()
     {
         pointsNeededToWin = 3
     };
 
     [SerializeField]
-    private PlayerVars _player = new PlayerVars
+    private PlayerVars _player = new()
     {
         acceleration = 25f,
         brakeDrag = 20f,
@@ -82,7 +82,7 @@ public class GameVars : MonoBehaviour
     };
 
     [SerializeField]
-    private BallVars _ball = new BallVars
+    private BallVars _ball = new()
     {
         waterDragModifier = 0.5f,
         buoyancy = 1f,

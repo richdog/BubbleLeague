@@ -3,11 +3,11 @@ using UnityEngine;
 public class pengNPC : MonoBehaviour
 {
 
-    [SerializeField] private new SpriteRenderer spriteRenderer;
-    [SerializeField] public new Sprite normalSprite;
-    [SerializeField] public new Sprite quackSprite;
-    [SerializeField] public new Sprite cheerSprite;
-    
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] public Sprite normalSprite;
+    [SerializeField] public Sprite quackSprite;
+    [SerializeField] public Sprite cheerSprite;
+
     private float _actionTimer;
 
     private float _hopTimer = -0.2f;
@@ -18,7 +18,7 @@ public class pengNPC : MonoBehaviour
 
         MatchManager.Instance.OnGoalScored += CheerOnGoal;
     }
-    
+
     private void OnDestroy()
     {
         MatchManager.Instance.OnGoalScored -= CheerOnGoal;
@@ -51,11 +51,11 @@ public class pengNPC : MonoBehaviour
             transform.position += Vector3.up * _hopTimer * Time.deltaTime * 3;
             _hopTimer -= Time.deltaTime;
         }
-        
-        
+
+
         _actionTimer -= Time.deltaTime;
     }
-    
+
     private void CheerOnGoal()
     {
         spriteRenderer.sprite = cheerSprite;

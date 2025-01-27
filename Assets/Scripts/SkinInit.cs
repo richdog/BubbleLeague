@@ -10,6 +10,7 @@ public class SkinInit : MonoBehaviour
         public Sprite bodyTurn;
         public Sprite bodyHardTurn;
         public Sprite wing;
+        [ColorUsage(false, true)]
         public Color bubbleColor;
         public Sprite token;
     }

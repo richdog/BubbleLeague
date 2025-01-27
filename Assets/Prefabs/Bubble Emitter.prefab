@@ -117,27 +117,42 @@ VisualEffect:
   m_PropertySheet:
     m_Float:
       m_Array:
-      - m_Value: 32
+      - m_Value: 128
         m_Name: BubbleAmount
         m_Overridden: 1
-      - m_Value: 0.2
+      - m_Value: 0.15
         m_Name: BubbleScale
         m_Overridden: 1
       - m_Value: 1
         m_Name: Gravity
         m_Overridden: 0
+      - m_Value: 1.2
+        m_Name: LifetimeMax
+        m_Overridden: 1
+      - m_Value: 0.9
+        m_Name: LifetimeMin
+        m_Overridden: 1
+      - m_Value: 3
+        m_Name: OutputSpeed
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
       m_Array:
-      - m_Value: {x: 1, y: 1, z: 1}
+      - m_Value: {x: 0.9770889, y: 0.0061853826, z: 1}
         m_Name: EmissionBounds_size
         m_Overridden: 1
-      - m_Value: {x: 0.000000092441084, y: 0, z: 0}
+      - m_Value: {x: 0.011768103, y: -0.45412937, z: 0}
         m_Name: EmissionBounds_center
         m_Overridden: 1
+      - m_Value: {x: 0, y: 2.95, z: 0}
+        m_Name: KillPlane_position
+        m_Overridden: 0
     m_Vector4f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 1.7207952, y: 1.7207952, z: 1.7207952, w: 0}
+        m_Name: BubbleColor
+        m_Overridden: 1
     m_Uint:
       m_Array: []
     m_Int:
@@ -151,7 +166,10 @@ VisualEffect:
     m_NamedObject:
       m_Array: []
     m_Bool:
-      m_Array: []
+      m_Array:
+      - m_Value: 0
+        m_Name: DestroyAtPlane
+        m_Overridden: 1
 --- !u!73398921 &609654264271797084
 VFXRenderer:
   serializedVersion: 1
@@ -194,7 +212,7 @@ VFXRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
 --- !u!1 &6340160801353487868
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,9 +310,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 0.455, g: 0.455, b: 0.455, a: 1}
+  m_Color: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -333,7 +351,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2.5, z: 0}
-  m_LocalScale: {x: 4.7344, y: 3.3306758, z: 4.6502}
+  m_LocalScale: {x: 4.137818, y: 3.3306758, z: 4.6502}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7298285895211850627}
@@ -525,9 +543,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 0.455, g: 0.455, b: 0.455, a: 1}
+  m_Color: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

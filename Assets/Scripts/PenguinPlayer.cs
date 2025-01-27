@@ -1,6 +1,6 @@
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Unity.Mathematics;
 using UnityEngine.VFX;
 
 public class Player : MonoBehaviour
@@ -12,9 +12,6 @@ public class Player : MonoBehaviour
     }
 
     public PenguinState State { get; set; } = PenguinState.WATER;
-
-    [SerializeField]
-    private ForceMode _forceMode = ForceMode.Impulse;
 
     [SerializeField]
     private Rigidbody _rigidbody;
@@ -113,7 +110,6 @@ public class Player : MonoBehaviour
 
     }
 
-    float accumulatedAngle = 0;
     float maxAccumulatedAngle = 45;
 
     void FixedUpdate()
@@ -123,11 +119,11 @@ public class Player : MonoBehaviour
         wingLRB.mass = GameVars.Player.playerWingMass * massMultiplier;
         wingRRB.mass = GameVars.Player.playerWingMass * massMultiplier;
 
-        var totalMass = _rigidbody.mass + wingLRB.mass + wingRRB.mass;
+        float totalMass = _rigidbody.mass + wingLRB.mass + wingRRB.mass;
 
         if (spinDir != 0)
         {
-            if(!isSpinning)
+            if (!isSpinning)
             {
                 if (_currBoostBubble > GameVars.Player.spinBubbleBurn)
                 {
@@ -156,10 +152,10 @@ public class Player : MonoBehaviour
             }
         }
 
-        if(isStunned)
+        if (isStunned)
         {
             stunDuration -= Time.fixedDeltaTime;
-            if(stunDuration < 0)
+            if (stunDuration < 0)
                 stunDuration = 0;
         }
 
@@ -183,19 +179,18 @@ public class Player : MonoBehaviour
         }
         else
         {
-            accumulatedAngle = 0;
             skin.SetBodySprite(_rigidbody.angularVelocity.z / 180f);
         }
 
         if (State == PenguinState.WATER)
         {
-            var force =  _movementInput * GameVars.Player.acceleration * totalMass;
+            Vector2 force = _movementInput * GameVars.Player.acceleration * totalMass;
             _rigidbody.AddForce(force, ForceMode.Force);
             _rigidbody.AddForce(Physics.gravity * -GameVars.Player.penguinBuoyancy * totalMass, ForceMode.Force);
 
             if (_isBoosting && _currBoostBubble > 0)
             {
-                boostParticles.SetFloat("BubbleAmount", 64);
+                boostParticles.SetFloat("BubbleAmount", 256);
 
                 _rigidbody.AddForce(GameVars.Player.boostForce * _rigidbody.transform.up * totalMass, ForceMode.Force);
                 _currBoostBubble -= GameVars.Player.boostBubbleBurn;
@@ -212,11 +207,15 @@ public class Player : MonoBehaviour
                 _rigidbody.AddForce(Vector3.up * _bubbleChargerForce);
             }
         }
+        else
+        {
+            boostParticles.SetFloat("BubbleAmount", 0);
+        }
 
         _currBoostBubble += Time.fixedDeltaTime * (State == PenguinState.WATER ? GameVars.Player.waterBubbleGainSpeed : State == PenguinState.AIR ? GameVars.Player.airBubbleGainSpeed : 0);
 
         _currBoostBubble = math.clamp(_currBoostBubble, 0, 1);
-        var drag = CalcDrag();
+        float drag = CalcDrag();
         _rigidbody.linearDamping = drag;
         wingLRB.linearDamping = drag;
         wingRRB.linearDamping = drag;
@@ -251,7 +250,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        if(!isSpinning)
+        if (!isSpinning)
             _movementInput = ctx.ReadValue<Vector2>();
     }
 
@@ -263,7 +262,7 @@ public class Player : MonoBehaviour
 
     private void Brake(InputAction.CallbackContext ctx)
     {
-        if(!isStunned)
+        if (!isStunned)
             _isBraking = true;
     }
 
@@ -274,14 +273,14 @@ public class Player : MonoBehaviour
 
     private void Boost(InputAction.CallbackContext ctx)
     {
-        if(!isStunned)
+        if (!isStunned)
         {
             _isBoosting = true;
 
             boostParticles.Play();
         }
     }
-    
+
 
     private void CancelBoost(InputAction.CallbackContext ctx)
     {
@@ -292,21 +291,21 @@ public class Player : MonoBehaviour
     private float spinDir;
     private void SpinLeft(InputAction.CallbackContext ctx)
     {
-        if(!isStunned)
+        if (!isStunned)
             spinDir = 1;
 
     }
 
     private void SpinRight(InputAction.CallbackContext ctx)
     {
-        if(!isStunned)
+        if (!isStunned)
             spinDir = -1;
     }
 
 
     void HandleWings()
     {
-        var torque = _isBraking || isSpinning ? -GameVars.Player.wingOpenTorqueAmt : GameVars.Player.wingCloseTorqueAmt;
+        float torque = _isBraking || isSpinning ? -GameVars.Player.wingOpenTorqueAmt : GameVars.Player.wingCloseTorqueAmt;
 
         wingLRB.AddRelativeTorque(0, 0, torque, ForceMode.Acceleration);
         wingRRB.AddRelativeTorque(0, 0, -torque, ForceMode.Acceleration);
@@ -321,7 +320,7 @@ public class Player : MonoBehaviour
         else if (State == PenguinState.AIR)
             drag += GameVars.Player.airDrag;
 
-        var targetBrakeDrag = _isBraking ? GameVars.Player.brakeDrag : 0;
+        float targetBrakeDrag = _isBraking ? GameVars.Player.brakeDrag : 0;
         _currentBrakeDrag = Mathf.Lerp(_currentBrakeDrag, targetBrakeDrag, GameVars.Player.brakeDragLerpSpeed);
 
         drag *= 1 + _currentBrakeDrag;
@@ -339,20 +338,20 @@ public class Player : MonoBehaviour
         {
             _isCharging = true;
             _boostBubbleCharge = charger.ChargeRate;
-            
-            
+
+
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        var water = other.GetComponent<Water>();
+        Water water = other.GetComponent<Water>();
         if (water != null)
         {
             State = PenguinState.AIR;
         }
 
-        var charger = other.GetComponent<BubbleCharger>();
+        BubbleCharger charger = other.GetComponent<BubbleCharger>();
         if (charger != null)
         {
             _isCharging = false;
@@ -362,30 +361,59 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        ContactPoint contactPoint = collision.GetContact(0);
+        Vector3 hitPoint = contactPoint.point;
+
+        ImpactBubbles.PlayHitEffect(contactPoint.impulse.magnitude / 3, Color.white * 1.2f,
+                hitPoint, 0.1f, contactPoint.normal, contactPoint.impulse.magnitude / 10, 0, 1.5f, 5);
+
         if (isSpinning)
         {
-            var hitForce = collision.impulse.normalized * _rigidbody.angularVelocity.magnitude * GameVars.Player.playerHitForce;
+            float hitForceMagnitude = _rigidbody.angularVelocity.magnitude * GameVars.Player.playerHitForce;
+            Vector3 hitForce = -contactPoint.normal * hitForceMagnitude;
+            Vector3 hitForceNormalized = hitForce.normalized;
 
+#if UNITY_EDITOR
+            //debug hit direction and impact point
+            Debug.DrawLine(hitPoint - Vector3.up * 0.25f, hitPoint + Vector3.up * 0.5f, Color.red, 5f);
+            Debug.DrawLine(hitPoint - Vector3.right * 0.25f, hitPoint + Vector3.right * 0.5f, Color.red, 5f);
+            Debug.DrawLine(hitPoint - Vector3.forward * 0.25f, hitPoint + Vector3.forward * 0.5f, Color.red, 5f);
+            Debug.DrawLine(hitPoint, hitPoint + (hitForce / 10), Color.yellow, 5f);
+#endif
             //apply some backwards force to self
             //if (!_isBraking)
             //    _rigidbody.AddForceAtPosition(hitForce / 2, collision.GetContact(0).point, ForceMode.Impulse);
 
-            var otherRigidbody = collision.gameObject.GetComponentInParent<Rigidbody>();
+
+            //remove some force since something was hit
+            _rigidbody.AddTorque(-_rigidbody.angularVelocity / 4, ForceMode.Impulse);
+
+            ImpactBubbles.PlayHitEffect(hitForceMagnitude / 4 * 5f, skin.activeSkin.bubbleColor * 0.95f,
+                hitPoint, 0.1f, -hitForceNormalized, hitForceMagnitude / 2 * 0.75f, 0.25f);
+
+            Rigidbody otherRigidbody = collision.gameObject.GetComponentInParent<Rigidbody>();
             if (otherRigidbody != null)
             {
-                var otherPlayer = collision.gameObject.GetComponentInParent<Player>();
-                Debug.Log("Impact! " + hitForce);
+                Player otherPlayer = collision.gameObject.GetComponentInParent<Player>();
+                Debug.Log($"{name} hit {otherRigidbody.name} with force: {hitForce}");
                 if (otherPlayer == null || !otherPlayer._isBraking)
                 {
+                    ImpactBubbles.PlayHitEffect(hitForceMagnitude * 2.5f, skin.activeSkin.bubbleColor * 1.1f,
+                        hitPoint, 0.1f, hitForceNormalized, hitForceMagnitude * 0.75f, 0.75f);
+
                     //either it's a player (that isn't braking) or another rigidbody, apply force
-                    otherRigidbody.AddForceAtPosition(hitForce, collision.GetContact(0).point, ForceMode.Impulse);
+                    otherRigidbody.AddForceAtPosition(hitForce, hitPoint, ForceMode.Impulse);
                     //if it's actually a player, stun them for a short duration
-                    if(otherPlayer != null)
+                    if (otherPlayer != null)
+                    {
+                        Debug.Log($"{name} stunned {otherPlayer.name}!");
                         otherPlayer.Stun(GameVars.Player.stunDuration);
+                    }
                 }
-                if(otherPlayer != null && otherPlayer._isBraking)
+                if (otherPlayer != null && otherPlayer._isBraking)
                 {
                     //if the other player is braking, stun self, acts as a counter
+                    Debug.Log($"{name} stunned self, due to counter by {otherPlayer.name}!");
                     Stun(GameVars.Player.stunDuration);
                 }
             }

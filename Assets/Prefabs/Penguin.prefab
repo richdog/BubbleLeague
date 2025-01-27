@@ -732,7 +732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19651578, g: 0.8584906, b: 0.13363297, a: 1}
+  m_Color: {r: 0.41828153, g: 1, b: 0.36320752, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -898,7 +898,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b649bc62164b8cecc96abf65bc40752b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _forceMode: 5
   _rigidbody: {fileID: 4859734096069525037}
   playerInput: {fileID: 0}
   skin: {fileID: 3147965206140759824}
@@ -933,25 +932,25 @@ MonoBehaviour:
     bodyTurn: {fileID: 21300000, guid: 34065f9d61b79ab4987238b65e0e18f2, type: 3}
     bodyHardTurn: {fileID: 21300000, guid: 935e5d98a12a0b040b3ef98fddc3b650, type: 3}
     wing: {fileID: 21300000, guid: 147297b031ee65843a94dbd9c2854fbd, type: 3}
-    bubbleColor: {r: 0.8000001, g: 0.7294118, b: 0.26666668, a: 0}
+    bubbleColor: {r: 1.7637067, g: 1.6941425, b: 0.6738691, a: 1}
     token: {fileID: 21300000, guid: 12f65bf710838574b87108ee2f09b889, type: 3}
   - body: {fileID: 21300000, guid: 3b0c494d875972b498e6b81dadf05822, type: 3}
     bodyTurn: {fileID: 21300000, guid: 4d9a139fb0dab1647a36593158ce8e9f, type: 3}
     bodyHardTurn: {fileID: 21300000, guid: e2959575cf21f71498fcefa5efeef61c, type: 3}
     wing: {fileID: 21300000, guid: 567df41873baa144d9de39cfcf97752f, type: 3}
-    bubbleColor: {r: 0.8000001, g: 0.7294118, b: 0.26666668, a: 0}
+    bubbleColor: {r: 1.7637067, g: 1.6941425, b: 0.6738691, a: 1}
     token: {fileID: 21300000, guid: f9587c4b051eaec44a4d056fd6edaa1d, type: 3}
   - body: {fileID: 21300000, guid: 00c82f1937051094c80d45eb7c230143, type: 3}
     bodyTurn: {fileID: 21300000, guid: e9ca5d2411005cd46b587dbee274ef00, type: 3}
     bodyHardTurn: {fileID: 21300000, guid: 5e531ac038c0aef4381d741dd8064521, type: 3}
     wing: {fileID: 21300000, guid: f332ba784207bab4095d6a9759b464b0, type: 3}
-    bubbleColor: {r: 0.5254902, g: 0.1137255, b: 0.6901961, a: 0}
+    bubbleColor: {r: 1.49377, g: 0.90098244, b: 1.7207953, a: 1}
     token: {fileID: 21300000, guid: 6b5b54d829a417b439432ba486cdee4d, type: 3}
   - body: {fileID: 21300000, guid: d1459124d61540245a3e968597fb2e7c, type: 3}
     bodyTurn: {fileID: 21300000, guid: 16b24a03bed7a8141b0534c3101c5338, type: 3}
     bodyHardTurn: {fileID: 21300000, guid: d3cf0cd5b6b0efe4ba9de6dea1e185bc, type: 3}
     wing: {fileID: 21300000, guid: d91b12a0ea79b1449ace419ca4239115, type: 3}
-    bubbleColor: {r: 0.5254902, g: 0.1137255, b: 0.6901961, a: 0}
+    bubbleColor: {r: 1.49377, g: 0.90098244, b: 1.7207953, a: 1}
     token: {fileID: 21300000, guid: 61c7b5663aa34444ba60466cf7273767, type: 3}
   activeSkin:
     body: {fileID: 0}
@@ -1100,7 +1099,7 @@ Transform:
   m_GameObject: {fileID: 5783036361984851975}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -1, w: 0}
-  m_LocalPosition: {x: 0, y: 0.311, z: 0}
+  m_LocalPosition: {x: 0, y: 0.017, z: 0}
   m_LocalScale: {x: 1.6666665, y: 0.83333325, z: 1.6666665}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1124,15 +1123,24 @@ VisualEffect:
   m_PropertySheet:
     m_Float:
       m_Array:
-      - m_Value: 0.3
+      - m_Value: 0.2
         m_Name: BubbleScale
+        m_Overridden: 1
+      - m_Value: 256
+        m_Name: BubbleAmount
+        m_Overridden: 1
+      - m_Value: 2.5
+        m_Name: LifetimeMax
         m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
       m_Array:
-      - m_Value: {x: 1, y: 1, z: 1}
+      - m_Value: {x: 0.75, y: 1, z: 1}
         m_Name: EmissionBounds_size
+        m_Overridden: 1
+      - m_Value: {x: 0, y: -0.054749016, z: 0}
+        m_Name: EmissionBounds_center
         m_Overridden: 1
     m_Vector4f:
       m_Array: []
@@ -1195,7 +1203,7 @@ VFXRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
 --- !u!1 &7772628603595557014
 GameObject:
   m_ObjectHideFlags: 0

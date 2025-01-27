@@ -34,12 +34,12 @@ public class ScoreboardManager : MonoBehaviour
 
             _currentMatchTimeSeconds = MathF.Max(_currentMatchTimeSeconds, 0.0f);
 
-            var timeSeconds = (uint)math.floor(_currentMatchTimeSeconds);
+            uint timeSeconds = (uint)math.floor(_currentMatchTimeSeconds);
 
-            var timeMinutes = timeSeconds / 60;
-            timeSeconds = timeSeconds % 60;
+            uint timeMinutes = timeSeconds / 60;
+            timeSeconds %= 60;
 
-            timeText.SetText(timeMinutes + ":" + timeSeconds);
+            timeText.SetText(string.Format("{0}:{1:00}", timeMinutes, timeSeconds));
 
             if (_currentMatchTimeSeconds == 0.0f)
                 if (!MatchManager.Instance.TryWinByTime())
