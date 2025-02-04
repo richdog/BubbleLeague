@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{a94a6450-ccbb-49e5-91ec-b7301e1f8ff8}">
+		<property name="assetPath">
+			<value>BUBBLE LEAGUE 1 MINUTE 30 SEC TITLE_PAUSE SCREEN THEME AMBIENT (127 BPM, C# MAJOR).mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>90.775510204081627</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{8ab70e5f-4198-476b-b3a9-c1644faf3c7c}</destination>
+		</relationship>
+	</object>
+</objects>
