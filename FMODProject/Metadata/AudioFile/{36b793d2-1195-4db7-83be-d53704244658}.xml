@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{36b793d2-1195-4db7-83be-d53704244658}">
+		<property name="assetPath">
+			<value>ball_medium.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>24</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>41.015999999999998</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{8ab70e5f-4198-476b-b3a9-c1644faf3c7c}</destination>
+		</relationship>
+	</object>
+</objects>

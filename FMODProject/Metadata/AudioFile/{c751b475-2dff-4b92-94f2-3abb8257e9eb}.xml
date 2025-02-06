@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{c751b475-2dff-4b92-94f2-3abb8257e9eb}">
+		<property name="assetPath">
+			<value>water-bubbles-hq-257181.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>10.031020408163265</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{8ab70e5f-4198-476b-b3a9-c1644faf3c7c}</destination>
+		</relationship>
+	</object>
+</objects>

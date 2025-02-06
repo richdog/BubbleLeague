@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{e03c164e-92e0-4f29-99b3-645041624b46}">
+		<property name="name">
+			<value>ball_hit_velocity</value>
+		</property>
+		<relationship name="folder">
+			<destination>{e0052e39-4062-4b36-9fe3-e42159457578}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{1a512ba9-4bb4-42a0-8b1b-c9bd9000dc15}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{1a512ba9-4bb4-42a0-8b1b-c9bd9000dc15}">
+		<property name="maximum">
+			<value>50</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>

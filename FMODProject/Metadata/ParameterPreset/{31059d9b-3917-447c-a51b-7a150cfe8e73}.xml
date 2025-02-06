@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{31059d9b-3917-447c-a51b-7a150cfe8e73}">
+		<property name="name">
+			<value>water_state</value>
+		</property>
+		<relationship name="folder">
+			<destination>{e0052e39-4062-4b36-9fe3-e42159457578}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{7f283029-1a77-4da1-88be-aceb6b6f01ed}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{7f283029-1a77-4da1-88be-aceb6b6f01ed}">
+		<property name="parameterType">
+			<value>2</value>
+		</property>
+		<property name="maximum">
+			<value>2</value>
+		</property>
+		<property name="enumerationLabels">
+			<value>in_water</value>
+			<value>in_air</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>

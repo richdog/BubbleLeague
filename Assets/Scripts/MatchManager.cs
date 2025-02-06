@@ -168,8 +168,6 @@ public class MatchManager : MonoBehaviour
     {
         SoundManager.Instance.StopAllAmbiences();
 
-        yield return new WaitForSeconds(0.5f);
-
         SoundManager.Instance.SwitchMusic("event:/main_theme_end");
 
         yield return new WaitForSeconds(11.0f);

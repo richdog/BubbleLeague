@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{a6f7f39e-262b-434d-ae66-550caa13a8d4}">
+		<property name="name">
+			<value>splash_size</value>
+		</property>
+		<relationship name="folder">
+			<destination>{e0052e39-4062-4b36-9fe3-e42159457578}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{d0031de7-541f-422b-af73-329dc6f23fb6}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{d0031de7-541f-422b-af73-329dc6f23fb6}">
+		<property name="initialValue">
+			<value>0.5</value>
+		</property>
+	</object>
+</objects>

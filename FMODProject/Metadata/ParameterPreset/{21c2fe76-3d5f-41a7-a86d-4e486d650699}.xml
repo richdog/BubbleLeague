@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{21c2fe76-3d5f-41a7-a86d-4e486d650699}">
+		<property name="name">
+			<value>splash_velocity</value>
+		</property>
+		<relationship name="folder">
+			<destination>{e0052e39-4062-4b36-9fe3-e42159457578}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{d362f6d6-4aad-4fe9-95c9-53579c499b62}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{d362f6d6-4aad-4fe9-95c9-53579c499b62}">
+		<property name="maximum">
+			<value>15</value>
+		</property>
+		<property name="initialValue">
+			<value>7.5</value>
+		</property>
+	</object>
+</objects>

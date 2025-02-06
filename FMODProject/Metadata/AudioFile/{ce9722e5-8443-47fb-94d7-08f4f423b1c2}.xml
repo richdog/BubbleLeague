@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{ce9722e5-8443-47fb-94d7-08f4f423b1c2}">
+		<property name="assetPath">
+			<value>water-splash-84739.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>24</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>4.6559999999999997</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{8ab70e5f-4198-476b-b3a9-c1644faf3c7c}</destination>
+		</relationship>
+	</object>
+</objects>
