@@ -1,3 +1,4 @@
+using System;
 using FMODUnity;
 using UnityEngine;
 
@@ -9,6 +10,13 @@ public class Ball : MonoBehaviour
     private readonly float _bubbleChargerForce = 10f;
     private bool _inCharger;
     private bool _isUnderwater;
+    
+    public static Ball Instance { get; private set; }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public void FixedUpdate()
     {

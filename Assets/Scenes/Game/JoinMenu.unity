@@ -2104,7 +2104,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3221336446757920050, guid: 57ae1b21111100d41acc6d1afee4f54d, type: 3}
       propertyPath: _general.pointsNeededToWin
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4561814062257991971, guid: 57ae1b21111100d41acc6d1afee4f54d, type: 3}
       propertyPath: m_Name
