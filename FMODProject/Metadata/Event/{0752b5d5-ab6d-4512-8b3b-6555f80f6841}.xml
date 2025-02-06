@@ -166,6 +166,9 @@
 		<property name="timelockedOffset">
 			<value>4.3639999999999972</value>
 		</property>
+		<property name="volume">
+			<value>2.5</value>
+		</property>
 		<relationship name="audioFile">
 			<destination>{45888b8c-feae-4116-a4e4-43b39b8d7cd6}</destination>
 		</relationship>
@@ -262,6 +265,7 @@
 			<destination>{5d16b219-5865-4dcd-80d0-e49226e18068}</destination>
 			<destination>{e4d0398a-a156-4440-a2e4-371918e3f731}</destination>
 			<destination>{7c88ae0b-f6d9-4439-b100-40ee38b6e8ba}</destination>
+			<destination>{b976a0c6-4ce4-4675-a359-a8dc68a8d9a8}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{c81f587d-44ff-4257-b6d7-49303db4efd6}" />
@@ -343,6 +347,11 @@
 		<relationship name="automators">
 			<destination>{0a860cd3-4092-45a6-8afb-457ad2421c22}</destination>
 		</relationship>
+	</object>
+	<object class="GainEffect" id="{b976a0c6-4ce4-4675-a359-a8dc68a8d9a8}">
+		<property name="gain">
+			<value>5.5</value>
+		</property>
 	</object>
 	<object class="AutomationCurve" id="{07613e0a-1a2c-4065-a896-89a7c93ab05e}">
 		<relationship name="parameter">

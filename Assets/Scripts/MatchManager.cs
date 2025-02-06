@@ -1,8 +1,8 @@
-using FMODUnity;
-using Sound;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
+using Sound;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -94,7 +94,7 @@ public class MatchManager : MonoBehaviour
 
     public int GetPlayerInputJoinIndex(PlayerInput playerInput)
     {
-        for (int i = 0; i < _joinPlayers.Count; i++)
+        for (var i = 0; i < _joinPlayers.Count; i++)
             if (_joinPlayers[i].GetComponent<PlayerInput>() == playerInput)
                 return i;
 
@@ -174,6 +174,9 @@ public class MatchManager : MonoBehaviour
 
         //SceneManager.LoadScene("Scenes/Game/VictoryMenu");
 
+        var penguinPlayers = FindObjectsByType<Player>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (var penguinPlayer in penguinPlayers) penguinPlayer.DisconnectPlayerInput();
+
         SceneManager.LoadScene("Scenes/Game/MainMenu");
         DestroyOnRestart.DestroyAll();
 
@@ -199,12 +202,12 @@ public class MatchManager : MonoBehaviour
     {
         // Respawn all players
         uint playerNum = 0;
-        foreach (GameObject player in _players)
+        foreach (var player in _players)
         {
             Debug.Log("Respawning " + player);
 
             // Find spawn point
-            Transform spawnPoint = SpawnPoint.GetSpawnPointTransformForPlayer(playerNum);
+            var spawnPoint = SpawnPoint.GetSpawnPointTransformForPlayer(playerNum);
 
             if (spawnPoint)
             {
@@ -218,9 +221,9 @@ public class MatchManager : MonoBehaviour
 
     private void SpawnNewBall()
     {
-        Transform ballSpawnPointTransform = FindFirstObjectByType<BallSpawnPoint>().transform;
+        var ballSpawnPointTransform = FindFirstObjectByType<BallSpawnPoint>().transform;
 
-        GameObject newBall = Instantiate(ballPrefab);
+        var newBall = Instantiate(ballPrefab);
         newBall.transform.position = ballSpawnPointTransform.position;
         newBall.transform.rotation = ballSpawnPointTransform.rotation;
     }
@@ -319,7 +322,7 @@ public class MatchManager : MonoBehaviour
 
     private bool joinOrderTaken(uint order)
     {
-        foreach (JoinPlayer player in _joinPlayers)
+        foreach (var player in _joinPlayers)
             if (player.joinOrder == order)
                 return true;
 
@@ -414,20 +417,20 @@ public class MatchManager : MonoBehaviour
         yield return null;
 
         // Spawn Penguins
-        for (int i = 0; i < _joinPlayers.Count; i++)
+        for (var i = 0; i < _joinPlayers.Count; i++)
         {
             Debug.Log("Spawning penguin for player " + _joinPlayers[i]);
 
-            PlayerInput playerInput = _joinPlayers[i].GetComponent<PlayerInput>();
+            var playerInput = _joinPlayers[i].GetComponent<PlayerInput>();
 
-            int playerId = getPlayerTeamPlaceID(_joinPlayers[i]);
+            var playerId = getPlayerTeamPlaceID(_joinPlayers[i]);
 
-            GameObject penguinGameObject = Instantiate(penguinPrefab);
+            var penguinGameObject = Instantiate(penguinPrefab);
             penguinGameObject.name = $"Penguin {playerId}";
 
             _players.Add(penguinGameObject);
 
-            Player penguinPlayer = penguinGameObject.GetComponent<Player>();
+            var penguinPlayer = penguinGameObject.GetComponent<Player>();
             penguinPlayer.playerId = playerId;
             penguinPlayer.ConnectPlayerInput(playerInput);
 
@@ -449,8 +452,8 @@ public class MatchManager : MonoBehaviour
     /// <returns></returns>
     public bool TryWinByTime()
     {
-        uint team1Points = _teamPoints[Team.Team1];
-        uint team2Points = _teamPoints[Team.Team2];
+        var team1Points = _teamPoints[Team.Team1];
+        var team2Points = _teamPoints[Team.Team2];
 
         if (team1Points > team2Points)
         {
