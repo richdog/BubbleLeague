@@ -35,7 +35,7 @@ public class Ball : MonoBehaviour
         // handle tons of hits at the same time making lots of sound effects instead of a big one
         if (_accumulatedImpulse > 0 && Time.time - _lastHitTime > 0.05f)
         {
-            CameraController.Instance.ShakeCamera(_accumulatedImpulse / 50, 0.2f);
+            CameraController.Instance.ShakeCamera(_accumulatedImpulse / 80, 0.01f);
 
             FMOD.Studio.EventInstance sfxBallHit = RuntimeManager.CreateInstance("event:/sfx_ball_hit");
             sfxBallHit.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));

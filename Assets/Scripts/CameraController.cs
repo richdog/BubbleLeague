@@ -50,6 +50,7 @@ public class CameraController : MonoBehaviour
         _needsNewTarget += Time.deltaTime;
         if (_shakeTime <= 0)
         {
+            _shakeTime = 0;
             _shakeAmount = 0;
         }
         //}

@@ -759,7 +759,7 @@
 	</object>
 	<object class="DelayEffect" id="{e4d0398a-a156-4440-a2e4-371918e3f731}">
 		<property name="delay">
-			<value>64</value>
+			<value>72</value>
 		</property>
 		<property name="feedback">
 			<value>21</value>
@@ -1040,7 +1040,7 @@
 			<value>0</value>
 		</property>
 		<property name="value">
-			<value>750</value>
+			<value>1500.00012</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{51ec79a0-aac0-4523-9871-21073fa6ab80}">
@@ -1048,7 +1048,7 @@
 			<value>1</value>
 		</property>
 		<property name="value">
-			<value>22000</value>
+			<value>15333.3438</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{66d8085f-718c-4ba8-a900-cd2c3d16f82f}">
