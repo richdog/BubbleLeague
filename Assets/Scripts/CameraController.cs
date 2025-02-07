@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -13,7 +12,7 @@ public class CameraController : MonoBehaviour
     private Vector3 _target;
 
     public static CameraController Instance { get; private set; }
-    
+
 
     private void Awake()
     {
@@ -35,22 +34,25 @@ public class CameraController : MonoBehaviour
     private void Update()
     {
         //shake behavior here. gets started by calling shakeCamera and stops itself after the specified time.
-        if (_shakeTime > 0)
+        //if (_shakeTime > 0)
+        //{
+        if (_needsNewTarget >= 0.005f)
         {
-            if (_needsNewTarget >= 0.005f)
-            {
-                _target = new Vector3(Random.Range(-_shakeAmount, _shakeAmount),
-                    Random.Range(-_shakeAmount, _shakeAmount),
-                    camera.transform.position.z);
-                _needsNewTarget -= 0.005f;
-            }
-
-            camera.transform.position =
-                Vector3.SmoothDamp(camera.transform.position, _target, ref _currentVelocity, 0.03f);
-            _shakeTime -= Time.deltaTime;
-            _needsNewTarget += Time.deltaTime;
-            if (_shakeTime <= 0) _shakeAmount = 0;
+            _target = new Vector3(Random.Range(-_shakeAmount, _shakeAmount),
+                Random.Range(-_shakeAmount, _shakeAmount),
+                camera.transform.position.z);
+            _needsNewTarget -= 0.005f;
         }
+
+        camera.transform.position =
+            Vector3.SmoothDamp(camera.transform.position, _target, ref _currentVelocity, 0.03f);
+        _shakeTime -= Time.deltaTime;
+        _needsNewTarget += Time.deltaTime;
+        if (_shakeTime <= 0)
+        {
+            _shakeAmount = 0;
+        }
+        //}
     }
 
     //Forces camera return to its home

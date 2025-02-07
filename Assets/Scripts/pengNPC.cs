@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -22,7 +21,7 @@ public class pengNPC : MonoBehaviour
         transform.localScale *= Random.Range(0.8f, 1.2f);
 
         MatchManager.Instance.OnGoalScored += CheerOnGoal;
- 
+
     }
 
     private void OnDestroy()
@@ -33,8 +32,6 @@ public class pengNPC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
         if (_actionTimer <= 0)
         {
             float rand = Random.Range(0f, 1f);
@@ -59,7 +56,7 @@ public class pengNPC : MonoBehaviour
             transform.position += Vector3.up * _hopTimer * Time.deltaTime * 3;
             _hopTimer -= Time.deltaTime;
         }
-        
+
         _actionTimer -= Time.deltaTime;
 
         //flips the penguin to face the ball

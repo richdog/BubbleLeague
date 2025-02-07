@@ -5,7 +5,7 @@
 			<value>sfx_boost</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{ef508af8-fb3e-4844-8dc0-cc69b56dee78}</destination>
@@ -206,6 +206,7 @@
 	<object class="MixerBusEffectChain" id="{15c2c4eb-7f89-4b5f-a258-04aa4fbc789b}">
 		<relationship name="effects">
 			<destination>{4350315a-5fbb-4193-b9e1-fb295631e211}</destination>
+			<destination>{de1c3aff-e6fe-44db-bf9b-f541de458fc4}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{dc74fcd5-5749-4e58-9032-e68299771360}" />
@@ -250,6 +251,14 @@
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{4350315a-5fbb-4193-b9e1-fb295631e211}" />
+	<object class="ProxyEffect" id="{de1c3aff-e6fe-44db-bf9b-f541de458fc4}">
+		<property name="inputFormat">
+			<value>1</value>
+		</property>
+		<relationship name="preset">
+			<destination>{8f2b9f49-57ce-4e76-b690-55fad5845900}</destination>
+		</relationship>
+	</object>
 	<object class="AutomationPoint" id="{6dc363d9-193c-423c-bfeb-2b080ba135b8}">
 		<property name="position">
 			<value>0</value>

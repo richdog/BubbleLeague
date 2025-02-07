@@ -78,13 +78,13 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        var massMultiplier = isSpinning ? GameVars.Player.spinMassMultiplier :
+        float massMultiplier = isSpinning ? GameVars.Player.spinMassMultiplier :
             _isBraking ? GameVars.Player.brakeMassMultiplier : 1;
         _rigidbody.mass = GameVars.Player.playerBodyMass * massMultiplier;
         wingLRB.mass = GameVars.Player.playerWingMass * massMultiplier;
         wingRRB.mass = GameVars.Player.playerWingMass * massMultiplier;
 
-        var totalMass = _rigidbody.mass + wingLRB.mass + wingRRB.mass;
+        float totalMass = _rigidbody.mass + wingLRB.mass + wingRRB.mass;
 
         if (spinDir != 0)
         {
@@ -96,7 +96,7 @@ public class Player : MonoBehaviour
 
                     isSpinning = true;
                     spinStartTime = Time.time;
-                    Debug.Log("Spin!");
+                    //Debug.Log("Spin!");
                     _rigidbody.AddTorque(Vector3.forward * spinDir * GameVars.Player.spinInitialForce * totalMass,
                         ForceMode.Force);
                 }
@@ -128,16 +128,16 @@ public class Player : MonoBehaviour
 
         if (!isSpinning && stunDuration <= 0)
         {
-            var signedAngle = Vector3.SignedAngle(_rigidbody.transform.up, _movementInput, Vector3.forward);
-            var sign = Mathf.Sign(signedAngle);
+            float signedAngle = Vector3.SignedAngle(_rigidbody.transform.up, _movementInput, Vector3.forward);
+            float sign = Mathf.Sign(signedAngle);
             //accumulatedAngle += signedAngle;
 
             //accumulatedAngle *= _movementInput.sqrMagnitude;
 
             //accumulatedAngle = Mathf.Clamp(accumulatedAngle, -maxAccumulatedAngle, maxAccumulatedAngle);
 
-            var dampenFactor = GameVars.Player.rotDampening * totalMass;
-            var adjustFactor = GameVars.Player.rotAcceleration;
+            float dampenFactor = GameVars.Player.rotDampening * totalMass;
+            float adjustFactor = GameVars.Player.rotAcceleration;
 
             _rigidbody.AddTorque(-_rigidbody.angularVelocity * dampenFactor, ForceMode.Force);
             _rigidbody.AddTorque(Vector3.forward * signedAngle * adjustFactor * totalMass, ForceMode.Force);
@@ -151,7 +151,7 @@ public class Player : MonoBehaviour
 
         if (State == PenguinState.WATER)
         {
-            var force = _movementInput * GameVars.Player.acceleration * totalMass;
+            Vector2 force = _movementInput * GameVars.Player.acceleration * totalMass;
             _rigidbody.AddForce(force, ForceMode.Force);
             _rigidbody.AddForce(Physics.gravity * -GameVars.Player.penguinBuoyancy * totalMass, ForceMode.Force);
 
@@ -165,6 +165,7 @@ public class Player : MonoBehaviour
                 if (_boostSfxInstance == null)
                 {
                     _boostSfxInstance = RuntimeManager.CreateInstance("event:/sfx_boost");
+                    RuntimeManager.AttachInstanceToGameObject(_boostSfxInstance.Value, _rigidbody.transform, _rigidbody);
                     _boostSfxInstance.Value.start();
                 }
             }
@@ -201,14 +202,35 @@ public class Player : MonoBehaviour
             State == PenguinState.AIR ? GameVars.Player.airBubbleGainSpeed : 0);
 
         CurrBoostBubble = math.clamp(CurrBoostBubble, 0, 1);
-        var drag = CalcDrag();
+        float drag = CalcDrag();
         _rigidbody.linearDamping = drag;
         wingLRB.linearDamping = drag;
         wingRRB.linearDamping = drag;
 
         HandleWings();
+        HandleHitSound();
 
         _prevMovementInput = _movementInput;
+    }
+
+    private float _lastHitTime;
+    private float _accumulatedImpulse;
+
+    private void HandleHitSound()
+    {
+        // handle tons of hits at the same time making lots of sound effects instead of a big one
+        if (_accumulatedImpulse > 0 && Time.time - _lastHitTime > 0.05f)
+        {
+            CameraController.Instance.ShakeCamera(_accumulatedImpulse / 15f, 0.2f);
+
+            FMOD.Studio.EventInstance sfxHit = RuntimeManager.CreateInstance("event:/sfx_ball_hit");
+            sfxHit.set3DAttributes(RuntimeUtils.To3DAttributes(_rigidbody.position));
+            sfxHit.setParameterByName("ball_hit_velocity", _accumulatedImpulse);
+            sfxHit.setParameterByNameWithLabel("water_state", State == PenguinState.WATER ? "in_water" : "in_air");
+            sfxHit.setParameterByNameWithLabel("ball_sound", "penguin"); //hack to keep "underwater" sound logic in one sound effect
+            sfxHit.start();
+            _accumulatedImpulse = 0;
+        }
     }
 
     private void OnDisable()
@@ -222,17 +244,19 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        var contactPoint = collision.GetContact(0);
-        var hitPoint = contactPoint.point;
+        ContactPoint contactPoint = collision.GetContact(0);
+        Vector3 hitPoint = contactPoint.point;
 
         ImpactBubbles.PlayHitEffect(contactPoint.impulse.magnitude / 3, Color.white * 1.2f,
             hitPoint, 0.1f, contactPoint.normal, contactPoint.impulse.magnitude / 10, 0, 1.5f, 5);
 
+        _accumulatedImpulse += contactPoint.impulse.magnitude / 5;
+
         if (isSpinning)
         {
-            var hitForceMagnitude = _rigidbody.angularVelocity.magnitude * GameVars.Player.playerHitForce;
-            var hitForce = -contactPoint.normal * hitForceMagnitude;
-            var hitForceNormalized = hitForce.normalized;
+            float hitForceMagnitude = _rigidbody.angularVelocity.magnitude * GameVars.Player.playerHitForce;
+            Vector3 hitForce = -contactPoint.normal * hitForceMagnitude;
+            Vector3 hitForceNormalized = hitForce.normalized;
 
 #if UNITY_EDITOR
             //debug hit direction and impact point
@@ -252,10 +276,10 @@ public class Player : MonoBehaviour
             ImpactBubbles.PlayHitEffect(hitForceMagnitude / 4 * 5f, skin.activeSkin.bubbleColor * 0.95f,
                 hitPoint, 0.1f, -hitForceNormalized, hitForceMagnitude / 2 * 0.75f, 0.25f);
 
-            var otherRigidbody = collision.gameObject.GetComponentInParent<Rigidbody>();
+            Rigidbody otherRigidbody = collision.gameObject.GetComponentInParent<Rigidbody>();
             if (otherRigidbody != null)
             {
-                var otherPlayer = collision.gameObject.GetComponentInParent<Player>();
+                Player otherPlayer = collision.gameObject.GetComponentInParent<Player>();
                 Debug.Log($"{name} hit {otherRigidbody.name} with force: {hitForce}");
                 if (otherPlayer == null || !otherPlayer._isBraking)
                 {
@@ -264,6 +288,7 @@ public class Player : MonoBehaviour
 
                     //either it's a player (that isn't braking) or another rigidbody, apply force
                     otherRigidbody.AddForceAtPosition(hitForce, hitPoint, ForceMode.Impulse);
+                    _accumulatedImpulse += hitForce.magnitude;
                     //if it's actually a player, stun them for a short duration
                     if (otherPlayer != null)
                     {
@@ -288,11 +313,11 @@ public class Player : MonoBehaviour
         {
             State = PenguinState.WATER;
 
-            var splashSfx = RuntimeManager.CreateInstance("event:/sfx_splash");
+            EventInstance splashSfx = RuntimeManager.CreateInstance("event:/sfx_splash");
+            splashSfx.set3DAttributes(RuntimeUtils.To3DAttributes(_rigidbody.position));
 
-
-            var angle = Mathf.Atan2(_rigidbody.transform.up.x, _rigidbody.transform.up.y);
-            var splash_size = Mathf.Abs(Mathf.Sin(angle + Mathf.PI));
+            float angle = Mathf.Atan2(_rigidbody.transform.up.x, _rigidbody.transform.up.y);
+            float splash_size = Mathf.Abs(Mathf.Sin(angle + Mathf.PI));
 
             splashSfx.setParameterByName("splash_size", splash_size);
             splashSfx.setParameterByName("splash_velocity", _rigidbody.linearVelocity.magnitude);
@@ -308,10 +333,10 @@ public class Player : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        var water = other.GetComponent<Water>();
+        Water water = other.GetComponent<Water>();
         if (water != null) State = PenguinState.AIR;
 
-        var charger = other.GetComponent<BubbleCharger>();
+        BubbleCharger charger = other.GetComponent<BubbleCharger>();
         if (charger != null)
         {
             _isCharging = false;
@@ -354,7 +379,7 @@ public class Player : MonoBehaviour
 
     private void Taunt(InputAction.CallbackContext ctx)
     {
-        RuntimeManager.PlayOneShot("event:/sfx_taunt");
+        RuntimeManager.PlayOneShot("event:/sfx_taunt", _rigidbody.position);
 
         Debug.Log("Taunt");
     }
@@ -421,7 +446,7 @@ public class Player : MonoBehaviour
 
     private void HandleWings()
     {
-        var torque = _isBraking || isSpinning ? -GameVars.Player.wingOpenTorqueAmt : GameVars.Player.wingCloseTorqueAmt;
+        float torque = _isBraking || isSpinning ? -GameVars.Player.wingOpenTorqueAmt : GameVars.Player.wingCloseTorqueAmt;
 
         wingLRB.AddRelativeTorque(0, 0, torque, ForceMode.Acceleration);
         wingRRB.AddRelativeTorque(0, 0, -torque, ForceMode.Acceleration);
@@ -436,7 +461,7 @@ public class Player : MonoBehaviour
         else if (State == PenguinState.AIR)
             drag += GameVars.Player.airDrag;
 
-        var targetBrakeDrag = _isBraking ? GameVars.Player.brakeDrag : 0;
+        float targetBrakeDrag = _isBraking ? GameVars.Player.brakeDrag : 0;
         _currentBrakeDrag = Mathf.Lerp(_currentBrakeDrag, targetBrakeDrag, GameVars.Player.brakeDragLerpSpeed);
 
         drag *= 1 + _currentBrakeDrag;

@@ -5,7 +5,7 @@
 			<value>make_goal</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{ef508af8-fb3e-4844-8dc0-cc69b56dee78}</destination>
@@ -230,6 +230,7 @@
 	<object class="MixerBusEffectChain" id="{376fa9c6-bb2f-48be-a666-6d58d8476c1b}">
 		<relationship name="effects">
 			<destination>{b7ca8b58-ad76-4391-bac4-41e5c247b13e}</destination>
+			<destination>{20bc9b2a-a851-4e86-bafb-47febced7e65}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{a0dfcafb-9fbe-4479-b135-6e32eb0c45c4}" />
@@ -267,6 +268,14 @@
 	</object>
 	<object class="MixerBusPanner" id="{58318388-cbd2-4556-909c-b8649a63e71f}" />
 	<object class="MixerBusFader" id="{b7ca8b58-ad76-4391-bac4-41e5c247b13e}" />
+	<object class="ProxyEffect" id="{20bc9b2a-a851-4e86-bafb-47febced7e65}">
+		<property name="inputFormat">
+			<value>1</value>
+		</property>
+		<relationship name="preset">
+			<destination>{8f2b9f49-57ce-4e76-b690-55fad5845900}</destination>
+		</relationship>
+	</object>
 	<object class="AutomationPoint" id="{d7346227-52b1-428c-9dc1-09c4c8a361e9}">
 		<property name="position">
 			<value>3.1422577854671281</value>

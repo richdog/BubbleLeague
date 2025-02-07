@@ -5,7 +5,7 @@
 			<value>sfx_splash</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{ef508af8-fb3e-4844-8dc0-cc69b56dee78}</destination>
@@ -210,6 +210,7 @@
 		<relationship name="effects">
 			<destination>{29aaa038-96f2-44fb-bda5-a6dab344200e}</destination>
 			<destination>{ce9b84a9-8189-454c-b60f-b02b72b4def4}</destination>
+			<destination>{21e19f84-ca74-4865-9c5b-c7efcb259be2}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{25edbc60-504f-44e9-957d-bf0037fbb70c}" />
@@ -256,6 +257,14 @@
 		<property name="gain">
 			<value>6</value>
 		</property>
+	</object>
+	<object class="ProxyEffect" id="{21e19f84-ca74-4865-9c5b-c7efcb259be2}">
+		<property name="inputFormat">
+			<value>1</value>
+		</property>
+		<relationship name="preset">
+			<destination>{8f2b9f49-57ce-4e76-b690-55fad5845900}</destination>
+		</relationship>
 	</object>
 	<object class="AutomationCurve" id="{9db3d388-bf6b-4fcd-ac2d-719f89ed7919}">
 		<relationship name="parameter">

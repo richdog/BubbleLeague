@@ -1495,6 +1495,52 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46ef8bee8af87f2409b06c4621fe55ec, type: 3}
+--- !u!1 &482649009
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 482649011}
+  - component: {fileID: 482649010}
+  m_Layer: 0
+  m_Name: FMOD Studio Listener
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &482649010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482649009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 482649009}
+--- !u!4 &482649011
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482649009}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &523548064
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2786,9 +2832,65 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1219635284396954420, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 886cc5eadef25a5479ad9202a218df06, type: 2}
+    - target: {fileID: 1219635284396954420, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219635284396954420, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219635284396954420, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219635284396954420, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: c034415a3f5e035418f351024742d737, type: 2}
+    - target: {fileID: 1219635284396954420, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_characterSpacing
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219635284396954420, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5515958708875344587, guid: 199df76455e249c438129b7903d70010, type: 3}
       propertyPath: m_Name
       value: ScoreBoard
+      objectReference: {fileID: 0}
+    - target: {fileID: 6111329715572298189, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 886cc5eadef25a5479ad9202a218df06, type: 2}
+    - target: {fileID: 6111329715572298189, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6111329715572298189, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6111329715572298189, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6111329715572298189, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: c034415a3f5e035418f351024742d737, type: 2}
+    - target: {fileID: 6111329715572298189, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_characterSpacing
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6111329715572298189, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6277112660741151863, guid: 199df76455e249c438129b7903d70010, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2828,6 +2930,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6277112660741151863, guid: 199df76455e249c438129b7903d70010, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421244415296033866, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 886cc5eadef25a5479ad9202a218df06, type: 2}
+    - target: {fileID: 6421244415296033866, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421244415296033866, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421244415296033866, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421244415296033866, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: c034415a3f5e035418f351024742d737, type: 2}
+    - target: {fileID: 6421244415296033866, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_characterSpacing
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421244415296033866, guid: 199df76455e249c438129b7903d70010, type: 3}
+      propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -5957,6 +6087,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1157408533}
+  - {fileID: 482649011}
   - {fileID: 2120123427}
   - {fileID: 829020471}
   - {fileID: 1130259152}

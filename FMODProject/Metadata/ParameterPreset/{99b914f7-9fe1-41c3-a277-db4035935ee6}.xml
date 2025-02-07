@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{99b914f7-9fe1-41c3-a277-db4035935ee6}">
+		<property name="name">
+			<value>ball_sound</value>
+		</property>
+		<relationship name="folder">
+			<destination>{e0052e39-4062-4b36-9fe3-e42159457578}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{758503e7-44d3-4de1-abe0-f7e15661e767}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{758503e7-44d3-4de1-abe0-f7e15661e767}">
+		<property name="parameterType">
+			<value>2</value>
+		</property>
+		<property name="maximum">
+			<value>4</value>
+		</property>
+		<property name="enumerationLabels">
+			<value>A</value>
+			<value>B</value>
+			<value>C</value>
+			<value>Penguin</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>

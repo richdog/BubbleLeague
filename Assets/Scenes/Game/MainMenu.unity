@@ -235,8 +235,8 @@ MonoBehaviour:
 
     Lexie Flock'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 886cc5eadef25a5479ad9202a218df06, type: 2}
+  m_sharedMaterial: {fileID: 312529050347310789, guid: 886cc5eadef25a5479ad9202a218df06, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -346,7 +346,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -419.85, y: 0}
+  m_AnchoredPosition: {x: -419.8501, y: 0}
   m_SizeDelta: {x: -839.7007, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &579164813
@@ -584,8 +584,8 @@ MonoBehaviour:
     Wesley
     Tolliver'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 886cc5eadef25a5479ad9202a218df06, type: 2}
+  m_sharedMaterial: {fileID: 312529050347310789, guid: 886cc5eadef25a5479ad9202a218df06, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -718,36 +718,37 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '<b>Submitted for Global Game Jam 2025</b>
+  m_text: '<size=40><color=#DDDDDD>Submitted for Global Game Jam 2025</color></size>
 
 
-    <b>Jam Site:</b>
+    <size=40><color=#DDDDDD>Jam
+    Site:</color></size>
 
-    Triangle
-    Interactive Arts Collective
-
-
-    <b>Location:</b>
-
-    Raleigh, North Carolina,
-    USA
+    Triangle Interactive Arts Collective
 
 
-    <b>TEAM:</b>
+    <size=40><color=#DDDDDD>Location:</color></size>
+
+    Raleigh,
+    North Carolina, USA
 
 
-    <color=#AAAAAA>Team Lead / Design / Production Management</color>
-
-    Gabriel
-    Pappalardo
+    <size=40><color=#DDDDDD>TEAM:</color></size>
 
 
-    <color=#AAAAAA>Lead Programmer</color>
+    <color=#AAAAAA>Team
+    Lead / Design / Production Management</color>
+
+    Gabriel Pappalardo
+
+
+    <color=#AAAAAA>Lead
+    Programmer</color>
 
     Rich Bennett'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 886cc5eadef25a5479ad9202a218df06, type: 2}
+  m_sharedMaterial: {fileID: 312529050347310789, guid: 886cc5eadef25a5479ad9202a218df06, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
